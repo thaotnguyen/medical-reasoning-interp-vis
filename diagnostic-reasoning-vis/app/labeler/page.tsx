@@ -13,8 +13,28 @@ import { TutorialModal } from "@/components/labeler/TutorialModal";
 import { HelpDrawer } from "@/components/labeler/HelpDrawer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { HelpCircle, User, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  HelpCircle,
+  User,
+  ChevronLeft,
+  ChevronRight,
+  PanelLeftClose,
+  PanelLeftOpen,
+  FileText,
+} from "lucide-react";
 import type { CasePoolInfo } from "@/lib/labeling-types";
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return isMobile;
+}
 
 export default function LabelerPage() {
   const { metadata, isLoading: metaLoading } = useMetadata();
@@ -45,6 +65,18 @@ export default function LabelerPage() {
   } = useRaterIdentity();
 
   const [helpOpen, setHelpOpen] = useState(false);
+  const isMobile = useIsMobile();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [promptOpen, setPromptOpen] = useState(false);
+
+  // On desktop, sidebar is always visible; on mobile, collapsed by default
+  // When switching to mobile, close sidebar and prompt
+  useEffect(() => {
+    if (isMobile) {
+      setSidebarOpen(false);
+      setPromptOpen(false);
+    }
+  }, [isMobile]);
 
   // Cache: "model_dataset_caseIndex" -> { sentenceCount, caseId }
   const caseInfoRef = useRef<Map<string, CasePoolInfo>>(new Map());
@@ -131,8 +163,10 @@ export default function LabelerPage() {
     (idx: number) => {
       navigateTo(idx);
       setFocusedSentence(0);
+      // Close mobile overlays on navigation
+      if (isMobile) setSidebarOpen(false);
     },
-    [navigateTo, setFocusedSentence]
+    [navigateTo, setFocusedSentence, isMobile]
   );
 
   const handleTutorialComplete = useCallback(
@@ -206,10 +240,24 @@ export default function LabelerPage() {
     ? metadata.datasets[currentItem.dataset] ?? currentItem.dataset
     : "";
 
+  const showSidebar = isMobile ? sidebarOpen : true;
+  const showPrompt = isMobile ? promptOpen : true;
+
   return (
     <div className="flex flex-col h-full">
       {/* Top bar */}
-      <div className="flex items-center gap-3 px-4 py-2 border-b shrink-0">
+      <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 border-b shrink-0">
+        {/* Mobile sidebar toggle */}
+        {isMobile && raterId && (
+          <button
+            onClick={() => { setSidebarOpen((v) => !v); setPromptOpen(false); }}
+            className="p-1.5 rounded hover:bg-accent transition-colors"
+            title="Toggle case list"
+          >
+            {sidebarOpen ? <PanelLeftClose className="w-4 h-4" /> : <PanelLeftOpen className="w-4 h-4" />}
+          </button>
+        )}
+
         {/* Rater badge */}
         <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-muted text-xs">
           <User className="w-3.5 h-3.5 text-muted-foreground" />
@@ -238,9 +286,20 @@ export default function LabelerPage() {
           </button>
         </div>
 
-        {/* Source info */}
+        {/* Mobile prompt toggle */}
+        {isMobile && currentCase && (
+          <button
+            onClick={() => { setPromptOpen((v) => !v); setSidebarOpen(false); }}
+            className={`p-1.5 rounded hover:bg-accent transition-colors ${promptOpen ? "bg-accent" : ""}`}
+            title="Toggle case prompt"
+          >
+            <FileText className="w-4 h-4" />
+          </button>
+        )}
+
+        {/* Source info — hide on mobile */}
         {currentItem && (
-          <div className="text-[10px] text-muted-foreground/60 border-l pl-3">
+          <div className="hidden md:block text-[10px] text-muted-foreground/60 border-l pl-3">
             {modelName} · {datasetName}
           </div>
         )}
@@ -254,25 +313,36 @@ export default function LabelerPage() {
           title="Category reference (keyboard: ?)"
         >
           <HelpCircle className="w-3.5 h-3.5" />
-          Help
+          <span className="hidden sm:inline">Help</span>
         </button>
       </div>
 
       {/* Main content */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
-        {raterId && (
-          <div className="w-52 shrink-0 h-full overflow-hidden">
-            <CaseSidebar
-              pool={pool}
-              metadata={metadata}
-              selectedIndex={selectedIndex}
-              onSelect={handleCaseNavigate}
-              ratings={ratings}
-              raterId={raterId}
-              caseInfo={caseInfo}
-            />
-          </div>
+      <div className="flex flex-1 overflow-hidden relative">
+        {/* Sidebar — overlay on mobile, inline on desktop */}
+        {raterId && showSidebar && (
+          <>
+            {isMobile && (
+              <div
+                className="absolute inset-0 bg-black/30 z-20"
+                onClick={() => setSidebarOpen(false)}
+              />
+            )}
+            <div className={`
+              ${isMobile ? "absolute left-0 top-0 bottom-0 z-30 w-56 shadow-xl" : "w-52"}
+              shrink-0 h-full overflow-hidden bg-background
+            `}>
+              <CaseSidebar
+                pool={pool}
+                metadata={metadata}
+                selectedIndex={selectedIndex}
+                onSelect={handleCaseNavigate}
+                ratings={ratings}
+                raterId={raterId}
+                caseInfo={caseInfo}
+              />
+            </div>
+          </>
         )}
 
         {/* Content area */}
@@ -281,23 +351,49 @@ export default function LabelerPage() {
             <Skeleton className="h-full rounded-lg" />
           </div>
         ) : (
-          <div className="flex flex-1 overflow-hidden">
-            {/* Case prompt */}
-            <div className="w-[35%] border-r overflow-hidden flex flex-col">
-              <div className="px-4 py-2 border-b shrink-0">
-                <div className="text-xs font-medium text-muted-foreground">Case Prompt</div>
-                {currentCase.true_dx && (
-                  <div className="text-[10px] text-muted-foreground/50 mt-0.5 truncate">
-                    Dx: {currentCase.true_dx}
-                  </div>
+          <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
+            {/* Case prompt — overlay on mobile, inline on desktop */}
+            {showPrompt && (
+              <>
+                {isMobile && (
+                  <div
+                    className="absolute inset-0 bg-black/30 z-20"
+                    onClick={() => setPromptOpen(false)}
+                  />
                 )}
-              </div>
-              <ScrollArea className="flex-1 px-4 py-3">
-                <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                  {currentCase.prompt}
-                </p>
-              </ScrollArea>
-            </div>
+                <div className={`
+                  ${isMobile
+                    ? "absolute left-0 top-0 bottom-0 z-30 w-[85%] max-w-sm shadow-xl bg-background"
+                    : "w-[35%] border-r"
+                  }
+                  overflow-hidden flex flex-col
+                `}>
+                  <div className="px-4 py-2 border-b shrink-0 flex items-center justify-between">
+                    <div>
+                      <div className="text-xs font-medium text-muted-foreground">Case Prompt</div>
+                      {currentCase.true_dx && (
+                        <div className="text-[10px] text-muted-foreground/50 mt-0.5 truncate">
+                          Dx: {currentCase.true_dx}
+                        </div>
+                      )}
+                    </div>
+                    {isMobile && (
+                      <button
+                        onClick={() => setPromptOpen(false)}
+                        className="p-1 rounded hover:bg-accent transition-colors text-muted-foreground"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                  <ScrollArea className="flex-1 min-h-0 px-4 py-3">
+                    <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                      {currentCase.prompt}
+                    </p>
+                  </ScrollArea>
+                </div>
+              </>
+            )}
 
             {/* Labeling panel */}
             <div className="flex-1 overflow-hidden">

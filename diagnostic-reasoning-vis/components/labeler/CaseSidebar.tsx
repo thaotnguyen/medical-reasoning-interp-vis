@@ -160,7 +160,9 @@ export function CaseSidebar({
                   w-full text-left px-2.5 py-1.5 flex items-center gap-2
                   transition-colors duration-100 border-l-2 group
                   ${isSelected
-                    ? "bg-accent border-l-primary"
+                    ? status === "complete"
+                      ? "bg-emerald-500/15 border-l-emerald-500"
+                      : "bg-accent border-l-primary"
                     : `hover:bg-accent/50 ${cfg.bg} ${cfg.border}`
                   }
                 `}

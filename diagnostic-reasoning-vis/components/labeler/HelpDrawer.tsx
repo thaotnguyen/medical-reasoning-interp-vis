@@ -20,7 +20,7 @@ export function HelpDrawer({ taxonomy, open, onClose }: HelpDrawerProps) {
       <div className="absolute inset-0 bg-black/30" onClick={onClose} />
 
       {/* Drawer panel */}
-      <div className="relative w-full max-w-lg bg-background shadow-xl flex flex-col">
+      <div className="relative w-full max-w-lg bg-background shadow-xl flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-3 border-b shrink-0">
           <h3 className="text-sm font-semibold">Category Reference</h3>
@@ -33,7 +33,7 @@ export function HelpDrawer({ taxonomy, open, onClose }: HelpDrawerProps) {
         </div>
 
         {/* Content */}
-        <ScrollArea className="flex-1">
+        <ScrollArea className="flex-1 min-h-0">
           <div className="p-5 space-y-6">
             {TAXONOMY_REFERENCES.map((ref, idx) => {
               const tax = taxonomy[idx];
