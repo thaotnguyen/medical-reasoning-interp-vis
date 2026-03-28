@@ -19,6 +19,7 @@ import { KappaCard } from "./KappaCard";
 import { ConfusionMatrix } from "./ConfusionMatrix";
 import { CategoryAgreementTable } from "./CategoryAgreementTable";
 import { ImportExportButtons } from "./ImportExportButtons";
+import { DisagreementReview } from "./DisagreementReview";
 
 interface RaterInfo {
   id: string;
@@ -165,6 +166,22 @@ export function AgreementDashboard({
             </h3>
             <CategoryAgreementTable
               metrics={categoryMetrics}
+              taxonomy={metadata.taxonomy}
+            />
+          </div>
+
+          {/* Case-by-case disagreement review */}
+          <div className="border rounded-lg p-4">
+            <h3 className="text-sm font-medium mb-3">
+              Case-by-Case Review ({sourceALabel} vs {sourceBLabel})
+            </h3>
+            <DisagreementReview
+              ratings={ratings}
+              casesMap={casesMap}
+              sourceA={sourceA}
+              sourceB={sourceB}
+              sourceALabel={sourceALabel}
+              sourceBLabel={sourceBLabel}
               taxonomy={metadata.taxonomy}
             />
           </div>

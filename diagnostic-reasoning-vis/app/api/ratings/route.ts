@@ -1,4 +1,4 @@
-import { put, list } from "@vercel/blob";
+import { put, list, del } from "@vercel/blob";
 import { NextResponse } from "next/server";
 
 const token = process.env.BLOB_READ_WRITE_TOKEN;
@@ -74,6 +74,40 @@ export async function POST(request: Request) {
     return NextResponse.json({ url: blob.url });
   } catch (e) {
     console.error("Blob POST error:", e);
+    return NextResponse.json(
+      { error: "Blob storage error", detail: String(e) },
+      { status: 503 }
+    );
+  }
+}
+
+/**
+ * DELETE /api/ratings?raterId=xxx - Remove a rater's blob.
+ */
+export async function DELETE(request: Request) {
+  if (!token) {
+    return NextResponse.json(
+      { error: "Storage not configured." },
+      { status: 503 }
+    );
+  }
+
+  try {
+    const { searchParams } = new URL(request.url);
+    const raterId = searchParams.get("raterId");
+    if (!raterId) {
+      return NextResponse.json({ error: "Missing raterId param" }, { status: 400 });
+    }
+
+    const { blobs } = await list({ prefix: `ratings/${raterId}.json`, token });
+    if (blobs.length === 0) {
+      return NextResponse.json({ error: "Blob not found" }, { status: 404 });
+    }
+
+    await del(blobs.map((b) => b.url), { token });
+    return NextResponse.json({ deleted: raterId });
+  } catch (e) {
+    console.error("Blob DELETE error:", e);
     return NextResponse.json(
       { error: "Blob storage error", detail: String(e) },
       { status: 503 }

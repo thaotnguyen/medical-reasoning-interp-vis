@@ -279,6 +279,114 @@ export function buildFleissMatrixMulti(
   return matrix;
 }
 
+// ============================================================
+// Per-case disagreement review
+// ============================================================
+
+export interface SentenceComparison {
+  sentIdx: number;
+  text: string;
+  labelA: number; // -1 if unlabeled
+  labelB: number; // -1 if unlabeled
+  agrees: boolean; // only meaningful when both >= 0
+}
+
+export interface CaseComparison {
+  caseId: string;
+  model: string;
+  dataset: string;
+  prompt: string;
+  trueDx: string;
+  sentences: SentenceComparison[];
+  totalCompared: number;
+  agreements: number;
+  disagreements: number;
+}
+
+/**
+ * Collect per-case comparison data across all model/dataset combos.
+ * Unlike collectPairedLabelsMulti, this preserves case identity and
+ * includes ALL sentences (even if only one side is labeled).
+ */
+export function collectCaseComparisons(
+  ratings: RatingsStore,
+  casesMap: Record<string, Case[]>,
+  raterA: string,
+  raterB: string | "whitebox"
+): CaseComparison[] {
+  const results: CaseComparison[] = [];
+
+  for (const [key, cases] of Object.entries(casesMap)) {
+    const sep = key.indexOf("_");
+    if (sep < 0) continue;
+    const model = key.slice(0, sep);
+    const dataset = key.slice(sep + 1);
+
+    for (const c of cases) {
+      const ratingsA = raterA === "whitebox" ? null : ratings[raterA]?.[model]?.[dataset]?.[c.id];
+      const ratingsB = raterB === "whitebox" ? null : ratings[raterB]?.[model]?.[dataset]?.[c.id];
+
+      // Skip cases where neither source has any labels
+      const aHasAny = raterA === "whitebox" || !!ratingsA;
+      const bHasAny = raterB === "whitebox" || !!ratingsB;
+      if (!aHasAny && !bHasAny) continue;
+
+      const sentences: SentenceComparison[] = [];
+      let totalCompared = 0;
+      let agreements = 0;
+      let disagreements = 0;
+
+      for (let si = 0; si < c.sentences.length; si++) {
+        const sent = c.sentences[si];
+
+        let labelA = -1;
+        if (raterA === "whitebox") {
+          labelA = sent.t >= 0 ? sent.t : -1;
+        } else if (ratingsA?.[si]) {
+          labelA = ratingsA[si].taxonomy;
+        }
+
+        let labelB = -1;
+        if (raterB === "whitebox") {
+          labelB = sent.t >= 0 ? sent.t : -1;
+        } else if (ratingsB?.[si]) {
+          labelB = ratingsB[si].taxonomy;
+        }
+
+        const bothLabeled = labelA >= 0 && labelB >= 0;
+        const agrees = bothLabeled && labelA === labelB;
+
+        if (bothLabeled) {
+          totalCompared++;
+          if (agrees) agreements++;
+          else disagreements++;
+        }
+
+        sentences.push({ sentIdx: si, text: sent.s, labelA, labelB, agrees });
+      }
+
+      // Only include cases with at least one compared sentence
+      if (totalCompared > 0) {
+        results.push({
+          caseId: c.id,
+          model,
+          dataset,
+          prompt: c.prompt,
+          trueDx: c.true_dx,
+          sentences,
+          totalCompared,
+          agreements,
+          disagreements,
+        });
+      }
+    }
+  }
+
+  // Sort by most disagreements first
+  results.sort((a, b) => b.disagreements - a.disagreements);
+  return results;
+}
+
 export function interpretKappa(kappa: number): {
   label: string;
   color: string;
