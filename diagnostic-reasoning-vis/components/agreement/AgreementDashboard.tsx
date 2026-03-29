@@ -8,6 +8,7 @@ import {
   computeConfusionMatrix,
   computeCategoryMetrics,
   computeFleissKappa,
+  computeKrippendorffAlpha,
   collectPairedLabelsMulti,
   buildFleissMatrixMulti,
 } from "@/lib/agreement-stats";
@@ -77,16 +78,22 @@ export function AgreementDashboard({
 
   const raterIds = useMemo(() => raters.map((r) => r.id), [raters]);
 
-  const fleissKappa = useMemo(() => {
-    if (raterIds.length === 0 || Object.keys(casesMap).length === 0) return NaN;
-    const fleissMatrix = buildFleissMatrixMulti(ratings, casesMap, raterIds, true, numCategories);
-    return computeFleissKappa(fleissMatrix, numCategories);
+  const fleissMatrix = useMemo(() => {
+    if (raterIds.length === 0 || Object.keys(casesMap).length === 0) return [];
+    return buildFleissMatrixMulti(ratings, casesMap, raterIds, true, numCategories);
   }, [ratings, casesMap, raterIds, numCategories]);
 
-  const fleissN = useMemo(() => {
-    if (raterIds.length === 0 || Object.keys(casesMap).length === 0) return 0;
-    return buildFleissMatrixMulti(ratings, casesMap, raterIds, true, numCategories).length;
-  }, [ratings, casesMap, raterIds, numCategories]);
+  const fleissKappa = useMemo(
+    () => computeFleissKappa(fleissMatrix, numCategories),
+    [fleissMatrix, numCategories]
+  );
+
+  const krippendorffAlpha = useMemo(
+    () => computeKrippendorffAlpha(fleissMatrix, numCategories),
+    [fleissMatrix, numCategories]
+  );
+
+  const fleissN = fleissMatrix.length;
 
   const getSourceLabel = (s: ComparisonSource) => {
     if (s === "whitebox") return "Whitebox";
@@ -135,7 +142,7 @@ export function AgreementDashboard({
       ) : (
         <>
           {/* Kappa cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <KappaCard
               title={`Cohen's \u03BA: ${sourceALabel} vs ${sourceBLabel}`}
               kappa={cohenKappa}
@@ -144,6 +151,11 @@ export function AgreementDashboard({
             <KappaCard
               title={`Fleiss' \u03BA: All ${raterIds.length} raters + Whitebox`}
               kappa={fleissKappa}
+              n={fleissN}
+            />
+            <KappaCard
+              title={`Krippendorff's \u03B1: All ${raterIds.length} raters + Whitebox`}
+              kappa={krippendorffAlpha}
               n={fleissN}
             />
           </div>

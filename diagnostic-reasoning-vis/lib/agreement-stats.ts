@@ -387,6 +387,48 @@ export function collectCaseComparisons(
   return results;
 }
 
+/**
+ * Krippendorff's alpha for nominal data, supporting variable numbers of raters per item.
+ * ratingsMatrix: n_items x n_categories, each cell = count of raters who assigned that category.
+ */
+export function computeKrippendorffAlpha(
+  ratingsMatrix: number[][],
+  numCategories: number
+): number {
+  const N = ratingsMatrix.length;
+  if (N === 0) return NaN;
+
+  const n_c: number[] = new Array(numCategories).fill(0);
+  let agreedPairs = 0;
+  let totalN = 0;
+
+  for (let i = 0; i < N; i++) {
+    const mi = ratingsMatrix[i].reduce((a, b) => a + b, 0);
+    if (mi < 2) continue;
+    totalN += mi;
+
+    for (let c = 0; c < numCategories; c++) {
+      n_c[c] += ratingsMatrix[i][c];
+      agreedPairs += (ratingsMatrix[i][c] * (ratingsMatrix[i][c] - 1)) / (mi - 1);
+    }
+  }
+
+  if (totalN < 2) return NaN;
+
+  // Observed disagreement
+  const D_o = 1 - agreedPairs / totalN;
+
+  // Expected disagreement (nominal metric)
+  let sumNcSquared = 0;
+  for (let c = 0; c < numCategories; c++) {
+    sumNcSquared += n_c[c] * n_c[c];
+  }
+  const D_e = (totalN * totalN - sumNcSquared) / (totalN * (totalN - 1));
+
+  if (D_e === 0) return NaN;
+  return 1 - D_o / D_e;
+}
+
 export function interpretKappa(kappa: number): {
   label: string;
   color: string;
