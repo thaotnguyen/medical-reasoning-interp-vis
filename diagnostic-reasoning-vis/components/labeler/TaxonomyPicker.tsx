@@ -23,6 +23,7 @@ export function TaxonomyPicker({
         return (
           <button
             key={idx}
+            type="button"
             onClick={() => onSelect(idx)}
             className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium transition-all border ${
               isSelected
@@ -43,6 +44,7 @@ export function TaxonomyPicker({
       })}
       {currentSelection !== undefined && (
         <button
+          type="button"
           onClick={onClear}
           className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium text-muted-foreground hover:bg-muted border border-dashed border-border"
         >

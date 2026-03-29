@@ -14,11 +14,16 @@ interface UseSamplePoolResult {
   navigateTo: (index: number) => void;
 }
 
+interface UseSamplePoolOptions {
+  /** Called once per session when a cases file is first loaded, with all cases in it. */
+  onCasesLoaded?: (model: string, dataset: string, cases: Case[]) => void;
+}
+
 /**
  * Manages the deterministic sample pool and lazy-loads case data.
  * Caches fetched case files so repeat visits are instant.
  */
-export function useSamplePool(): UseSamplePoolResult {
+export function useSamplePool({ onCasesLoaded }: UseSamplePoolOptions = {}): UseSamplePoolResult {
   const { metadata } = useMetadata();
   const [pool, setPool] = useState<SampleItem[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -27,6 +32,10 @@ export function useSamplePool(): UseSamplePoolResult {
 
   // Cache: model_dataset -> Case[]
   const cacheRef = useRef<Map<string, Case[]>>(new Map());
+
+  // Keep a stable ref to the callback to avoid re-creating loadCase
+  const onCasesLoadedRef = useRef(onCasesLoaded);
+  useEffect(() => { onCasesLoadedRef.current = onCasesLoaded; });
 
   // Build pool once metadata arrives
   useEffect(() => {
@@ -61,6 +70,8 @@ export function useSamplePool(): UseSamplePoolResult {
         if (!res.ok) throw new Error(`${res.status}`);
         cases = (await res.json()) as Case[];
         cacheRef.current.set(key, cases);
+        // Notify caller with ALL cases so it can populate its cache up-front
+        onCasesLoadedRef.current?.(item.model, item.dataset, cases);
       } catch {
         setCurrentCase(null);
         setIsLoading(false);
@@ -78,6 +89,31 @@ export function useSamplePool(): UseSamplePoolResult {
     if (!item) return;
     loadCase(item);
   }, [pool, selectedIndex, loadCase]);
+
+  // Background-prefetch every unique case file as soon as the pool is known.
+  // This populates caseInfo for ALL pool items immediately, so the sidebar can
+  // show completion status without requiring the user to navigate to each case.
+  useEffect(() => {
+    if (pool.length === 0) return;
+    const seen = new Set<string>();
+    for (const item of pool) {
+      const fileKey = `${item.model}_${item.dataset}`;
+      if (seen.has(fileKey)) continue;
+      seen.add(fileKey);
+      if (cacheRef.current.has(fileKey)) {
+        // Already fetched (e.g. by loadCase) — fire callback now so caseInfo is populated
+        onCasesLoadedRef.current?.(item.model, item.dataset, cacheRef.current.get(fileKey)!);
+      } else {
+        fetch(`/data/cases/${fileKey}.json`)
+          .then(r => { if (!r.ok) throw new Error(); return r.json() as Promise<Case[]>; })
+          .then(cases => {
+            if (!cacheRef.current.has(fileKey)) cacheRef.current.set(fileKey, cases);
+            onCasesLoadedRef.current?.(item.model, item.dataset, cases);
+          })
+          .catch(() => {});
+      }
+    }
+  }, [pool]);
 
   const navigateTo = useCallback((index: number) => {
     if (pool.length === 0) return;
