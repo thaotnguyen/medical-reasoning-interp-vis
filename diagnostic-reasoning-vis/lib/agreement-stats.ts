@@ -6,10 +6,10 @@ import type { RatingsStore } from "./labeling-types";
 import type { Case } from "./types";
 
 /**
- * Cohen's kappa for two raters.
+ * Standard (nominal) Cohen's kappa for two raters.
  * Returns NaN if no paired labels or if pe === 1.
  */
-export function computeCohenKappa(
+export function computeCohenKappaNominal(
   labelsA: number[],
   labelsB: number[],
   numCategories: number
@@ -40,6 +40,48 @@ export function computeCohenKappa(
 
   if (pe === 1) return NaN;
   return (po - pe) / (1 - pe);
+}
+
+/**
+ * Weighted Cohen's kappa (quadratic weights) for two raters on ordinal data.
+ * Weight: w[i][j] = (i-j)^2 / (k-1)^2
+ * Returns NaN if no paired labels or if expected weighted disagreement is 0.
+ */
+export function computeCohenKappa(
+  labelsA: number[],
+  labelsB: number[],
+  numCategories: number
+): number {
+  const n = labelsA.length;
+  if (n === 0 || numCategories < 2) return NaN;
+
+  const matrix = computeConfusionMatrix(labelsA, labelsB, numCategories);
+  const k = numCategories;
+  const maxDist = (k - 1) * (k - 1);
+
+  // Row and column marginals
+  const rowSums = new Array(k).fill(0);
+  const colSums = new Array(k).fill(0);
+  for (let i = 0; i < k; i++) {
+    for (let j = 0; j < k; j++) {
+      rowSums[i] += matrix[i][j];
+      colSums[j] += matrix[i][j];
+    }
+  }
+
+  // Observed and expected weighted disagreement
+  let wObs = 0;
+  let wExp = 0;
+  for (let i = 0; i < k; i++) {
+    for (let j = 0; j < k; j++) {
+      const w = ((i - j) * (i - j)) / maxDist;
+      wObs += w * (matrix[i][j] / n);
+      wExp += w * ((rowSums[i] / n) * (colSums[j] / n));
+    }
+  }
+
+  if (wExp === 0) return NaN;
+  return 1 - wObs / wExp;
 }
 
 /**
@@ -388,10 +430,10 @@ export function collectCaseComparisons(
 }
 
 /**
- * Krippendorff's alpha for nominal data, supporting variable numbers of raters per item.
+ * Standard (nominal) Krippendorff's alpha, supporting variable numbers of raters per item.
  * ratingsMatrix: n_items x n_categories, each cell = count of raters who assigned that category.
  */
-export function computeKrippendorffAlpha(
+export function computeKrippendorffAlphaNominal(
   ratingsMatrix: number[][],
   numCategories: number
 ): number {
@@ -424,6 +466,76 @@ export function computeKrippendorffAlpha(
     sumNcSquared += n_c[c] * n_c[c];
   }
   const D_e = (totalN * totalN - sumNcSquared) / (totalN * (totalN - 1));
+
+  if (D_e === 0) return NaN;
+  return 1 - D_o / D_e;
+}
+
+/**
+ * Krippendorff's alpha for ordinal data, supporting variable numbers of raters per item.
+ * ratingsMatrix: n_items x n_categories, each cell = count of raters who assigned that category.
+ * Uses ordinal distance metric: δ²(c,k) = (Σ_{g=min(c,k)}^{max(c,k)} n_g − (n_c+n_k)/2)²
+ */
+export function computeKrippendorffAlpha(
+  ratingsMatrix: number[][],
+  numCategories: number
+): number {
+  const N = ratingsMatrix.length;
+  if (N === 0 || numCategories < 2) return NaN;
+
+  // First pass: compute marginal counts n_c and per-item rater counts
+  const n_c: number[] = new Array(numCategories).fill(0);
+  const validItems: { row: number[]; mi: number }[] = [];
+  let totalN = 0;
+
+  for (let i = 0; i < N; i++) {
+    const mi = ratingsMatrix[i].reduce((a, b) => a + b, 0);
+    if (mi < 2) continue;
+    totalN += mi;
+    for (let c = 0; c < numCategories; c++) {
+      n_c[c] += ratingsMatrix[i][c];
+    }
+    validItems.push({ row: ratingsMatrix[i], mi });
+  }
+
+  if (totalN < 2) return NaN;
+
+  // Precompute ordinal distance matrix using marginal counts
+  // δ²(c,k) = (Σ_{g=min(c,k)}^{max(c,k)} n_g − (n_c + n_k) / 2)²
+  const delta2: number[][] = Array.from({ length: numCategories }, () =>
+    new Array(numCategories).fill(0)
+  );
+  for (let c = 0; c < numCategories; c++) {
+    for (let k = c + 1; k < numCategories; k++) {
+      let cumSum = 0;
+      for (let g = c; g <= k; g++) {
+        cumSum += n_c[g];
+      }
+      const d = cumSum - (n_c[c] + n_c[k]) / 2;
+      delta2[c][k] = d * d;
+      delta2[k][c] = d * d;
+    }
+  }
+
+  // Observed disagreement: D_o = (1/totalN) Σ_u (1/(m_u-1)) Σ_{c<k} n_uc * n_uk * δ²(c,k)
+  let D_o = 0;
+  for (const { row, mi } of validItems) {
+    for (let c = 0; c < numCategories; c++) {
+      for (let k = c + 1; k < numCategories; k++) {
+        D_o += (row[c] * row[k] * delta2[c][k]) / (mi - 1);
+      }
+    }
+  }
+  D_o /= totalN;
+
+  // Expected disagreement: D_e = (1/(totalN*(totalN-1))) Σ_{c<k} n_c * n_k * δ²(c,k)
+  let D_e = 0;
+  for (let c = 0; c < numCategories; c++) {
+    for (let k = c + 1; k < numCategories; k++) {
+      D_e += n_c[c] * n_c[k] * delta2[c][k];
+    }
+  }
+  D_e /= totalN * (totalN - 1);
 
   if (D_e === 0) return NaN;
   return 1 - D_o / D_e;

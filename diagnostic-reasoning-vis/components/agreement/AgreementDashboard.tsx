@@ -4,10 +4,11 @@ import { useMemo, useState } from "react";
 import type { RatingsStore } from "@/lib/labeling-types";
 import type { Case, Metadata } from "@/lib/types";
 import {
+  computeCohenKappaNominal,
   computeCohenKappa,
   computeConfusionMatrix,
   computeCategoryMetrics,
-  computeFleissKappa,
+  computeKrippendorffAlphaNominal,
   computeKrippendorffAlpha,
   collectPairedLabelsMulti,
   buildFleissMatrixMulti,
@@ -61,7 +62,12 @@ export function AgreementDashboard({
     return collectPairedLabelsMulti(ratings, casesMap, sourceA, sourceB);
   }, [ratings, casesMap, sourceA, sourceB]);
 
-  const cohenKappa = useMemo(
+  const cohenKappaNominal = useMemo(
+    () => computeCohenKappaNominal(labelsA, labelsB, numCategories),
+    [labelsA, labelsB, numCategories]
+  );
+
+  const cohenKappaWeighted = useMemo(
     () => computeCohenKappa(labelsA, labelsB, numCategories),
     [labelsA, labelsB, numCategories]
   );
@@ -83,12 +89,12 @@ export function AgreementDashboard({
     return buildFleissMatrixMulti(ratings, casesMap, raterIds, true, numCategories);
   }, [ratings, casesMap, raterIds, numCategories]);
 
-  const fleissKappa = useMemo(
-    () => computeFleissKappa(fleissMatrix, numCategories),
+  const krippendorffNominal = useMemo(
+    () => computeKrippendorffAlphaNominal(fleissMatrix, numCategories),
     [fleissMatrix, numCategories]
   );
 
-  const krippendorffAlpha = useMemo(
+  const krippendorffOrdinal = useMemo(
     () => computeKrippendorffAlpha(fleissMatrix, numCategories),
     [fleissMatrix, numCategories]
   );
@@ -141,21 +147,26 @@ export function AgreementDashboard({
         </div>
       ) : (
         <>
-          {/* Kappa cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Agreement metric cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <KappaCard
               title={`Cohen's \u03BA: ${sourceALabel} vs ${sourceBLabel}`}
-              kappa={cohenKappa}
+              kappa={cohenKappaNominal}
               n={labelsA.length}
             />
             <KappaCard
-              title={`Fleiss' \u03BA: All ${raterIds.length} raters + Whitebox`}
-              kappa={fleissKappa}
-              n={fleissN}
+              title={`Weighted Cohen's \u03BA: ${sourceALabel} vs ${sourceBLabel}`}
+              kappa={cohenKappaWeighted}
+              n={labelsA.length}
             />
             <KappaCard
               title={`Krippendorff's \u03B1: All ${raterIds.length} raters + Whitebox`}
-              kappa={krippendorffAlpha}
+              kappa={krippendorffNominal}
+              n={fleissN}
+            />
+            <KappaCard
+              title={`Ordinal Krippendorff's \u03B1: All ${raterIds.length} raters + Whitebox`}
+              kappa={krippendorffOrdinal}
               n={fleissN}
             />
           </div>

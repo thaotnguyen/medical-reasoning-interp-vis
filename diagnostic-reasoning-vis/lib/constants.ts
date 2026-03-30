@@ -3,11 +3,10 @@ export const DEFAULT_DATASET = "medqa";
 
 export const TAXONOMY_COLORS = [
   "#9467bd", // Orchestration
-  "#ff7f0e", // Case Evidence Extraction
-  "#1f77b4", // Evidence Processing
-  "#d62728", // Recalling Medical Knowledge
+  "#ff7f0e", // Case Evidence
   "#e377c2", // Hypothesis Generation
   "#2ca02c", // Hypothesis Evaluation
+  "#d62728", // Recalling Medical Knowledge
   "#8c564b", // Final Answer
 ];
 

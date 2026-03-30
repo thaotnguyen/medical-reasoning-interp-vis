@@ -619,19 +619,9 @@
       "short_name": "Orchestration"
     },
     {
-      "label": "Case evidence extraction (patient-specific facts)",
+      "label": "Case evidence (extraction + processing)",
       "color": "#ff7f0e",
-      "short_name": "Case Evidence Extraction"
-    },
-    {
-      "label": "Evidence processing (salience + interpretation + summarization)",
-      "color": "#1f77b4",
-      "short_name": "Evidence Processing"
-    },
-    {
-      "label": "Medical knowledge / templates / criteria (general facts)",
-      "color": "#d62728",
-      "short_name": "Recalling Medical Knowledge"
+      "short_name": "Case Evidence"
     },
     {
       "label": "Hypothesis generation (differential expansion)",
@@ -642,6 +632,11 @@
       "label": "Hypothesis evaluation & narrowing (support OR exclude)",
       "color": "#2ca02c",
       "short_name": "Hypothesis Evaluation"
+    },
+    {
+      "label": "Medical knowledge / templates / criteria (general facts)",
+      "color": "#d62728",
+      "short_name": "Recalling Medical Knowledge"
     },
     {
       "label": "Final answer commitment",

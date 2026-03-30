@@ -6,7 +6,7 @@
 export type RaterId = string;
 
 export interface SentenceRating {
-  taxonomy: number; // 0-6 matching whitebox taxonomy indices
+  taxonomy: number; // 0-5 matching whitebox taxonomy indices
   timestamp: number; // Date.now() when labeled
 }
 
@@ -31,7 +31,7 @@ export interface CasePoolInfo {
   caseId: string;
 }
 
-/** Maps keyboard keys "1"-"7" to taxonomy indices 0-6 */
+/** Maps keyboard keys "1"-"6" to taxonomy indices 0-5 */
 export const TAXONOMY_KEYBOARD_MAP: Record<string, number> = {
   "1": 0,
   "2": 1,
@@ -39,7 +39,6 @@ export const TAXONOMY_KEYBOARD_MAP: Record<string, number> = {
   "4": 3,
   "5": 4,
   "6": 5,
-  "7": 6,
 };
 
 /** Colors assigned to raters in the agreement dashboard */
