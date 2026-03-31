@@ -31,6 +31,7 @@ export interface CasePoolInfo {
   caseId: string;
 }
 
+<<<<<<< Updated upstream
 /** Maps keyboard keys "1"-"6" to taxonomy indices 0-5 */
 export const TAXONOMY_KEYBOARD_MAP: Record<string, number> = {
   "1": 0,
@@ -39,6 +40,19 @@ export const TAXONOMY_KEYBOARD_MAP: Record<string, number> = {
   "4": 3,
   "5": 4,
   "6": 5,
+=======
+/**
+ * Maps keyboard keys "1"-"6" to STORED taxonomy indices (7-category).
+ * Display idx → stored idx: 0→0, 1→1, 2→4, 3→5, 4→3, 5→6
+ */
+export const TAXONOMY_KEYBOARD_MAP: Record<string, number> = {
+  "1": 0,
+  "2": 1,
+  "3": 4,
+  "4": 5,
+  "5": 3,
+  "6": 6,
+>>>>>>> Stashed changes
 };
 
 /** Colors assigned to raters in the agreement dashboard */

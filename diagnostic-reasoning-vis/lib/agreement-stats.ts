@@ -4,6 +4,7 @@
 
 import type { RatingsStore } from "./labeling-types";
 import type { Case } from "./types";
+import { mapTaxonomy } from "./taxonomy-map";
 
 /**
  * Standard (nominal) Cohen's kappa for two raters.
@@ -45,9 +46,14 @@ export function computeCohenKappaNominal(
 /**
  * Weighted Cohen's kappa (quadratic weights) for two raters on ordinal data.
  * Weight: w[i][j] = (i-j)^2 / (k-1)^2
+<<<<<<< Updated upstream
  * Returns NaN if no paired labels or if expected weighted disagreement is 0.
  */
 export function computeCohenKappa(
+=======
+ */
+export function computeCohenKappaWeighted(
+>>>>>>> Stashed changes
   labelsA: number[],
   labelsB: number[],
   numCategories: number
@@ -59,7 +65,10 @@ export function computeCohenKappa(
   const k = numCategories;
   const maxDist = (k - 1) * (k - 1);
 
+<<<<<<< Updated upstream
   // Row and column marginals
+=======
+>>>>>>> Stashed changes
   const rowSums = new Array(k).fill(0);
   const colSums = new Array(k).fill(0);
   for (let i = 0; i < k; i++) {
@@ -69,7 +78,10 @@ export function computeCohenKappa(
     }
   }
 
+<<<<<<< Updated upstream
   // Observed and expected weighted disagreement
+=======
+>>>>>>> Stashed changes
   let wObs = 0;
   let wExp = 0;
   for (let i = 0; i < k; i++) {
@@ -208,15 +220,15 @@ export function collectPairedLabels(
 
       let labelB: number | undefined;
       if (raterB === "whitebox") {
-        const t = c.sentences[si].t;
+        const t = mapTaxonomy(c.sentences[si].t);
         if (t >= 0) labelB = t;
       } else {
         const rB = ratings[raterB]?.[model]?.[dataset]?.[c.id]?.[si];
-        if (rB) labelB = rB.taxonomy;
+        if (rB) labelB = mapTaxonomy(rB.taxonomy);
       }
 
       if (labelB !== undefined) {
-        labelsA.push(rA.taxonomy);
+        labelsA.push(mapTaxonomy(rA.taxonomy));
         labelsB.push(labelB);
       }
     }
@@ -246,16 +258,19 @@ export function buildFleissMatrix(
 
       for (const raterId of raterIds) {
         const r = ratings[raterId]?.[model]?.[dataset]?.[c.id]?.[si];
-        if (r && r.taxonomy >= 0 && r.taxonomy < numCategories) {
-          row[r.taxonomy]++;
-          count++;
+        if (r) {
+          const mapped = mapTaxonomy(r.taxonomy);
+          if (mapped >= 0 && mapped < numCategories) {
+            row[mapped]++;
+            count++;
+          }
         }
       }
 
       if (includeWhitebox) {
-        const t = c.sentences[si].t;
-        if (t >= 0 && t < numCategories) {
-          row[t]++;
+        const mapped = mapTaxonomy(c.sentences[si].t);
+        if (mapped >= 0 && mapped < numCategories) {
+          row[mapped]++;
           count++;
         }
       }
@@ -383,16 +398,16 @@ export function collectCaseComparisons(
 
         let labelA = -1;
         if (raterA === "whitebox") {
-          labelA = sent.t >= 0 ? sent.t : -1;
+          labelA = mapTaxonomy(sent.t);
         } else if (ratingsA?.[si]) {
-          labelA = ratingsA[si].taxonomy;
+          labelA = mapTaxonomy(ratingsA[si].taxonomy);
         }
 
         let labelB = -1;
         if (raterB === "whitebox") {
-          labelB = sent.t >= 0 ? sent.t : -1;
+          labelB = mapTaxonomy(sent.t);
         } else if (ratingsB?.[si]) {
-          labelB = ratingsB[si].taxonomy;
+          labelB = mapTaxonomy(ratingsB[si].taxonomy);
         }
 
         const bothLabeled = labelA >= 0 && labelB >= 0;
@@ -473,17 +488,26 @@ export function computeKrippendorffAlphaNominal(
 
 /**
  * Krippendorff's alpha for ordinal data, supporting variable numbers of raters per item.
+<<<<<<< Updated upstream
  * ratingsMatrix: n_items x n_categories, each cell = count of raters who assigned that category.
  * Uses ordinal distance metric: δ²(c,k) = (Σ_{g=min(c,k)}^{max(c,k)} n_g − (n_c+n_k)/2)²
  */
 export function computeKrippendorffAlpha(
+=======
+ * Uses ordinal distance metric: δ²(c,k) = (Σ_{g=min(c,k)}^{max(c,k)} n_g − (n_c+n_k)/2)²
+ */
+export function computeKrippendorffAlphaOrdinal(
+>>>>>>> Stashed changes
   ratingsMatrix: number[][],
   numCategories: number
 ): number {
   const N = ratingsMatrix.length;
   if (N === 0 || numCategories < 2) return NaN;
 
+<<<<<<< Updated upstream
   // First pass: compute marginal counts n_c and per-item rater counts
+=======
+>>>>>>> Stashed changes
   const n_c: number[] = new Array(numCategories).fill(0);
   const validItems: { row: number[]; mi: number }[] = [];
   let totalN = 0;
@@ -500,24 +524,35 @@ export function computeKrippendorffAlpha(
 
   if (totalN < 2) return NaN;
 
+<<<<<<< Updated upstream
   // Precompute ordinal distance matrix using marginal counts
   // δ²(c,k) = (Σ_{g=min(c,k)}^{max(c,k)} n_g − (n_c + n_k) / 2)²
+=======
+  // Ordinal distance matrix
+>>>>>>> Stashed changes
   const delta2: number[][] = Array.from({ length: numCategories }, () =>
     new Array(numCategories).fill(0)
   );
   for (let c = 0; c < numCategories; c++) {
     for (let k = c + 1; k < numCategories; k++) {
       let cumSum = 0;
+<<<<<<< Updated upstream
       for (let g = c; g <= k; g++) {
         cumSum += n_c[g];
       }
+=======
+      for (let g = c; g <= k; g++) cumSum += n_c[g];
+>>>>>>> Stashed changes
       const d = cumSum - (n_c[c] + n_c[k]) / 2;
       delta2[c][k] = d * d;
       delta2[k][c] = d * d;
     }
   }
 
+<<<<<<< Updated upstream
   // Observed disagreement: D_o = (1/totalN) Σ_u (1/(m_u-1)) Σ_{c<k} n_uc * n_uk * δ²(c,k)
+=======
+>>>>>>> Stashed changes
   let D_o = 0;
   for (const { row, mi } of validItems) {
     for (let c = 0; c < numCategories; c++) {
@@ -528,7 +563,10 @@ export function computeKrippendorffAlpha(
   }
   D_o /= totalN;
 
+<<<<<<< Updated upstream
   // Expected disagreement: D_e = (1/(totalN*(totalN-1))) Σ_{c<k} n_c * n_k * δ²(c,k)
+=======
+>>>>>>> Stashed changes
   let D_e = 0;
   for (let c = 0; c < numCategories; c++) {
     for (let k = c + 1; k < numCategories; k++) {

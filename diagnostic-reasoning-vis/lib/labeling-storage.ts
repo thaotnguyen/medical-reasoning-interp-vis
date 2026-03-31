@@ -4,6 +4,7 @@
 
 import type { RatingsStore } from "./labeling-types";
 import type { Case, Metadata } from "./types";
+import { mapTaxonomy } from "./taxonomy-map";
 
 const STORAGE_KEY = "drv-ratings";
 
@@ -90,7 +91,8 @@ export function exportRatingsAsCSV(
         const c = cases[ci];
         for (let si = 0; si < c.sentences.length; si++) {
           const sent = c.sentences[si];
-          const wb = sent.t >= 0 ? taxonomyNames[sent.t] ?? String(sent.t) : "";
+          const mappedT = mapTaxonomy(sent.t);
+          const wb = mappedT >= 0 ? taxonomyNames[mappedT] ?? String(mappedT) : "";
 
           const raterCols = raterIds
             .map((rid) => getRaterLabel(ratings, rid, modelSlug, datasetSlug, c.id, si, taxonomyNames))
@@ -127,7 +129,8 @@ function getRaterLabel(
 ): string {
   const r = ratings[raterId]?.[model]?.[dataset]?.[caseId]?.[sentIdx];
   if (!r) return "";
-  return taxonomyNames[r.taxonomy] ?? String(r.taxonomy);
+  const mapped = mapTaxonomy(r.taxonomy);
+  return taxonomyNames[mapped] ?? String(mapped);
 }
 
 export { migrateRatingsStore };

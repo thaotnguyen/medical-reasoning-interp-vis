@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import type { Sentence, TaxonomyItem } from "@/lib/types";
+import { mapTaxonomy } from "@/lib/taxonomy-map";
 
 interface TaxonomyDistributionProps {
   sentences: Sentence[];
@@ -12,8 +13,9 @@ export function TaxonomyDistribution({ sentences, taxonomy }: TaxonomyDistributi
   const distribution = useMemo(() => {
     const counts = new Array(taxonomy.length).fill(0);
     for (const s of sentences) {
-      if (s.t >= 0 && s.t < taxonomy.length) {
-        counts[s.t]++;
+      const mapped = mapTaxonomy(s.t);
+      if (mapped >= 0 && mapped < taxonomy.length) {
+        counts[mapped]++;
       }
     }
     return counts;

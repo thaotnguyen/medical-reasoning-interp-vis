@@ -6,6 +6,7 @@ import { LabelingSentenceItem } from "./LabelingSentenceItem";
 import type { Sentence, TaxonomyItem } from "@/lib/types";
 import type { RatingsStore } from "@/lib/labeling-types";
 import { getRating } from "@/hooks/useLabelingState";
+import { mapTaxonomy } from "@/lib/taxonomy-map";
 
 interface LabelingSentenceListProps {
   sentences: Sentence[];
@@ -70,7 +71,7 @@ export function LabelingSentenceList({
               text={sent.s}
               sentenceIndex={idx}
               taxonomy={taxonomy}
-              humanLabel={rating?.taxonomy}
+              humanLabel={rating ? mapTaxonomy(rating.taxonomy) : undefined}
               isFocused={focusedIndex === idx}
               onFocus={onFocus}
               onLabel={(t) => onLabel(idx, t)}
