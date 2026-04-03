@@ -6,15 +6,10 @@ import type { Case, Metadata } from "@/lib/types";
 import {
   computeCohenKappaNominal,
   computeCohenKappa,
-  computeCohenKappaWeighted,
   computeConfusionMatrix,
   computeCategoryMetrics,
-<<<<<<< Updated upstream
   computeKrippendorffAlphaNominal,
-=======
->>>>>>> Stashed changes
   computeKrippendorffAlpha,
-  computeKrippendorffAlphaOrdinal,
   collectPairedLabelsMulti,
   buildFleissMatrixMulti,
 } from "@/lib/agreement-stats";
@@ -77,11 +72,6 @@ export function AgreementDashboard({
     [labelsA, labelsB, numCategories]
   );
 
-  const cohenKappaWeighted = useMemo(
-    () => computeCohenKappaWeighted(labelsA, labelsB, numCategories),
-    [labelsA, labelsB, numCategories]
-  );
-
   const matrix = useMemo(
     () => computeConfusionMatrix(labelsA, labelsB, numCategories),
     [labelsA, labelsB, numCategories]
@@ -99,22 +89,13 @@ export function AgreementDashboard({
     return buildFleissMatrixMulti(ratings, casesMap, raterIds, true, numCategories);
   }, [ratings, casesMap, raterIds, numCategories]);
 
-<<<<<<< Updated upstream
   const krippendorffNominal = useMemo(
     () => computeKrippendorffAlphaNominal(fleissMatrix, numCategories),
-=======
-  const krippendorffAlpha = useMemo(
-    () => computeKrippendorffAlpha(fleissMatrix, numCategories),
->>>>>>> Stashed changes
     [fleissMatrix, numCategories]
   );
 
   const krippendorffOrdinal = useMemo(
-<<<<<<< Updated upstream
     () => computeKrippendorffAlpha(fleissMatrix, numCategories),
-=======
-    () => computeKrippendorffAlphaOrdinal(fleissMatrix, numCategories),
->>>>>>> Stashed changes
     [fleissMatrix, numCategories]
   );
 
@@ -169,7 +150,6 @@ export function AgreementDashboard({
           {/* Agreement metric cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <KappaCard
-<<<<<<< Updated upstream
               title={`Cohen's \u03BA: ${sourceALabel} vs ${sourceBLabel}`}
               kappa={cohenKappaNominal}
               n={labelsA.length}
@@ -186,24 +166,6 @@ export function AgreementDashboard({
             />
             <KappaCard
               title={`Ordinal Krippendorff's \u03B1: All ${raterIds.length} raters + Whitebox`}
-=======
-              title={`Cohen's \u03BA (nominal): ${sourceALabel} vs ${sourceBLabel}`}
-              kappa={cohenKappa}
-              n={labelsA.length}
-            />
-            <KappaCard
-              title={`Cohen's \u03BA (weighted): ${sourceALabel} vs ${sourceBLabel}`}
-              kappa={cohenKappaWeighted}
-              n={labelsA.length}
-            />
-            <KappaCard
-              title={`Krippendorff's \u03B1 (nominal): All ${raterIds.length} raters + Whitebox`}
-              kappa={krippendorffAlpha}
-              n={fleissN}
-            />
-            <KappaCard
-              title={`Krippendorff's \u03B1 (ordinal): All ${raterIds.length} raters + Whitebox`}
->>>>>>> Stashed changes
               kappa={krippendorffOrdinal}
               n={fleissN}
             />

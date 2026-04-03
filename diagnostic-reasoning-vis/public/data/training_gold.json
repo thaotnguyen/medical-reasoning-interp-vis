@@ -1,0 +1,6 @@
+{
+  "_note": "Gold standard labels for training cases. Keys are '{model}_{dataset}_{caseIndex}'. Values map sentence index (0-based) to taxonomy label (0-6). Upload this file once agreed upon with collaborators.",
+  "claude-3-7-sonnet-20250219_medqa_0": {},
+  "qwq-32b_medmcqa-filtered_0": {},
+  "gpt-oss-20b_nejm-cpc_0": {}
+}

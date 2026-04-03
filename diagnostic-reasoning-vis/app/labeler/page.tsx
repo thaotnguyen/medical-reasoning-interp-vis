@@ -21,7 +21,9 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   FileText,
+  BookOpen,
 } from "lucide-react";
+import Link from "next/link";
 import type { CasePoolInfo } from "@/lib/labeling-types";
 
 function useIsMobile() {
@@ -310,12 +312,29 @@ export default function LabelerPage() {
 
         {/* Source info — hide on mobile */}
         {currentItem && (
-          <div className="hidden md:block text-[10px] text-muted-foreground/60 border-l pl-3">
-            {modelName} · {datasetName}
+          <div className="hidden md:flex items-center gap-2 border-l pl-3">
+            <span className="text-[10px] text-muted-foreground/60">
+              {modelName} · {datasetName}
+            </span>
+            {currentItem.isTraining && (
+              <span className="text-[9px] font-semibold uppercase tracking-wide text-blue-500 border border-blue-500/40 px-1.5 py-0.5 rounded">
+                Training
+              </span>
+            )}
           </div>
         )}
 
         <div className="flex-1" />
+
+        {/* Training review link */}
+        <Link
+          href="/training"
+          className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs rounded-md border hover:bg-accent transition-colors"
+          title="Review training cases with gold standard"
+        >
+          <BookOpen className="w-3.5 h-3.5" />
+          Training
+        </Link>
 
         {/* Help button */}
         <button

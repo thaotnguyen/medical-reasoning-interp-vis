@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useMetadata } from "@/hooks/useMetadata";
-import { buildSamplePool, type SampleItem } from "@/lib/sample-pool";
+import { buildFullPool, type SampleItem } from "@/lib/sample-pool";
 import type { Case } from "@/lib/types";
 
 interface UseSamplePoolResult {
@@ -49,7 +49,7 @@ export function useSamplePool({ onCasesLoaded }: UseSamplePoolOptions = {}): Use
       }
     }
 
-    const built = buildSamplePool(
+    const built = buildFullPool(
       metadata.model_order,
       metadata.dataset_order,
       caseCounts

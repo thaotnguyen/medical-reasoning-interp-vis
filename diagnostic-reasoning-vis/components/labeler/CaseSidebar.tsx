@@ -75,6 +75,62 @@ function shortDatasetName(dataset: string): string {
   return map[dataset] ?? dataset;
 }
 
+function CaseRow({
+  item,
+  poolIndex,
+  isSelected,
+  status,
+  metadata,
+  onSelect,
+}: {
+  item: SampleItem;
+  poolIndex: number;
+  isSelected: boolean;
+  status: CaseStatus;
+  metadata: Metadata;
+  onSelect: (index: number) => void;
+}) {
+  const cfg = STATUS_CONFIG[status];
+  const Icon = cfg.icon;
+  const key = `${item.model}_${item.dataset}_${item.caseIndex}`;
+
+  return (
+    <button
+      key={key}
+      data-case-index={poolIndex}
+      onClick={() => onSelect(poolIndex)}
+      className={`
+        w-full text-left px-2.5 py-1.5 flex items-center gap-2
+        transition-colors duration-100 border-l-2 group
+        ${isSelected
+          ? status === "complete"
+            ? "bg-emerald-500/15 border-l-emerald-500"
+            : "bg-accent border-l-primary"
+          : `hover:bg-accent/50 ${cfg.bg} ${cfg.border}`
+        }
+      `}
+    >
+      <Icon className={`w-3 h-3 shrink-0 ${isSelected ? "text-primary" : cfg.dot}`} />
+      <span
+        className={`
+          text-[11px] font-mono tabular-nums w-5 shrink-0
+          ${isSelected ? "font-bold text-foreground" : "text-muted-foreground"}
+        `}
+      >
+        {poolIndex}
+      </span>
+      <span
+        className={`
+          text-[9px] truncate leading-tight
+          ${isSelected ? "text-foreground/70" : "text-muted-foreground/60"}
+        `}
+      >
+        {shortModelName(item.model, metadata)} · {shortDatasetName(item.dataset)}
+      </span>
+    </button>
+  );
+}
+
 export function CaseSidebar({
   pool,
   metadata,
@@ -86,11 +142,9 @@ export function CaseSidebar({
 }: CaseSidebarProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Scroll selected item into view within the ScrollArea viewport
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
-    // Find the Radix ScrollArea viewport (the actual scrollable div)
     const viewport = container.closest("[data-slot='scroll-area']")
       ?.querySelector("[data-slot='scroll-area-viewport']") as HTMLElement | null;
     const el = container.querySelector(`[data-case-index="${selectedIndex}"]`) as HTMLElement | null;
@@ -108,11 +162,14 @@ export function CaseSidebar({
     }
   }, [selectedIndex]);
 
-  // Compute overall progress
-  const { completed, partial, total: totalCases } = useMemo(() => {
+  const trainingPool = pool.filter((item) => item.isTraining);
+  const testPool = pool.filter((item) => !item.isTraining);
+
+  // Progress counts test cases only
+  const { completed, partial } = useMemo(() => {
     let completed = 0;
     let partial = 0;
-    for (const item of pool) {
+    for (const item of testPool) {
       const key = `${item.model}_${item.dataset}_${item.caseIndex}`;
       const info = caseInfo.get(key);
       if (!info) continue;
@@ -120,8 +177,17 @@ export function CaseSidebar({
       if (status === "complete") completed++;
       else if (status === "partial") partial++;
     }
-    return { completed, partial, total: pool.length };
-  }, [pool, ratings, raterId, caseInfo]);
+    return { completed, partial };
+  }, [testPool, ratings, raterId, caseInfo]);
+
+  const totalTest = testPool.length;
+
+  function getStatus(item: SampleItem): CaseStatus {
+    const key = `${item.model}_${item.dataset}_${item.caseIndex}`;
+    const info = caseInfo.get(key);
+    if (!info) return "empty";
+    return getCaseStatus(ratings, raterId, item.model, item.dataset, info.caseId, info.sentenceCount);
+  }
 
   return (
     <div className="flex flex-col h-full border-r bg-muted/30">
@@ -132,66 +198,47 @@ export function CaseSidebar({
         </div>
         <div className="text-[10px] text-muted-foreground/70 mt-0.5">
           {completed > 0 || partial > 0
-            ? `${completed} done · ${partial} in progress · ${totalCases - completed - partial} remaining`
-            : `${pool.length} to label`}
+            ? `${completed} done · ${partial} in progress · ${totalTest - completed - partial} remaining`
+            : `${totalTest} to label`}
         </div>
       </div>
 
-      {/* Case list */}
       <ScrollArea className="flex-1 min-h-0">
         <div ref={scrollRef} className="py-1">
-          {pool.map((item, i) => {
-            const isSelected = i === selectedIndex;
-            const key = `${item.model}_${item.dataset}_${item.caseIndex}`;
-            const info = caseInfo.get(key);
-            const status: CaseStatus =
-              info
-                ? getCaseStatus(ratings, raterId, item.model, item.dataset, info.caseId, info.sentenceCount)
-                : "empty";
-            const cfg = STATUS_CONFIG[status];
-            const Icon = cfg.icon;
-
-            return (
-              <button
-                key={key}
-                data-case-index={i}
-                onClick={() => onSelect(i)}
-                className={`
-                  w-full text-left px-2.5 py-1.5 flex items-center gap-2
-                  transition-colors duration-100 border-l-2 group
-                  ${isSelected
-                    ? status === "complete"
-                      ? "bg-emerald-500/15 border-l-emerald-500"
-                      : "bg-accent border-l-primary"
-                    : `hover:bg-accent/50 ${cfg.bg} ${cfg.border}`
-                  }
-                `}
-              >
-                {/* Status dot */}
-                <Icon className={`w-3 h-3 shrink-0 ${isSelected ? "text-primary" : cfg.dot}`} />
-
-                {/* Case number */}
-                <span
-                  className={`
-                    text-[11px] font-mono tabular-nums w-5 shrink-0
-                    ${isSelected ? "font-bold text-foreground" : "text-muted-foreground"}
-                  `}
-                >
-                  {i}
-                </span>
-
-                {/* Model + dataset tag */}
-                <span
-                  className={`
-                    text-[9px] truncate leading-tight
-                    ${isSelected ? "text-foreground/70" : "text-muted-foreground/60"}
-                  `}
-                >
-                  {shortModelName(item.model, metadata)} · {shortDatasetName(item.dataset)}
-                </span>
-              </button>
-            );
-          })}
+          {/* Training section */}
+          <div className="px-2.5 pt-2 pb-1">
+            <span className="text-[9px] font-semibold uppercase tracking-widest text-blue-500/70">
+              Training
+            </span>
+          </div>
+          {trainingPool.map((item) => (
+            <CaseRow
+              key={`${item.model}_${item.dataset}_${item.caseIndex}`}
+              item={item}
+              poolIndex={item.index}
+              isSelected={item.index === selectedIndex}
+              status={getStatus(item)}
+              metadata={metadata}
+              onSelect={onSelect}
+            />
+          ))}
+          {/* Test section */}
+          <div className="px-2.5 pt-3 pb-1">
+            <span className="text-[9px] font-semibold uppercase tracking-widest text-muted-foreground/50">
+              Test
+            </span>
+          </div>
+          {testPool.map((item) => (
+            <CaseRow
+              key={`${item.model}_${item.dataset}_${item.caseIndex}`}
+              item={item}
+              poolIndex={item.index}
+              isSelected={item.index === selectedIndex}
+              status={getStatus(item)}
+              metadata={metadata}
+              onSelect={onSelect}
+            />
+          ))}
         </div>
       </ScrollArea>
 

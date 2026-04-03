@@ -8,13 +8,24 @@ export interface SampleItem {
   model: string;
   dataset: string;
   caseIndex: number;   // index into the model_dataset.json array
+  isTraining?: boolean;
 }
 
-/** Total cases in the labeling pool */
-export const POOL_SIZE = 100;
+/** Total test cases in the labeling pool (1 per model×dataset stratum) */
+export const POOL_SIZE = 24;
 
 /** Seed for deterministic sampling — do NOT change after study begins */
 const SEED = 20260325;
+
+/**
+ * Hardcoded training cases — shown first in the sidebar for rater calibration.
+ * Case 0: Claude 3.7 Sonnet, Case 1: QWQ 32B, Case 2: GPT OSS 20B
+ */
+export const TRAINING_CASES: Omit<SampleItem, "index">[] = [
+  { model: "claude-3-7-sonnet-20250219", dataset: "medqa",            caseIndex: 0, isTraining: true },
+  { model: "qwq-32b",                   dataset: "medmcqa-filtered",  caseIndex: 0, isTraining: true },
+  { model: "gpt-oss-20b",               dataset: "nejm-cpc",          caseIndex: 0, isTraining: true },
+];
 
 /**
  * Mulberry32: simple 32-bit seeded PRNG.
@@ -41,9 +52,19 @@ function seededShuffle<T>(arr: T[], rng: () => number): T[] {
 }
 
 /**
- * Build the sample pool given the metadata.
- * Stratified: picks roughly equal cases from each model×dataset stratum,
- * then shuffles the final pool deterministically.
+ * Manual overrides for specific model×dataset strata.
+ * Key: "{model}_{dataset}", value: forced caseIndex.
+ * Use when the seeded selection yields a degenerate/error case.
+ */
+const POOL_OVERRIDES: Record<string, number> = {
+  // Seeded selection (index 166) was a 5-sentence error trace; replaced with a
+  // 25-sentence correct oligodendroglioma case (index 250).
+  "deepseek-r1-distill-qwen-14b_nejm-cpc": 250,
+};
+
+/**
+ * Build the 24 test cases: exactly 1 case per model×dataset stratum,
+ * selected deterministically using SEED.
  */
 export function buildSamplePool(
   modelOrder: string[],
@@ -51,34 +72,38 @@ export function buildSamplePool(
   caseCounts: Record<string, Record<string, number>>
 ): SampleItem[] {
   const rng = mulberry32(SEED);
-  const strata: Array<{ model: string; dataset: string }> = [];
+  const candidates: Omit<SampleItem, "index">[] = [];
 
   for (const model of modelOrder) {
     for (const dataset of datasetOrder) {
-      if (caseCounts[model]?.[dataset]) {
-        strata.push({ model, dataset });
-      }
-    }
-  }
-
-  if (strata.length === 0) return [];
-  const perStratum = Math.max(1, Math.ceil(POOL_SIZE / strata.length));
-  const candidates: Omit<SampleItem, "index">[] = [];
-
-  for (const { model, dataset } of strata) {
-    const total = caseCounts[model][dataset];
-    const indices = Array.from({ length: total }, (_, i) => i);
-    const shuffled = seededShuffle(indices, rng);
-    const picked = shuffled.slice(0, Math.min(perStratum, total));
-    for (const caseIndex of picked) {
+      const total = caseCounts[model]?.[dataset];
+      if (!total) continue;
+      const indices = Array.from({ length: total }, (_, i) => i);
+      const shuffled = seededShuffle(indices, rng);
+      const overrideKey = `${model}_${dataset}`;
+      const caseIndex = POOL_OVERRIDES[overrideKey] ?? shuffled[0];
       candidates.push({ model, dataset, caseIndex });
     }
   }
 
-  // Shuffle all candidates together, then take POOL_SIZE
+  // Shuffle all candidates for randomized ordering, then take POOL_SIZE
   const shuffled = seededShuffle(candidates, rng);
-  return shuffled.slice(0, POOL_SIZE).map((item, i) => ({
-    ...item,
-    index: i,
+  return shuffled.slice(0, POOL_SIZE).map((item, i) => ({ ...item, index: i }));
+}
+
+/**
+ * Build the full pool: 3 training cases (indices 0–2) followed by
+ * 24 test cases (indices 3–26).
+ */
+export function buildFullPool(
+  modelOrder: string[],
+  datasetOrder: string[],
+  caseCounts: Record<string, Record<string, number>>
+): SampleItem[] {
+  const training = TRAINING_CASES.map((c, i) => ({ ...c, index: i }));
+  const test = buildSamplePool(modelOrder, datasetOrder, caseCounts).map((c, i) => ({
+    ...c,
+    index: i + training.length,
   }));
+  return [...training, ...test];
 }
