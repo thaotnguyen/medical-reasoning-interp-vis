@@ -1,7 +1,6 @@
 "use client";
 
 import type { TSNEPoint, TaxonomyItem, ClusterInfo, Case } from "@/lib/types";
-import { mapTaxonomy } from "@/lib/taxonomy-map";
 
 interface TSNETooltipProps {
   point: TSNEPoint;
@@ -25,8 +24,7 @@ export function TSNETooltip({
   const [, , taxIdx, clusterId, caseIdx, sentIdx] = point;
 
   const sentence = cases?.[caseIdx]?.sentences?.[sentIdx]?.s;
-  const mappedTax = mapTaxonomy(taxIdx);
-  const taxItem = mappedTax >= 0 && mappedTax < taxonomy.length ? taxonomy[mappedTax] : null;
+  const taxItem = taxIdx >= 0 && taxIdx < taxonomy.length ? taxonomy[taxIdx] : null;
   const clusterItem = clusters[String(clusterId)];
 
   return (

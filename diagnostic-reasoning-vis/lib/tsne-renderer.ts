@@ -1,7 +1,6 @@
 import type { TSNEPoint } from "./types";
 import type { ScaleLinear } from "d3-scale";
 import type { ZoomTransform } from "d3-zoom";
-import { mapTaxonomy } from "./taxonomy-map";
 
 export interface RenderOptions {
   ctx: CanvasRenderingContext2D;
@@ -51,7 +50,7 @@ export function renderTSNE(opts: RenderOptions) {
     const py = scaleY(y);
     const color =
       colorMode === "taxonomy"
-        ? taxonomyColors[mapTaxonomy(tax)] ?? "#94a3b8"
+        ? taxonomyColors[tax] ?? "#94a3b8"
         : clusterColorMap.get(cluster) ?? "#94a3b8";
 
     ctx.beginPath();
@@ -71,7 +70,7 @@ export function renderTSNE(opts: RenderOptions) {
       const py = scaleY(y);
       const color =
         colorMode === "taxonomy"
-          ? taxonomyColors[mapTaxonomy(tax)] ?? "#94a3b8"
+          ? taxonomyColors[tax] ?? "#94a3b8"
           : clusterColorMap.get(cluster) ?? "#94a3b8";
 
       ctx.beginPath();
@@ -93,7 +92,7 @@ export function renderTSNE(opts: RenderOptions) {
     const py = scaleY(y);
     const color =
       colorMode === "taxonomy"
-        ? taxonomyColors[mapTaxonomy(tax)] ?? "#94a3b8"
+        ? taxonomyColors[tax] ?? "#94a3b8"
         : clusterColorMap.get(cluster) ?? "#94a3b8";
 
     ctx.beginPath();

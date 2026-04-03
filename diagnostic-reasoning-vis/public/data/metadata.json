@@ -8,7 +8,7 @@
       "clusters": {
         "0": {
           "title": "Ruling Out Alternative Explanations",
-          "description": "These sentences explicitly eliminate potential diagnoses, causes, or conditions based on negative findings, normal test results, or absent symptoms. They serve the cognitive function of narrowing the differential by discarding possibilities that do not fit the evidence. Included are statements that directly state a condition is unlikely or ruled out, often using phrases like \"rules out,\" \"probably not,\" \"doesn't seem like,\" or \"unlikely.\" Not included are sentences that introduce new hypotheses, express uncertainty without ruling something out, or plan future steps\u2014this category is specifically about active exclusion of alternatives to refine the diagnostic space."
+          "description": "These sentences explicitly eliminate potential diagnoses, causes, or conditions based on negative findings, normal test results, or absent symptoms. They serve the cognitive function of narrowing the differential by discarding possibilities that do not fit the evidence. Included are statements that directly state a condition is unlikely or ruled out, often using phrases like \"rules out,\" \"probably not,\" \"doesn't seem like,\" or \"unlikely.\" Not included are sentences that introduce new hypotheses, express uncertainty without ruling something out, or plan future steps—this category is specifically about active exclusion of alternatives to refine the diagnostic space."
         },
         "1": {
           "title": "Observing Clinical Findings",
@@ -36,7 +36,7 @@
         },
         "7": {
           "title": "Observing Clinical Findings",
-          "description": "These sentences report objective measurements or test results from a patient's clinical presentation, such as vital signs, lab values, or imaging findings. They serve the cognitive function of data extraction and initial recognition, converting raw clinical information into noted observations that will later be interpreted. Included are statements that neutrally present a datum (e.g., \"His hemoglobin is low,\" \"Her vitals show a fast heart rate\") often followed by a brief, factual translation of its meaning (e.g., \"indicating anemia,\" \"which means she's anemic\"). Not included are sentences that propose a diagnosis, express uncertainty about the meaning of the finding, compare findings to generate a differential, or plan a next step\u2014this cluster is strictly about the act of noting and translating individual data points."
+          "description": "These sentences report objective measurements or test results from a patient's clinical presentation, such as vital signs, lab values, or imaging findings. They serve the cognitive function of data extraction and initial recognition, converting raw clinical information into noted observations that will later be interpreted. Included are statements that neutrally present a datum (e.g., \"His hemoglobin is low,\" \"Her vitals show a fast heart rate\") often followed by a brief, factual translation of its meaning (e.g., \"indicating anemia,\" \"which means she's anemic\"). Not included are sentences that propose a diagnosis, express uncertainty about the meaning of the finding, compare findings to generate a differential, or plan a next step—this cluster is strictly about the act of noting and translating individual data points."
         },
         "8": {
           "title": "Explaining Pathophysiological Mechanisms",
@@ -109,7 +109,7 @@
         },
         "3": {
           "title": "Listing Clinical Features",
-          "description": "These sentences serve the cognitive function of recalling and assembling known signs, symptoms, and characteristic findings associated with a specific disease or condition. They are used to build a clinical picture by enumerating relevant features from memory, often in a bullet-point-like manner, to support pattern recognition or differential diagnosis. Included are statements that present clusters of typical manifestations (e.g., \"hyperthermia, tachycardia, hypertension, hyperreflexia\") or link a condition to its classic presentation (e.g., \"The patient presents with classic features of infective endocarditis...\"). Not included are speculative hypotheses about the diagnosis, expressions of uncertainty, planning of next steps, or explicit assumptions\u2014these sentences are purely declarative recalls of established medical knowledge."
+          "description": "These sentences serve the cognitive function of recalling and assembling known signs, symptoms, and characteristic findings associated with a specific disease or condition. They are used to build a clinical picture by enumerating relevant features from memory, often in a bullet-point-like manner, to support pattern recognition or differential diagnosis. Included are statements that present clusters of typical manifestations (e.g., \"hyperthermia, tachycardia, hypertension, hyperreflexia\") or link a condition to its classic presentation (e.g., \"The patient presents with classic features of infective endocarditis...\"). Not included are speculative hypotheses about the diagnosis, expressions of uncertainty, planning of next steps, or explicit assumptions—these sentences are purely declarative recalls of established medical knowledge."
         },
         "4": {
           "title": "Extracting Clinical Findings",
@@ -129,7 +129,7 @@
         },
         "8": {
           "title": "Task Orientation and Output Structuring",
-          "description": "These sentences serve to orient the reasoning process toward the external task requirements and structure the final output. They explicitly state the need to analyze a case, acknowledge missing information (like images), and direct the format or content of the final answer. Included are phrases that frame the task (\"We need to analyze case,\" \"We are asked to read a case\"), signal output preparation (\"Let's produce final,\" \"So final answer:\"), and note limitations (\"We don't have the image\"). This category does not include the internal diagnostic reasoning itself (like generating hypotheses or weighing evidence), nor does it include expressions of uncertainty about the medical diagnosis\u2014only uncertainty about available inputs or instructions."
+          "description": "These sentences serve to orient the reasoning process toward the external task requirements and structure the final output. They explicitly state the need to analyze a case, acknowledge missing information (like images), and direct the format or content of the final answer. Included are phrases that frame the task (\"We need to analyze case,\" \"We are asked to read a case\"), signal output preparation (\"Let's produce final,\" \"So final answer:\"), and note limitations (\"We don't have the image\"). This category does not include the internal diagnostic reasoning itself (like generating hypotheses or weighing evidence), nor does it include expressions of uncertainty about the medical diagnosis—only uncertainty about available inputs or instructions."
         },
         "9": {
           "title": "Summarizing Clinical Presentation",
@@ -145,7 +145,7 @@
         },
         "12": {
           "title": "Ruling Out Alternative Diagnoses",
-          "description": "These sentences systematically eliminate competing explanations or differential diagnoses by presenting evidence that makes them less likely or inconsistent with the clinical picture. They serve to narrow the diagnostic possibilities and strengthen the support for the leading hypothesis. Included are statements that explicitly contrast a potential alternative with the current case, using phrases like \"other causes...are less likely,\" \"rules out,\" \"argues against,\" or \"does not fit.\" This category does not include generating new hypotheses, expressing uncertainty about the primary diagnosis, planning future steps, stating assumptions, or recalling general medical knowledge\u2014it is specifically focused on the active dismissal of plausible alternatives."
+          "description": "These sentences systematically eliminate competing explanations or differential diagnoses by presenting evidence that makes them less likely or inconsistent with the clinical picture. They serve to narrow the diagnostic possibilities and strengthen the support for the leading hypothesis. Included are statements that explicitly contrast a potential alternative with the current case, using phrases like \"other causes...are less likely,\" \"rules out,\" \"argues against,\" or \"does not fit.\" This category does not include generating new hypotheses, expressing uncertainty about the primary diagnosis, planning future steps, stating assumptions, or recalling general medical knowledge—it is specifically focused on the active dismissal of plausible alternatives."
         },
         "13": {
           "title": "Identifying Risk Factors",
@@ -161,11 +161,11 @@
         },
         "16": {
           "title": "Finalizing a Diagnosis",
-          "description": "These sentences serve the cognitive function of concluding the reasoning process by selecting and stating the most likely answer or diagnosis. They represent the final step where the reasoner consolidates evidence, resolves uncertainties, and commits to a specific output. Included are statements that begin with conclusive phrases like \"So answer:\", \"Therefore final answer:\", \"Thus diagnosis:\", or \"The most likely diagnosis is\". These sentences are declarative and definitive, presenting a single, resolved conclusion. Not included are sentences that propose multiple possibilities, express uncertainty, plan next steps, or recall general knowledge\u2014this category is strictly for delivering the end result of the reasoning."
+          "description": "These sentences serve the cognitive function of concluding the reasoning process by selecting and stating the most likely answer or diagnosis. They represent the final step where the reasoner consolidates evidence, resolves uncertainties, and commits to a specific output. Included are statements that begin with conclusive phrases like \"So answer:\", \"Therefore final answer:\", \"Thus diagnosis:\", or \"The most likely diagnosis is\". These sentences are declarative and definitive, presenting a single, resolved conclusion. Not included are sentences that propose multiple possibilities, express uncertainty, plan next steps, or recall general knowledge—this category is strictly for delivering the end result of the reasoning."
         },
         "17": {
           "title": "Clarifying Task Demand",
-          "description": "These sentences explicitly identify or restate the specific question or prompt that the reasoning process must answer. They focus on determining what the problem is asking for, such as the most likely diagnosis, underlying mechanism, or causal organism. Included are phrases that directly quote or paraphrase the question, often beginning with \"The question:\" or \"They ask,\" and statements that narrow the focus to the required output type (e.g., \"most likely,\" \"underlying cause,\" \"etiology\"). Not included are generating hypotheses about the answer, expressing uncertainty about the medical facts, or planning steps to solve the problem\u2014this function is solely about defining the target of the reasoning."
+          "description": "These sentences explicitly identify or restate the specific question or prompt that the reasoning process must answer. They focus on determining what the problem is asking for, such as the most likely diagnosis, underlying mechanism, or causal organism. Included are phrases that directly quote or paraphrase the question, often beginning with \"The question:\" or \"They ask,\" and statements that narrow the focus to the required output type (e.g., \"most likely,\" \"underlying cause,\" \"etiology\"). Not included are generating hypotheses about the answer, expressing uncertainty about the medical facts, or planning steps to solve the problem—this function is solely about defining the target of the reasoning."
         },
         "18": {
           "title": "Drawing Diagnostic Conclusions",
@@ -206,7 +206,7 @@
         },
         "1": {
           "title": "Recalling Medical Knowledge",
-          "description": "These sentences retrieve specific medical facts, conditions, or associations from long-term memory to inform the diagnostic reasoning process. Included are statements that begin with recall cues like \"I remember that,\" \"is known to,\" or \"can cause,\" which directly state a known piece of medical information without yet evaluating its fit to the case. This category does not include generating new hypotheses, expressing uncertainty, planning next steps, or stating assumptions\u2014it is purely the act of accessing stored knowledge."
+          "description": "These sentences retrieve specific medical facts, conditions, or associations from long-term memory to inform the diagnostic reasoning process. Included are statements that begin with recall cues like \"I remember that,\" \"is known to,\" or \"can cause,\" which directly state a known piece of medical information without yet evaluating its fit to the case. This category does not include generating new hypotheses, expressing uncertainty, planning next steps, or stating assumptions—it is purely the act of accessing stored knowledge."
         },
         "2": {
           "title": "Noting Key Findings",
@@ -327,7 +327,7 @@
         },
         "5": {
           "title": "Synthesizing Evidence for a Diagnosis",
-          "description": "These sentences integrate multiple clinical findings, symptoms, or test results to form a cohesive argument for a specific medical diagnosis. They explicitly link disparate pieces of evidence\u2014using phrases like \"the combination of,\" \"points to,\" \"fits,\" or \"aligns with\"\u2014to show how the data collectively supports a single conclusion. This category includes sentences that actively consolidate information to justify a diagnostic hypothesis, often appearing toward the end of a reasoning segment. It does not include initial hypothesis generation, expression of uncertainty, planning of future steps, or the simple recall of isolated facts without synthesis."
+          "description": "These sentences integrate multiple clinical findings, symptoms, or test results to form a cohesive argument for a specific medical diagnosis. They explicitly link disparate pieces of evidence—using phrases like \"the combination of,\" \"points to,\" \"fits,\" or \"aligns with\"—to show how the data collectively supports a single conclusion. This category includes sentences that actively consolidate information to justify a diagnostic hypothesis, often appearing toward the end of a reasoning segment. It does not include initial hypothesis generation, expression of uncertainty, planning of future steps, or the simple recall of isolated facts without synthesis."
         },
         "6": {
           "title": "Integrating Patient History",
@@ -339,7 +339,7 @@
         },
         "9": {
           "title": "Final Diagnosis Declaration",
-          "description": "These sentences serve the cognitive function of concluding the reasoning process by definitively stating the most probable answer or diagnosis. They represent the final synthesis of evidence, where the reasoner consolidates all prior analysis, rules out alternatives, and commits to a single, confident conclusion. Included are statements that explicitly name the diagnosis using phrases like \"the most likely diagnosis is,\" \"so the answer should be,\" or \"therefore, the diagnosis is.\" Not included are tentative hypotheses, expressions of uncertainty, planning of next steps, or recall of general facts\u2014this category is reserved for conclusive, summative judgments that end a reasoning segment."
+          "description": "These sentences serve the cognitive function of concluding the reasoning process by definitively stating the most probable answer or diagnosis. They represent the final synthesis of evidence, where the reasoner consolidates all prior analysis, rules out alternatives, and commits to a single, confident conclusion. Included are statements that explicitly name the diagnosis using phrases like \"the most likely diagnosis is,\" \"so the answer should be,\" or \"therefore, the diagnosis is.\" Not included are tentative hypotheses, expressions of uncertainty, planning of next steps, or recall of general facts—this category is reserved for conclusive, summative judgments that end a reasoning segment."
         },
         "10": {
           "title": "Incorporating Contextual Clues",
@@ -371,7 +371,7 @@
         },
         "17": {
           "title": "Observing Clinical Findings",
-          "description": "These sentences report objective signs, symptoms, and test results from the patient's history, physical exam, or diagnostic studies. They serve the reasoning process by presenting the raw clinical data that must be interpreted, without yet offering an explanation, hypothesis, or evaluation. Included are factual statements describing examination findings (e.g., \"Physical exam shows...\", \"On exam, he has...\"), vital signs, test results, and historical details provided by the patient or records. Not included are sentences that interpret these findings, express uncertainty, generate hypotheses, or plan next steps\u2014this category is strictly for the neutral presentation of observed clinical evidence."
+          "description": "These sentences report objective signs, symptoms, and test results from the patient's history, physical exam, or diagnostic studies. They serve the reasoning process by presenting the raw clinical data that must be interpreted, without yet offering an explanation, hypothesis, or evaluation. Included are factual statements describing examination findings (e.g., \"Physical exam shows...\", \"On exam, he has...\"), vital signs, test results, and historical details provided by the patient or records. Not included are sentences that interpret these findings, express uncertainty, generate hypotheses, or plan next steps—this category is strictly for the neutral presentation of observed clinical evidence."
         }
       },
       "datasets": {
@@ -404,7 +404,7 @@
         },
         "1": {
           "title": "Synthesizing Evidence into a Diagnosis",
-          "description": "These sentences perform the final integrative step in a diagnostic reasoning process, where multiple clinical findings, symptoms, and test results are explicitly combined to form a coherent diagnostic conclusion. Included are statements that use phrases like \"Putting it all together,\" \"So, considering,\" or \"The combination of... points to\" to explicitly unify disparate pieces of evidence into a single, likely diagnosis or condition. This category does not include the initial generation of individual hypotheses, expressions of uncertainty, planning of future steps, or the recall of isolated facts\u2014it is specifically the conclusive synthesis that follows evidence gathering and hypothesis testing."
+          "description": "These sentences perform the final integrative step in a diagnostic reasoning process, where multiple clinical findings, symptoms, and test results are explicitly combined to form a coherent diagnostic conclusion. Included are statements that use phrases like \"Putting it all together,\" \"So, considering,\" or \"The combination of... points to\" to explicitly unify disparate pieces of evidence into a single, likely diagnosis or condition. This category does not include the initial generation of individual hypotheses, expressions of uncertainty, planning of future steps, or the recall of isolated facts—it is specifically the conclusive synthesis that follows evidence gathering and hypothesis testing."
         },
         "2": {
           "title": "Generating Causal Mechanisms",
@@ -493,11 +493,11 @@
         },
         "2": {
           "title": "Ruling Out Hypotheses",
-          "description": "These sentences serve the cognitive function of eliminating potential explanations or diagnoses based on contradictory evidence, specifically normal lab results or absent symptoms. Included are statements that explicitly dismiss a considered possibility because it does not align with a key piece of objective data (e.g., \"But the patient's lab results are normal, so that's not it\" or \"But the patient didn't have any symptoms of a stroke, so that's not it\"). This category does not include generating new hypotheses, expressing general uncertainty, planning future steps, stating assumptions, or recalling factual definitions\u2014it is solely the act of discarding an option after a mismatch with evidence is identified."
+          "description": "These sentences serve the cognitive function of eliminating potential explanations or diagnoses based on contradictory evidence, specifically normal lab results or absent symptoms. Included are statements that explicitly dismiss a considered possibility because it does not align with a key piece of objective data (e.g., \"But the patient's lab results are normal, so that's not it\" or \"But the patient didn't have any symptoms of a stroke, so that's not it\"). This category does not include generating new hypotheses, expressing general uncertainty, planning future steps, stating assumptions, or recalling factual definitions—it is solely the act of discarding an option after a mismatch with evidence is identified."
         },
         "3": {
           "title": "Listing Symptoms and Observations",
-          "description": "These sentences serve the cognitive function of enumerating and describing the patient's reported symptoms, physical exam findings, and observed behaviors as raw data points. They are included because they neutrally present clinical information without interpretation, hypothesis, or evaluation, often using phrases like \"symptoms include,\" \"describes,\" \"denies,\" \"reports,\" or \"on physical exam.\" They are not included if the sentence interprets the data, suggests a cause, compares possibilities, or plans a next step\u2014this cluster is strictly for factual recitation from the case."
+          "description": "These sentences serve the cognitive function of enumerating and describing the patient's reported symptoms, physical exam findings, and observed behaviors as raw data points. They are included because they neutrally present clinical information without interpretation, hypothesis, or evaluation, often using phrases like \"symptoms include,\" \"describes,\" \"denies,\" \"reports,\" or \"on physical exam.\" They are not included if the sentence interprets the data, suggests a cause, compares possibilities, or plans a next step—this cluster is strictly for factual recitation from the case."
         },
         "4": {
           "title": "Stepwise Decomposition",
@@ -619,9 +619,14 @@
       "short_name": "Orchestration"
     },
     {
-      "label": "Case evidence (extraction + processing)",
+      "label": "Case evidence extraction (patient-specific facts)",
       "color": "#ff7f0e",
-      "short_name": "Case Evidence"
+      "short_name": "Case Evidence Extraction"
+    },
+    {
+      "label": "Evidence processing (salience + interpretation + summarization)",
+      "color": "#1f77b4",
+      "short_name": "Evidence Processing"
     },
     {
       "label": "Hypothesis generation (differential expansion)",

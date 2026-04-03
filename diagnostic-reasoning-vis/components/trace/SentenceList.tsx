@@ -4,7 +4,6 @@ import { useRef, useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SentenceItem } from "./SentenceItem";
 import type { Sentence, TaxonomyItem } from "@/lib/types";
-import { mapTaxonomy } from "@/lib/taxonomy-map";
 
 interface SentenceListProps {
   sentences: Sentence[];
@@ -37,7 +36,7 @@ export function SentenceList({
           <SentenceItem
             key={idx}
             text={sent.s}
-            taxonomyIndex={mapTaxonomy(sent.t)}
+            taxonomyIndex={sent.t}
             taxonomy={taxonomy}
             sentenceIndex={idx}
             isHovered={hoveredSentenceIndex === idx}

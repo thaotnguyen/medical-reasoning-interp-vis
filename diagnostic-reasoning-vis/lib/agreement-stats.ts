@@ -4,7 +4,6 @@
 
 import type { RatingsStore } from "./labeling-types";
 import type { Case } from "./types";
-import { mapTaxonomy } from "./taxonomy-map";
 
 /**
  * Standard (nominal) Cohen's kappa for two raters.
@@ -209,15 +208,15 @@ export function collectPairedLabels(
 
       let labelB: number | undefined;
       if (raterB === "whitebox") {
-        const t = mapTaxonomy(c.sentences[si].t);
+        const t = c.sentences[si].t;
         if (t >= 0) labelB = t;
       } else {
         const rB = ratings[raterB]?.[model]?.[dataset]?.[c.id]?.[si];
-        if (rB) labelB = mapTaxonomy(rB.taxonomy);
+        if (rB) labelB = rB.taxonomy;
       }
 
       if (labelB !== undefined) {
-        labelsA.push(mapTaxonomy(rA.taxonomy));
+        labelsA.push(rA.taxonomy);
         labelsB.push(labelB);
       }
     }
@@ -248,18 +247,17 @@ export function buildFleissMatrix(
       for (const raterId of raterIds) {
         const r = ratings[raterId]?.[model]?.[dataset]?.[c.id]?.[si];
         if (r) {
-          const mapped = mapTaxonomy(r.taxonomy);
-          if (mapped >= 0 && mapped < numCategories) {
-            row[mapped]++;
+          if (r.taxonomy >= 0 && r.taxonomy < numCategories) {
+            row[r.taxonomy]++;
             count++;
           }
         }
       }
 
       if (includeWhitebox) {
-        const mapped = mapTaxonomy(c.sentences[si].t);
-        if (mapped >= 0 && mapped < numCategories) {
-          row[mapped]++;
+        const whitebox = c.sentences[si].t;
+        if (whitebox >= 0 && whitebox < numCategories) {
+          row[whitebox]++;
           count++;
         }
       }
@@ -387,16 +385,16 @@ export function collectCaseComparisons(
 
         let labelA = -1;
         if (raterA === "whitebox") {
-          labelA = mapTaxonomy(sent.t);
+          labelA = sent.t;
         } else if (ratingsA?.[si]) {
-          labelA = mapTaxonomy(ratingsA[si].taxonomy);
+          labelA = ratingsA[si].taxonomy;
         }
 
         let labelB = -1;
         if (raterB === "whitebox") {
-          labelB = mapTaxonomy(sent.t);
+          labelB = sent.t;
         } else if (ratingsB?.[si]) {
-          labelB = mapTaxonomy(ratingsB[si].taxonomy);
+          labelB = ratingsB[si].taxonomy;
         }
 
         const bothLabeled = labelA >= 0 && labelB >= 0;

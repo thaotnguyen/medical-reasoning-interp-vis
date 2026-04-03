@@ -26,14 +26,29 @@ export const TAXONOMY_REFERENCES: TaxonomyReference[] = [
     negativeExample:
       "The patient presents with fever and cough.",
     negativeExplanation:
-      "This extracts case facts (Case Evidence), not reasoning structure.",
+      "This extracts case facts (Case Evidence Extraction), not reasoning structure.",
   },
   {
     index: 1,
     shortDescription:
-      "Extracting, interpreting, weighing, or synthesizing patient-specific findings.",
+      "Directly pulling facts from the patient case.",
     longDescription:
-      "Sentences that identify, extract, or restate specific clinical details from the case vignette \u2014 or go further to analyze their clinical significance, combine multiple findings, note patterns, or assess relevance. This covers the full spectrum from raw evidence extraction to interpretive synthesis of patient-specific information.",
+      "Sentences that identify, extract, or restate specific clinical details from the case vignette \u2014 demographics, symptoms, lab values, imaging findings, history. The key marker is that the information comes directly from the case text, not from medical knowledge.",
+    positiveExample:
+      "The patient is a 45-year-old male presenting with acute chest pain and shortness of breath.",
+    positiveExplanation:
+      "Directly restates facts given in the case vignette without interpretation.",
+    negativeExample:
+      "Chest pain with shortness of breath suggests a cardiopulmonary etiology.",
+    negativeExplanation:
+      "This interprets the findings (Evidence Processing), not just extracts them.",
+  },
+  {
+    index: 2,
+    shortDescription:
+      "Interpreting, weighing, or synthesizing extracted findings.",
+    longDescription:
+      "Sentences that go beyond restating case facts to analyze their clinical significance, combine multiple findings, note patterns, or assess relevance. This is the interpretive bridge between raw evidence and hypothesis generation.",
     positiveExample:
       "The combination of sudden onset chest pain with elevated D-dimer is highly suggestive of a thromboembolic event.",
     positiveExplanation:
@@ -41,10 +56,10 @@ export const TAXONOMY_REFERENCES: TaxonomyReference[] = [
     negativeExample:
       "Pulmonary embolism typically presents with pleuritic chest pain and dyspnea.",
     negativeExplanation:
-      "This states general medical knowledge (Recalling Medical Knowledge), not patient-specific evidence.",
+      "This states general medical knowledge (Recalling Medical Knowledge), not patient-specific interpretation.",
   },
   {
-    index: 2,
+    index: 3,
     shortDescription:
       "Proposing possible diagnoses or differential items.",
     longDescription:
@@ -59,7 +74,7 @@ export const TAXONOMY_REFERENCES: TaxonomyReference[] = [
       "This evaluates an already-proposed hypothesis (Hypothesis Evaluation), not generates a new one.",
   },
   {
-    index: 3,
+    index: 4,
     shortDescription:
       "Supporting, weighing, or eliminating diagnostic possibilities.",
     longDescription:
@@ -74,7 +89,7 @@ export const TAXONOMY_REFERENCES: TaxonomyReference[] = [
       "This introduces a new hypothesis (Hypothesis Generation), not evaluates an existing one.",
   },
   {
-    index: 4,
+    index: 5,
     shortDescription:
       "Recalling general medical facts, criteria, or disease features.",
     longDescription:
@@ -86,10 +101,10 @@ export const TAXONOMY_REFERENCES: TaxonomyReference[] = [
     negativeExample:
       "This patient's Wells score would be high given the tachycardia and recent surgery.",
     negativeExplanation:
-      "This applies criteria to the specific patient (Case Evidence), not just recalls them.",
+      "This applies criteria to the specific patient (Evidence Processing), not just recalls them.",
   },
   {
-    index: 5,
+    index: 6,
     shortDescription:
       "Committing to the final diagnosis or answer.",
     longDescription:
