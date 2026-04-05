@@ -20,14 +20,16 @@ export interface RankedCaseCandidate {
   caseIndex: number;
 }
 
-export interface LabelerPoolTestEntry {
+export interface PoolSelectionEntry {
   model: string;
   dataset: string;
   caseIndex: number;
   pmcid: string;
   sentenceCount: number;
-  agreementKappa: number;
+  agreementKappa: number | null;
 }
+
+export type LabelerPoolTestEntry = PoolSelectionEntry;
 
 export interface LabelerPoolManifest {
   training: TrainingPoolEntry[];
@@ -48,7 +50,23 @@ export interface IndexedPoolItem {
   isTraining?: boolean;
   pmcid?: string;
   sentenceCount?: number;
-  agreementKappa?: number;
+  agreementKappa?: number | null;
+}
+
+export interface RequiredCell {
+  model: string;
+  dataset: string;
+}
+
+export interface SelectCasesWithCoverageArgs {
+  fixedCases: readonly PoolSelectionEntry[];
+  scoredCandidates: readonly RankedCaseCandidate[];
+  fallbackCandidates: readonly PoolSelectionEntry[];
+  requiredCells: readonly RequiredCell[];
+  maxCases: number;
+  datasetOrder: readonly string[];
+  modelTargets?: Readonly<Record<string, number>>;
+  datasetTargets?: Readonly<Record<string, number>>;
 }
 
 export interface TraceLike {
@@ -194,13 +212,15 @@ export function buildCaseCandidateFromTraces({
   };
 }
 
-function compareCandidates(
-  a: Pick<RankedCaseCandidate, "model" | "dataset" | "pmcid" | "sentenceCount" | "agreementKappa">,
-  b: Pick<RankedCaseCandidate, "model" | "dataset" | "pmcid" | "sentenceCount" | "agreementKappa">,
+function comparePoolEntries(
+  a: Pick<PoolSelectionEntry, "model" | "dataset" | "pmcid" | "sentenceCount" | "agreementKappa">,
+  b: Pick<PoolSelectionEntry, "model" | "dataset" | "pmcid" | "sentenceCount" | "agreementKappa">,
   datasetOrder: readonly string[]
 ): number {
-  if (b.agreementKappa !== a.agreementKappa) {
-    return b.agreementKappa - a.agreementKappa;
+  const kappaA = a.agreementKappa ?? Number.NEGATIVE_INFINITY;
+  const kappaB = b.agreementKappa ?? Number.NEGATIVE_INFINITY;
+  if (kappaB !== kappaA) {
+    return kappaB - kappaA;
   }
 
   if (b.sentenceCount !== a.sentenceCount) {
@@ -225,6 +245,14 @@ function compareCandidates(
   return a.pmcid.localeCompare(b.pmcid);
 }
 
+function compareCandidates(
+  a: Pick<RankedCaseCandidate, "model" | "dataset" | "pmcid" | "sentenceCount" | "agreementKappa">,
+  b: Pick<RankedCaseCandidate, "model" | "dataset" | "pmcid" | "sentenceCount" | "agreementKappa">,
+  datasetOrder: readonly string[]
+): number {
+  return comparePoolEntries(a, b, datasetOrder);
+}
+
 export function sortAndSelectTestCases<T extends RankedCaseCandidate>(
   candidates: readonly T[],
   maxCases: number,
@@ -242,6 +270,13 @@ export function sortAndSelectTestCases<T extends RankedCaseCandidate>(
   }
 
   return selected;
+}
+
+export function sortPoolEntriesByAgreement<T extends PoolSelectionEntry>(
+  entries: readonly T[],
+  datasetOrder: readonly string[]
+): T[] {
+  return [...entries].sort((a, b) => comparePoolEntries(a, b, datasetOrder));
 }
 
 export function selectCasesByCellTargets<T extends RankedCaseCandidate>(
@@ -288,6 +323,203 @@ export function selectCasesByCellTargets<T extends RankedCaseCandidate>(
   return selected;
 }
 
+function takeNextUniqueCase<T extends PoolSelectionEntry>(
+  items: readonly T[],
+  seenPmcids: Set<string>
+): T | null {
+  for (const item of items) {
+    if (!seenPmcids.has(item.pmcid)) {
+      return item;
+    }
+  }
+  return null;
+}
+
+function incrementCount(counts: Map<string, number>, key: string) {
+  counts.set(key, (counts.get(key) ?? 0) + 1);
+}
+
+function getDeficit(
+  targets: Readonly<Record<string, number>> | undefined,
+  counts: Map<string, number>,
+  key: string
+): number {
+  if (!targets) return 0;
+  return (targets[key] ?? 0) - (counts.get(key) ?? 0);
+}
+
+function candidateFillScore(
+  candidate: PoolSelectionEntry,
+  modelCounts: Map<string, number>,
+  datasetCounts: Map<string, number>,
+  modelTargets: Readonly<Record<string, number>> | undefined,
+  datasetTargets: Readonly<Record<string, number>> | undefined
+): number {
+  const modelDeficit = getDeficit(modelTargets, modelCounts, candidate.model);
+  const datasetDeficit = getDeficit(datasetTargets, datasetCounts, candidate.dataset);
+  const helpsModel = modelDeficit > 0;
+  const helpsDataset = datasetDeficit > 0;
+
+  let score = 0;
+  if (helpsModel && helpsDataset) score += 1_000_000_000;
+  else if (helpsModel || helpsDataset) score += 1_000_000;
+
+  score += Math.max(modelDeficit, 0) * 10_000;
+  score += Math.max(datasetDeficit, 0) * 10_000;
+
+  if (modelDeficit < 0) score += modelDeficit * 100_000;
+  if (datasetDeficit < 0) score += datasetDeficit * 100_000;
+
+  if (candidate.agreementKappa !== null) {
+    score += 10_000;
+    score += candidate.agreementKappa * 1_000;
+  }
+
+  score += candidate.sentenceCount / 1_000;
+  return score;
+}
+
+function assertTargetsSatisfied(
+  targets: Readonly<Record<string, number>> | undefined,
+  counts: Map<string, number>,
+  label: string
+) {
+  if (!targets) return;
+
+  for (const [key, target] of Object.entries(targets)) {
+    const actual = counts.get(key) ?? 0;
+    if (actual < target) {
+      throw new Error(
+        `Unable to satisfy ${label} target for ${key}: expected at least ${target}, got ${actual}`
+      );
+    }
+  }
+}
+
+export function selectCasesWithCoverage({
+  fixedCases,
+  scoredCandidates,
+  fallbackCandidates,
+  requiredCells,
+  maxCases,
+  datasetOrder,
+  modelTargets,
+  datasetTargets,
+}: SelectCasesWithCoverageArgs): PoolSelectionEntry[] {
+  if (fixedCases.length > maxCases) {
+    throw new Error(
+      `Fixed cases exceed pool size: ${fixedCases.length} > ${maxCases}`
+    );
+  }
+
+  const sortedScored = [...scoredCandidates].sort((a, b) =>
+    compareCandidates(a, b, datasetOrder)
+  );
+  const scoredByCell = new Map<string, RankedCaseCandidate[]>();
+  const fallbackByCell = new Map<string, PoolSelectionEntry[]>();
+
+  for (const candidate of sortedScored) {
+    const key = poolCellKey(candidate);
+    const items = scoredByCell.get(key);
+    if (items) items.push(candidate);
+    else scoredByCell.set(key, [candidate]);
+  }
+
+  for (const candidate of fallbackCandidates) {
+    const key = poolCellKey(candidate);
+    const items = fallbackByCell.get(key);
+    if (items) items.push(candidate);
+    else fallbackByCell.set(key, [candidate]);
+  }
+
+  const selected: PoolSelectionEntry[] = [];
+  const seenPmcids = new Set<string>();
+  const coveredCells = new Set<string>();
+  const modelCounts = new Map<string, number>();
+  const datasetCounts = new Map<string, number>();
+  const allCellKeys = new Set<string>([
+    ...requiredCells.map((cell) => poolCellKey(cell)),
+    ...scoredByCell.keys(),
+    ...fallbackByCell.keys(),
+  ]);
+
+  const addSelected = (item: PoolSelectionEntry) => {
+    selected.push(item);
+    seenPmcids.add(item.pmcid);
+    coveredCells.add(poolCellKey(item));
+    incrementCount(modelCounts, item.model);
+    incrementCount(datasetCounts, item.dataset);
+  };
+
+  for (const fixedCase of fixedCases) {
+    if (seenPmcids.has(fixedCase.pmcid)) {
+      throw new Error(`Duplicate fixed case pmcid: ${fixedCase.pmcid}`);
+    }
+    addSelected(fixedCase);
+  }
+
+  for (const cell of requiredCells) {
+    const key = poolCellKey(cell);
+    if (coveredCells.has(key)) continue;
+
+    const chosen =
+      takeNextUniqueCase(scoredByCell.get(key) ?? [], seenPmcids) ??
+      takeNextUniqueCase(fallbackByCell.get(key) ?? [], seenPmcids);
+
+    if (!chosen) {
+      throw new Error(`Unable to cover required cell ${cell.model} ${cell.dataset}`);
+    }
+
+    addSelected(chosen);
+  }
+
+  while (selected.length < maxCases) {
+    let bestCandidate: PoolSelectionEntry | null = null;
+    let bestScore = Number.NEGATIVE_INFINITY;
+
+    for (const cellKey of allCellKeys) {
+      const candidate =
+        takeNextUniqueCase(scoredByCell.get(cellKey) ?? [], seenPmcids) ??
+        takeNextUniqueCase(fallbackByCell.get(cellKey) ?? [], seenPmcids);
+
+      if (!candidate) continue;
+
+      const score = candidateFillScore(
+        candidate,
+        modelCounts,
+        datasetCounts,
+        modelTargets,
+        datasetTargets
+      );
+
+      if (
+        score > bestScore ||
+        (score === bestScore &&
+          bestCandidate &&
+          comparePoolEntries(candidate, bestCandidate, datasetOrder) < 0) ||
+        (score === bestScore && !bestCandidate)
+      ) {
+        bestCandidate = candidate;
+        bestScore = score;
+      }
+    }
+
+    if (!bestCandidate) break;
+    addSelected(bestCandidate);
+  }
+
+  if (selected.length < maxCases) {
+    throw new Error(
+      `Unable to fill pool to ${maxCases} unique cases; got ${selected.length}`
+    );
+  }
+
+  assertTargetsSatisfied(modelTargets, modelCounts, "model");
+  assertTargetsSatisfied(datasetTargets, datasetCounts, "dataset");
+
+  return selected.slice(0, maxCases);
+}
+
 function mulberry32(seed: number): () => number {
   let s = seed | 0;
   return () => {
@@ -315,10 +547,63 @@ function unavoidableAdjacentRepeatCount(counts: Iterable<number>): number {
   return Math.max(0, maxCount - (others + 1));
 }
 
+function canPlaceAt<T extends { model: string; dataset: string }>(
+  items: readonly T[],
+  index: number,
+  candidate: T
+): boolean {
+  const prev = index > 0 ? items[index - 1] : null;
+  const next = index + 1 < items.length ? items[index + 1] : null;
+
+  if (prev && prev.model === candidate.model && prev.dataset === candidate.dataset) {
+    return false;
+  }
+  if (next && next.model === candidate.model && next.dataset === candidate.dataset) {
+    return false;
+  }
+  return true;
+}
+
+function reduceAvoidableAdjacentRepeats<T extends { model: string; dataset: string }>(
+  items: readonly T[]
+): T[] {
+  const reordered = [...items];
+
+  for (let i = 1; i < reordered.length; i++) {
+    const current = reordered[i];
+    const prev = reordered[i - 1];
+    if (current.model !== prev.model || current.dataset !== prev.dataset) continue;
+
+    for (let j = 0; j < reordered.length; j++) {
+      if (j === i || j === i - 1) continue;
+
+      const swapCandidate = reordered[j];
+      const original = reordered[i];
+      reordered[i] = swapCandidate;
+      reordered[j] = original;
+
+      if (
+        canPlaceAt(reordered, i, reordered[i]) &&
+        canPlaceAt(reordered, j, reordered[j])
+      ) {
+        break;
+      }
+
+      reordered[j] = swapCandidate;
+      reordered[i] = original;
+    }
+  }
+
+  return reordered;
+}
+
 export function shuffleSelectedCasesDeterministically<T extends { model: string; dataset: string }>(
   items: readonly T[],
   seed: number
 ): T[] {
+  const rankFrontier = 32;
+  const recentDatasetWindow = 4;
+  const recentModelWindow = 6;
   const rng = mulberry32(seed);
   const queuesByCell = new Map<string, { item: T; rank: number }[]>();
   const tieBreakers = new Map<string, number>();
@@ -348,7 +633,43 @@ export function shuffleSelectedCasesDeterministically<T extends { model: string;
       ? availableCells.filter((key) => key !== previousCell)
       : availableCells;
 
-    candidateCells.sort((cellA, cellB) => {
+    const nextRankForCell = (cell: string) =>
+      queuesByCell.get(cell)?.[0]?.rank ?? Number.MAX_SAFE_INTEGER;
+    const minRank = candidateCells.reduce(
+      (best, cell) => Math.min(best, nextRankForCell(cell)),
+      Number.MAX_SAFE_INTEGER
+    );
+    let frontierCells = candidateCells.filter(
+      (cell) => nextRankForCell(cell) <= minRank + rankFrontier
+    );
+
+    const recentDatasets = new Set(
+      ordered
+        .slice(-recentDatasetWindow)
+        .map((item) => item.dataset)
+    );
+    const datasetNovelCells = frontierCells.filter((cell) => {
+      const dataset = queuesByCell.get(cell)?.[0]?.item.dataset;
+      return dataset ? !recentDatasets.has(dataset) : false;
+    });
+    if (datasetNovelCells.length > 0) {
+      frontierCells = datasetNovelCells;
+    }
+
+    const recentModels = new Set(
+      ordered
+        .slice(-recentModelWindow)
+        .map((item) => item.model)
+    );
+    const modelNovelCells = frontierCells.filter((cell) => {
+      const model = queuesByCell.get(cell)?.[0]?.item.model;
+      return model ? !recentModels.has(model) : false;
+    });
+    if (modelNovelCells.length > 0) {
+      frontierCells = modelNovelCells;
+    }
+
+    frontierCells.sort((cellA, cellB) => {
       const remainingA = new Map(
         [...queuesByCell.entries()].map(([key, queue]) => [
           key,
@@ -366,8 +687,8 @@ export function shuffleSelectedCasesDeterministically<T extends { model: string;
       const pressureB = unavoidableAdjacentRepeatCount(remainingB.values());
       if (pressureA !== pressureB) return pressureA - pressureB;
 
-      const nextRankA = queuesByCell.get(cellA)?.[0]?.rank ?? Number.MAX_SAFE_INTEGER;
-      const nextRankB = queuesByCell.get(cellB)?.[0]?.rank ?? Number.MAX_SAFE_INTEGER;
+      const nextRankA = nextRankForCell(cellA);
+      const nextRankB = nextRankForCell(cellB);
       if (nextRankA !== nextRankB) return nextRankA - nextRankB;
 
       const remainingCountA = queuesByCell.get(cellA)?.length ?? 0;
@@ -377,7 +698,7 @@ export function shuffleSelectedCasesDeterministically<T extends { model: string;
       return (tieBreakers.get(cellA) ?? 0) - (tieBreakers.get(cellB) ?? 0);
     });
 
-    const chosenCell = candidateCells[0];
+    const chosenCell = frontierCells[0];
     const chosenQueue = queuesByCell.get(chosenCell);
     if (!chosenQueue || chosenQueue.length === 0) break;
     const next = chosenQueue.shift();
@@ -387,7 +708,7 @@ export function shuffleSelectedCasesDeterministically<T extends { model: string;
     previousCell = chosenCell;
   }
 
-  return ordered;
+  return reduceAvoidableAdjacentRepeats(ordered);
 }
 
 export function buildIndexedLabelerPool(manifest: LabelerPoolManifest): IndexedPoolItem[] {

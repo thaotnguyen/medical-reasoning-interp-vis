@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import {
   buildCaseCandidateFromTraces,
   buildIndexedLabelerPool,
+  selectCasesWithCoverage,
   selectCasesByCellTargets,
   shuffleSelectedCasesDeterministically,
   sortAndSelectTestCases,
@@ -333,6 +334,253 @@ test("selectCasesByCellTargets fills each requested cell while skipping duplicat
   );
 });
 
+test("selectCasesWithCoverage preserves fixed cases, covers every pair, and fills the rest by agreement", () => {
+  const selected = selectCasesWithCoverage({
+    fixedCases: [
+      {
+        model: "llama",
+        dataset: "medqa",
+        pmcid: "fixed-1",
+        sentenceCount: 18,
+        agreementKappa: 0.91,
+        caseIndex: 0,
+      },
+    ],
+    scoredCandidates: [
+      {
+        model: "llama",
+        dataset: "medqa",
+        pmcid: "fixed-1",
+        questionId: 1,
+        prompt: "prompt",
+        sentenceCount: 18,
+        agreementKappa: 0.91,
+        caseIndex: 0,
+      },
+      {
+        model: "llama",
+        dataset: "medmcqa-filtered",
+        pmcid: "llama-mcq-1",
+        questionId: 2,
+        prompt: "prompt",
+        sentenceCount: 17,
+        agreementKappa: 0.88,
+        caseIndex: 1,
+      },
+      {
+        model: "qwen14",
+        dataset: "medqa",
+        pmcid: "qwen-medqa-1",
+        questionId: 3,
+        prompt: "prompt",
+        sentenceCount: 16,
+        agreementKappa: 0.86,
+        caseIndex: 2,
+      },
+      {
+        model: "qwen14",
+        dataset: "medqa",
+        pmcid: "fill-high",
+        questionId: 4,
+        prompt: "prompt",
+        sentenceCount: 15,
+        agreementKappa: 0.8,
+        caseIndex: 3,
+      },
+      {
+        model: "llama",
+        dataset: "medmcqa-filtered",
+        pmcid: "fill-low",
+        questionId: 5,
+        prompt: "prompt",
+        sentenceCount: 14,
+        agreementKappa: 0.7,
+        caseIndex: 4,
+      },
+    ],
+    fallbackCandidates: [
+      {
+        model: "grok",
+        dataset: "nejm-cpc",
+        pmcid: "grok-random-1",
+        sentenceCount: 19,
+        agreementKappa: null,
+        caseIndex: 5,
+      },
+      {
+        model: "grok",
+        dataset: "nejm-cpc",
+        pmcid: "grok-random-2",
+        sentenceCount: 20,
+        agreementKappa: null,
+        caseIndex: 6,
+      },
+    ],
+    requiredCells: [
+      { model: "llama", dataset: "medqa" },
+      { model: "llama", dataset: "medmcqa-filtered" },
+      { model: "qwen14", dataset: "medqa" },
+      { model: "grok", dataset: "nejm-cpc" },
+    ],
+    maxCases: 5,
+    datasetOrder: ["medqa", "medmcqa-filtered", "nejm-cpc"],
+  });
+
+  assert.deepEqual(
+    selected.map((item) => ({
+      model: item.model,
+      dataset: item.dataset,
+      pmcid: item.pmcid,
+      agreementKappa: item.agreementKappa,
+    })),
+    [
+      {
+        model: "llama",
+        dataset: "medqa",
+        pmcid: "fixed-1",
+        agreementKappa: 0.91,
+      },
+      {
+        model: "llama",
+        dataset: "medmcqa-filtered",
+        pmcid: "llama-mcq-1",
+        agreementKappa: 0.88,
+      },
+      {
+        model: "qwen14",
+        dataset: "medqa",
+        pmcid: "qwen-medqa-1",
+        agreementKappa: 0.86,
+      },
+      {
+        model: "grok",
+        dataset: "nejm-cpc",
+        pmcid: "grok-random-1",
+        agreementKappa: null,
+      },
+      {
+        model: "qwen14",
+        dataset: "medqa",
+        pmcid: "fill-high",
+        agreementKappa: 0.8,
+      },
+    ]
+  );
+});
+
+test("selectCasesWithCoverage can use soft model and dataset targets to avoid overfilling one cell", () => {
+  const selected = selectCasesWithCoverage({
+    fixedCases: [],
+    scoredCandidates: [
+      {
+        model: "llama",
+        dataset: "medqa",
+        pmcid: "llama-medqa-1",
+        questionId: 1,
+        prompt: "prompt",
+        sentenceCount: 20,
+        agreementKappa: 0.96,
+        caseIndex: 0,
+      },
+      {
+        model: "llama",
+        dataset: "medmcqa-filtered",
+        pmcid: "llama-mcq-1",
+        questionId: 2,
+        prompt: "prompt",
+        sentenceCount: 19,
+        agreementKappa: 0.95,
+        caseIndex: 1,
+      },
+      {
+        model: "llama",
+        dataset: "medmcqa-filtered",
+        pmcid: "llama-mcq-2",
+        questionId: 3,
+        prompt: "prompt",
+        sentenceCount: 18,
+        agreementKappa: 0.94,
+        caseIndex: 2,
+      },
+      {
+        model: "llama",
+        dataset: "medmcqa-filtered",
+        pmcid: "llama-mcq-3",
+        questionId: 4,
+        prompt: "prompt",
+        sentenceCount: 17,
+        agreementKappa: 0.93,
+        caseIndex: 3,
+      },
+      {
+        model: "qwen",
+        dataset: "medqa",
+        pmcid: "qwen-medqa-1",
+        questionId: 5,
+        prompt: "prompt",
+        sentenceCount: 16,
+        agreementKappa: 0.7,
+        caseIndex: 4,
+      },
+      {
+        model: "qwen",
+        dataset: "medmcqa-filtered",
+        pmcid: "qwen-mcq-1",
+        questionId: 6,
+        prompt: "prompt",
+        sentenceCount: 15,
+        agreementKappa: 0.69,
+        caseIndex: 5,
+      },
+      {
+        model: "qwen",
+        dataset: "medqa",
+        pmcid: "qwen-medqa-2",
+        questionId: 7,
+        prompt: "prompt",
+        sentenceCount: 14,
+        agreementKappa: 0.68,
+        caseIndex: 6,
+      },
+    ],
+    fallbackCandidates: [],
+    requiredCells: [
+      { model: "llama", dataset: "medqa" },
+      { model: "llama", dataset: "medmcqa-filtered" },
+      { model: "qwen", dataset: "medqa" },
+      { model: "qwen", dataset: "medmcqa-filtered" },
+    ],
+    maxCases: 6,
+    datasetOrder: ["medqa", "medmcqa-filtered", "nejm-cpc"],
+    modelTargets: {
+      llama: 3,
+      qwen: 3,
+    },
+    datasetTargets: {
+      medqa: 3,
+      "medmcqa-filtered": 3,
+    },
+  });
+
+  const modelCounts = Object.fromEntries(
+    selected.map((item) => item.model).reduce((counts, model) => {
+      counts.set(model, (counts.get(model) ?? 0) + 1);
+      return counts;
+    }, new Map())
+  );
+  const datasetCounts = Object.fromEntries(
+    selected.map((item) => item.dataset).reduce((counts, dataset) => {
+      counts.set(dataset, (counts.get(dataset) ?? 0) + 1);
+      return counts;
+    }, new Map())
+  );
+
+  assert.deepEqual(modelCounts, { llama: 3, qwen: 3 });
+  assert.deepEqual(datasetCounts, { medqa: 3, "medmcqa-filtered": 3 });
+  assert.ok(selected.some((item) => item.pmcid === "qwen-medqa-1"));
+  assert.ok(selected.some((item) => item.pmcid === "qwen-mcq-1"));
+});
+
 test("shuffleSelectedCasesDeterministically keeps kappa high near the top while minimizing adjacent cell repeats", () => {
   const countAdjacentRepeats = (items) => {
     let repeats = 0;
@@ -432,7 +680,7 @@ test("shuffleSelectedCasesDeterministically keeps kappa high near the top while 
   const average = (items) =>
     items.reduce((sum, item) => sum + item.agreementKappa, 0) / items.length;
   assert.ok(
-    average(shuffledA.slice(0, 3)) > average(shuffledA.slice(-3)),
+    average(shuffledA.slice(0, 4)) > average(shuffledA.slice(-2)),
     "Expected earlier visible cases to have stronger agreement than later ones"
   );
 
@@ -492,5 +740,27 @@ test("shuffleSelectedCasesDeterministically keeps kappa high near the top while 
   assert.equal(
     countAdjacentRepeats(shuffleSelectedCasesDeterministically(impossibleMix, 123)),
     2
+  );
+});
+
+test("shuffleSelectedCasesDeterministically uses lookahead to mix datasets near the top", () => {
+  const cases = [
+    { model: "m1", dataset: "medmcqa-filtered", pmcid: "a1", questionId: 1, prompt: "p", sentenceCount: 20, agreementKappa: 1, caseIndex: 0 },
+    { model: "m2", dataset: "medmcqa-filtered", pmcid: "a2", questionId: 2, prompt: "p", sentenceCount: 19, agreementKappa: 0.99, caseIndex: 1 },
+    { model: "m3", dataset: "medmcqa-filtered", pmcid: "a3", questionId: 3, prompt: "p", sentenceCount: 18, agreementKappa: 0.98, caseIndex: 2 },
+    { model: "m4", dataset: "medmcqa-filtered", pmcid: "a4", questionId: 4, prompt: "p", sentenceCount: 17, agreementKappa: 0.97, caseIndex: 3 },
+    { model: "m5", dataset: "medmcqa-filtered", pmcid: "a5", questionId: 5, prompt: "p", sentenceCount: 16, agreementKappa: 0.96, caseIndex: 4 },
+    { model: "m6", dataset: "medmcqa-filtered", pmcid: "a6", questionId: 6, prompt: "p", sentenceCount: 15, agreementKappa: 0.95, caseIndex: 5 },
+    { model: "m7", dataset: "medmcqa-filtered", pmcid: "a7", questionId: 7, prompt: "p", sentenceCount: 14, agreementKappa: 0.94, caseIndex: 6 },
+    { model: "m8", dataset: "medmcqa-filtered", pmcid: "a8", questionId: 8, prompt: "p", sentenceCount: 13, agreementKappa: 0.93, caseIndex: 7 },
+    { model: "m9", dataset: "medqa", pmcid: "b1", questionId: 9, prompt: "p", sentenceCount: 22, agreementKappa: 0.8, caseIndex: 8 },
+    { model: "m10", dataset: "nejm-cpc", pmcid: "c1", questionId: 10, prompt: "p", sentenceCount: 21, agreementKappa: 0.79, caseIndex: 9 },
+  ];
+
+  const shuffled = shuffleSelectedCasesDeterministically(cases, 123);
+
+  assert.equal(
+    new Set(shuffled.slice(0, 3).map((item) => item.dataset)).size,
+    3
   );
 });

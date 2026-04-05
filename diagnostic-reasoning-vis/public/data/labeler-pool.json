@@ -21,20 +21,12 @@
   ],
   "test": [
     {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 79,
-      "pmcid": "650e00e273df4f2b947cf25779cd1f83",
-      "sentenceCount": 12,
-      "agreementKappa": 1
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 563,
-      "pmcid": "edfb730a1ed7cb41432f607c2134cfb9",
-      "sentenceCount": 14,
-      "agreementKappa": 0.9119496855345912
+      "model": "huatuogpt-o1-8b",
+      "dataset": "medqa",
+      "caseIndex": 202,
+      "pmcid": "d610f7f978e78e7ae1a0e8b014cd048b",
+      "sentenceCount": 27,
+      "agreementKappa": null
     },
     {
       "model": "deepseek-r1-distill-llama-8b",
@@ -43,46 +35,6 @@
       "pmcid": "ec82fabb228f5b057ecb257a67cdefd2",
       "sentenceCount": 22,
       "agreementKappa": 0.8018018018018017
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 540,
-      "pmcid": "443b2eebad6a37a91aa54a32b0735497",
-      "sentenceCount": 18,
-      "agreementKappa": 0.8604651162790697
-    },
-    {
-      "model": "gpt-oss-20b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 857,
-      "pmcid": "5e04571b261b905a9c392cfc1d1e189a",
-      "sentenceCount": 13,
-      "agreementKappa": 0.7886178861788617
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 941,
-      "pmcid": "b99da36cf849ffce908694dedbaf28e7",
-      "sentenceCount": 16,
-      "agreementKappa": 0.8490566037735849
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 916,
-      "pmcid": "e3f04459150e980845f684464f8275b3",
-      "sentenceCount": 16,
-      "agreementKappa": 0.7788018433179723
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 853,
-      "pmcid": "0cf45ee1bf8b2676ddb94fad9db1ebe2",
-      "sentenceCount": 16,
-      "agreementKappa": 0.8476190476190476
     },
     {
       "model": "deepseek-r1-distill-qwen-14b",
@@ -95,10 +47,26 @@
     {
       "model": "deepseek-r1-distill-qwen-1.5b",
       "dataset": "medmcqa-filtered",
-      "caseIndex": 299,
-      "pmcid": "0ce6f331ab7c2d89c9a18ab1daa5e01f",
-      "sentenceCount": 15,
-      "agreementKappa": 0.8351648351648352
+      "caseIndex": 563,
+      "pmcid": "edfb730a1ed7cb41432f607c2134cfb9",
+      "sentenceCount": 14,
+      "agreementKappa": 0.9119496855345912
+    },
+    {
+      "model": "gpt-oss-20b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 857,
+      "pmcid": "5e04571b261b905a9c392cfc1d1e189a",
+      "sentenceCount": 13,
+      "agreementKappa": 0.7886178861788617
+    },
+    {
+      "model": "deepseek-r1-distill-llama-8b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 582,
+      "pmcid": "5a6d4e1d5f9a8fa034f39fe17610fbdb",
+      "sentenceCount": 11,
+      "agreementKappa": 0.875
     },
     {
       "model": "deepseek-r1-distill-qwen-14b",
@@ -109,12 +77,36 @@
       "agreementKappa": 0.7668393782383419
     },
     {
+      "model": "deepseek-r1-distill-qwen-14b",
+      "dataset": "nejm-cpc",
+      "caseIndex": 40,
+      "pmcid": "9bf5ae866c3120e84d3a8cc343bfc993",
+      "sentenceCount": 31,
+      "agreementKappa": 0.7270440251572327
+    },
+    {
+      "model": "deepseek-r1-distill-llama-8b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 407,
+      "pmcid": "47740a9154dbdf0a443430237e36358e",
+      "sentenceCount": 18,
+      "agreementKappa": 0.8695652173913043
+    },
+    {
       "model": "deepseek-r1-distill-qwen-1.5b",
       "dataset": "medmcqa-filtered",
-      "caseIndex": 689,
-      "pmcid": "64f2845df97ed754b36b4b869c732ed9",
-      "sentenceCount": 15,
-      "agreementKappa": 0.8342541436464089
+      "caseIndex": 540,
+      "pmcid": "443b2eebad6a37a91aa54a32b0735497",
+      "sentenceCount": 18,
+      "agreementKappa": 0.8604651162790697
+    },
+    {
+      "model": "deepseek-r1-distill-llama-8b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 304,
+      "pmcid": "3577aafc983ed030f17f17aba602c9a2",
+      "sentenceCount": 22,
+      "agreementKappa": 0.8272251308900523
     },
     {
       "model": "deepseek-r1-distill-qwen-14b",
@@ -125,236 +117,12 @@
       "agreementKappa": 0.7505197505197505
     },
     {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 1127,
-      "pmcid": "6c7eba3100628ee3fe05ba73f5dd265e",
-      "sentenceCount": 14,
-      "agreementKappa": 0.8271604938271604
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 128,
-      "pmcid": "aff616214f97bf709d24db469e15e08a",
-      "sentenceCount": 19,
-      "agreementKappa": 0.7406143344709898
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 101,
-      "pmcid": "1dce054682892494729a12aa2262b2a3",
-      "sentenceCount": 14,
-      "agreementKappa": 0.825
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medqa",
-      "caseIndex": 325,
-      "pmcid": "2ea3e2b22187de7118bf68b51214a132",
-      "sentenceCount": 19,
-      "agreementKappa": 0.7342657342657343
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 266,
-      "pmcid": "722b636b2b7cb641e203f33f0cf96205",
-      "sentenceCount": 14,
-      "agreementKappa": 0.825
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 258,
-      "pmcid": "c807d4641896662e6b3c06459f68c3fd",
-      "sentenceCount": 18,
-      "agreementKappa": 0.7303370786516854
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 522,
-      "pmcid": "97d19e5eb8bf3a4b77b2e47f7cbec967",
-      "sentenceCount": 14,
-      "agreementKappa": 0.8205128205128205
-    },
-    {
       "model": "deepseek-r1-distill-qwen-14b",
       "dataset": "nejm-cpc",
-      "caseIndex": 40,
-      "pmcid": "9bf5ae866c3120e84d3a8cc343bfc993",
-      "sentenceCount": 31,
-      "agreementKappa": 0.7270440251572327
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 345,
-      "pmcid": "c492fb15947baef787001fab8f02a740",
-      "sentenceCount": 13,
-      "agreementKappa": 0.803030303030303
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medqa",
-      "caseIndex": 359,
-      "pmcid": "f17add53f332d566234e0b96dc2d10b4",
-      "sentenceCount": 18,
-      "agreementKappa": 0.7251908396946564
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 858,
-      "pmcid": "3590f644d8636fc5d2d9d89eedaa1303",
-      "sentenceCount": 13,
-      "agreementKappa": 0.8015267175572519
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medqa",
-      "caseIndex": 206,
-      "pmcid": "ca1e9efdcb5a8267536ce993e5e87641",
-      "sentenceCount": 13,
-      "agreementKappa": 0.7173913043478262
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 216,
-      "pmcid": "20cc6bbcdf30abaee8d273a04542bc2c",
-      "sentenceCount": 12,
-      "agreementKappa": 0.7983193277310925
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medqa",
-      "caseIndex": 305,
-      "pmcid": "bb0c1f848aaa7e977ffb00d769d4a0e3",
-      "sentenceCount": 26,
-      "agreementKappa": 0.7142857142857143
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 269,
-      "pmcid": "5e748aa9f2069648e1020d5c908b8126",
-      "sentenceCount": 20,
-      "agreementKappa": 0.6969696969696969
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 163,
-      "pmcid": "4d87dfdea5638efc58eb8b367810f107",
-      "sentenceCount": 15,
-      "agreementKappa": 0.7972972972972974
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 7,
-      "pmcid": "f0a59010780094444864ab8efec64fc0",
-      "sentenceCount": 16,
-      "agreementKappa": 0.6893203883495146
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 393,
-      "pmcid": "ceaecc671f0826ada5cd35a6252fd20c",
-      "sentenceCount": 12,
-      "agreementKappa": 0.7818181818181819
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 28,
-      "pmcid": "4a1485834b24be1badcf6de3040998c2",
-      "sentenceCount": 16,
-      "agreementKappa": 0.6717948717948717
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 445,
-      "pmcid": "466b3e9e074e97b77ecd6d8315217903",
-      "sentenceCount": 12,
-      "agreementKappa": 0.7777777777777778
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 242,
-      "pmcid": "f5479a460521f2a3b96e7924882b06d9",
-      "sentenceCount": 15,
-      "agreementKappa": 0.6571428571428571
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 760,
-      "pmcid": "70b36235b0d426d26b6cf4d60f8a3927",
-      "sentenceCount": 16,
-      "agreementKappa": 0.7746478873239436
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 155,
-      "pmcid": "6a46090f5cac336a4403013a4ae5ed92",
-      "sentenceCount": 15,
-      "agreementKappa": 0.6511627906976742
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 1151,
-      "pmcid": "ac23e637bfc92fbff7b83ad1bf870e7b",
-      "sentenceCount": 11,
-      "agreementKappa": 0.7708333333333334
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 218,
-      "pmcid": "0d5846fa4ae0878e273afe34b5efe455",
-      "sentenceCount": 11,
-      "agreementKappa": 0.641304347826087
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 291,
-      "pmcid": "7e654ef82501062146e06f81ad2c1e88",
-      "sentenceCount": 13,
-      "agreementKappa": 0.7699115044247786
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 495,
-      "pmcid": "cf6f56a8544431124694ed5cf71ec687",
-      "sentenceCount": 20,
-      "agreementKappa": 0.6407185628742514
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-1.5b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 390,
-      "pmcid": "e538ea6c3106c5b31e2692dff8f98d10",
-      "sentenceCount": 11,
-      "agreementKappa": 0.768421052631579
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 217,
-      "pmcid": "e0d953de9d911e71b4922ef963b27bf9",
+      "caseIndex": 295,
+      "pmcid": "510be638a82d63f114ef259698972c19",
       "sentenceCount": 27,
-      "agreementKappa": 0.6393989983305509
+      "agreementKappa": 0.7223650385604112
     },
     {
       "model": "gpt-oss-20b",
@@ -365,92 +133,12 @@
       "agreementKappa": 0.7142857142857142
     },
     {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 310,
-      "pmcid": "fb8f37f7f5930e3e5184793bbbea3a98",
-      "sentenceCount": 14,
-      "agreementKappa": 0.6387096774193547
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medqa",
-      "caseIndex": 150,
-      "pmcid": "a117b7aea85ad92964e8445bce73f451",
-      "sentenceCount": 23,
-      "agreementKappa": 0.711779448621554
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 247,
-      "pmcid": "6c970a79414262fa22d95a13243ae619",
-      "sentenceCount": 25,
-      "agreementKappa": 0.626865671641791
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medqa",
-      "caseIndex": 324,
-      "pmcid": "a5ac0235bc20b75bd227313534e15e3e",
-      "sentenceCount": 26,
-      "agreementKappa": 0.7105751391465677
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 241,
-      "pmcid": "b54739ba2f57216002c804029a1fa68a",
-      "sentenceCount": 35,
-      "agreementKappa": 0.62486602357985
-    },
-    {
-      "model": "gpt-oss-20b",
+      "model": "deepseek-r1-distill-qwen-1.5b",
       "dataset": "medmcqa-filtered",
-      "caseIndex": 461,
-      "pmcid": "5a027d3fcc46bf650a3f63fd4ab70727",
-      "sentenceCount": 13,
-      "agreementKappa": 0.706766917293233
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 122,
-      "pmcid": "f0520406d7a30133625055d8c9093fe8",
-      "sentenceCount": 25,
-      "agreementKappa": 0.622844827586207
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medqa",
-      "caseIndex": 167,
-      "pmcid": "46f03795652d17f3d909e4ccfa95488d",
-      "sentenceCount": 26,
-      "agreementKappa": 0.7039848197343455
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 224,
-      "pmcid": "e90fd236864ded3780a8bd9f0ae0b664",
-      "sentenceCount": 26,
-      "agreementKappa": 0.618348623853211
-    },
-    {
-      "model": "gpt-oss-20b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 258,
-      "pmcid": "bf48984915d4b674e1a066aeed2dec82",
-      "sentenceCount": 13,
-      "agreementKappa": 0.7000000000000001
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 51,
-      "pmcid": "9c1a6ee7d8c9a7e2dc4814c63a0ad4a7",
-      "sentenceCount": 40,
-      "agreementKappa": 0.6093163035311796
+      "caseIndex": 941,
+      "pmcid": "b99da36cf849ffce908694dedbaf28e7",
+      "sentenceCount": 16,
+      "agreementKappa": 0.8490566037735849
     },
     {
       "model": "qwq-32b",
@@ -463,122 +151,250 @@
     {
       "model": "deepseek-r1-distill-llama-8b",
       "dataset": "medqa",
-      "caseIndex": 472,
-      "pmcid": "33443e628f665ac5ccabc3d991d37b54",
-      "sentenceCount": 25,
-      "agreementKappa": 0.6070726915520629
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medqa",
-      "caseIndex": 376,
-      "pmcid": "ad0b0d89e94be25c412c69f9d0129f7c",
-      "sentenceCount": 26,
-      "agreementKappa": 0.672072072072072
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 167,
-      "pmcid": "00a3d4512fba1b611d264d5f96d0c775",
-      "sentenceCount": 43,
-      "agreementKappa": 0.6070496083550914
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medqa",
-      "caseIndex": 294,
-      "pmcid": "43a63795c6833c6cc5bef58e32fb5895",
-      "sentenceCount": 18,
-      "agreementKappa": 0.6666666666666667
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 159,
-      "pmcid": "613343d3a7501ac5a14a70d100a6ddec",
-      "sentenceCount": 28,
-      "agreementKappa": 0.6068642745709829
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medqa",
-      "caseIndex": 170,
-      "pmcid": "0a3c768a49d4110f6c1604ace9951ee5",
+      "caseIndex": 128,
+      "pmcid": "aff616214f97bf709d24db469e15e08a",
       "sentenceCount": 19,
-      "agreementKappa": 0.6468401486988847
+      "agreementKappa": 0.7406143344709898
     },
     {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 232,
-      "pmcid": "89516f7f0ccc62a4f86ec26803eb1603",
+      "model": "deepseek-r1-distill-qwen-1.5b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 853,
+      "pmcid": "0cf45ee1bf8b2676ddb94fad9db1ebe2",
+      "sentenceCount": 16,
+      "agreementKappa": 0.8476190476190476
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-14b",
+      "dataset": "nejm-cpc",
+      "caseIndex": 83,
+      "pmcid": "28d28d258ac6a1478eba8edc77a6c82a",
       "sentenceCount": 24,
-      "agreementKappa": 0.6057494866529772
+      "agreementKappa": 0.6756756756756757
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-1.5b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 299,
+      "pmcid": "0ce6f331ab7c2d89c9a18ab1daa5e01f",
+      "sentenceCount": 15,
+      "agreementKappa": 0.8351648351648352
+    },
+    {
+      "model": "gpt-oss-20b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 461,
+      "pmcid": "5a027d3fcc46bf650a3f63fd4ab70727",
+      "sentenceCount": 13,
+      "agreementKappa": 0.706766917293233
     },
     {
       "model": "deepseek-r1-distill-qwen-14b",
       "dataset": "medqa",
-      "caseIndex": 315,
-      "pmcid": "a549c88122e08fb09e2406ded3f60af8",
-      "sentenceCount": 22,
-      "agreementKappa": 0.6353591160220994
+      "caseIndex": 325,
+      "pmcid": "2ea3e2b22187de7118bf68b51214a132",
+      "sentenceCount": 19,
+      "agreementKappa": 0.7342657342657343
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-1.5b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 689,
+      "pmcid": "64f2845df97ed754b36b4b869c732ed9",
+      "sentenceCount": 15,
+      "agreementKappa": 0.8342541436464089
+    },
+    {
+      "model": "deepseek-r1-distill-llama-8b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 571,
+      "pmcid": "b718365336c479025a45787f19bb5026",
+      "sentenceCount": 13,
+      "agreementKappa": 0.8181818181818181
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-1.5b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 1127,
+      "pmcid": "6c7eba3100628ee3fe05ba73f5dd265e",
+      "sentenceCount": 14,
+      "agreementKappa": 0.8271604938271604
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-14b",
+      "dataset": "nejm-cpc",
+      "caseIndex": 26,
+      "pmcid": "a6a7aa6caaa7b9f804f30427efcc1e3c",
+      "sentenceCount": 20,
+      "agreementKappa": 0.6296296296296297
     },
     {
       "model": "deepseek-r1-distill-llama-8b",
       "dataset": "medqa",
-      "caseIndex": 267,
-      "pmcid": "2d8039dbe925c7ebb1b83f790a1098b9",
-      "sentenceCount": 21,
-      "agreementKappa": 0.6048387096774192
+      "caseIndex": 258,
+      "pmcid": "c807d4641896662e6b3c06459f68c3fd",
+      "sentenceCount": 18,
+      "agreementKappa": 0.7303370786516854
+    },
+    {
+      "model": "gpt-oss-20b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 258,
+      "pmcid": "bf48984915d4b674e1a066aeed2dec82",
+      "sentenceCount": 13,
+      "agreementKappa": 0.7000000000000001
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-1.5b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 101,
+      "pmcid": "1dce054682892494729a12aa2262b2a3",
+      "sentenceCount": 14,
+      "agreementKappa": 0.825
+    },
+    {
+      "model": "qwq-32b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 806,
+      "pmcid": "ffe05d7a21a89930a02fe1e3b6688e7e",
+      "sentenceCount": 18,
+      "agreementKappa": 0.6370967741935484
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-1.5b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 266,
+      "pmcid": "722b636b2b7cb641e203f33f0cf96205",
+      "sentenceCount": 14,
+      "agreementKappa": 0.825
     },
     {
       "model": "deepseek-r1-distill-qwen-14b",
       "dataset": "medqa",
-      "caseIndex": 179,
-      "pmcid": "da7acf12b9b0056f6c4f97a6f1a61710",
+      "caseIndex": 359,
+      "pmcid": "f17add53f332d566234e0b96dc2d10b4",
+      "sentenceCount": 18,
+      "agreementKappa": 0.7251908396946564
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-1.5b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 522,
+      "pmcid": "97d19e5eb8bf3a4b77b2e47f7cbec967",
+      "sentenceCount": 14,
+      "agreementKappa": 0.8205128205128205
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-14b",
+      "dataset": "nejm-cpc",
+      "caseIndex": 231,
+      "pmcid": "2d9b84ef90c95e61b384fd74b0259c28",
       "sentenceCount": 28,
-      "agreementKappa": 0.634584013050571
+      "agreementKappa": 0.6285240464344942
     },
     {
       "model": "deepseek-r1-distill-llama-8b",
       "dataset": "medqa",
-      "caseIndex": 362,
-      "pmcid": "803dc7e2c7935a0cfd39c2a1c6dfa7ff",
+      "caseIndex": 269,
+      "pmcid": "5e748aa9f2069648e1020d5c908b8126",
+      "sentenceCount": 20,
+      "agreementKappa": 0.6969696969696969
+    },
+    {
+      "model": "gpt-oss-20b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 253,
+      "pmcid": "9567de3eb71ec8709baf9f765d80e0c1",
       "sentenceCount": 12,
-      "agreementKappa": 0.6
+      "agreementKappa": 0.6842105263157895
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-1.5b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 345,
+      "pmcid": "c492fb15947baef787001fab8f02a740",
+      "sentenceCount": 13,
+      "agreementKappa": 0.803030303030303
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-14b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 916,
+      "pmcid": "e3f04459150e980845f684464f8275b3",
+      "sentenceCount": 16,
+      "agreementKappa": 0.7788018433179723
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-1.5b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 858,
+      "pmcid": "3590f644d8636fc5d2d9d89eedaa1303",
+      "sentenceCount": 13,
+      "agreementKappa": 0.8015267175572519
     },
     {
       "model": "deepseek-r1-distill-qwen-14b",
       "dataset": "medqa",
+      "caseIndex": 28,
+      "pmcid": "4a1485834b24be1badcf6de3040998c2",
+      "sentenceCount": 22,
+      "agreementKappa": 0.7236180904522613
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-1.5b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 216,
+      "pmcid": "20cc6bbcdf30abaee8d273a04542bc2c",
+      "sentenceCount": 12,
+      "agreementKappa": 0.7983193277310925
+    },
+    {
+      "model": "deepseek-r1-distill-llama-8b",
+      "dataset": "medqa",
+      "caseIndex": 7,
+      "pmcid": "f0a59010780094444864ab8efec64fc0",
+      "sentenceCount": 16,
+      "agreementKappa": 0.6893203883495146
+    },
+    {
+      "model": "gpt-oss-20b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 638,
+      "pmcid": "7e953c77314fe517c504a54d2ee46104",
+      "sentenceCount": 11,
+      "agreementKappa": 0.6632653061224489
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-1.5b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 163,
+      "pmcid": "4d87dfdea5638efc58eb8b367810f107",
+      "sentenceCount": 15,
+      "agreementKappa": 0.7972972972972974
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-14b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 55,
+      "pmcid": "d5dafb9085ec9578903e98a46e1c7a28",
+      "sentenceCount": 16,
+      "agreementKappa": 0.7725118483412322
+    },
+    {
+      "model": "qwq-32b",
+      "dataset": "nejm-cpc",
       "caseIndex": 261,
-      "pmcid": "32f29b0e2ccc37fcab2aef0c459b0d0c",
-      "sentenceCount": 23,
-      "agreementKappa": 0.631578947368421
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 425,
-      "pmcid": "a47d0e90318b8d7ef178df9ccddcfb56",
-      "sentenceCount": 12,
-      "agreementKappa": 0.6
+      "pmcid": "d11d0cb079e2b8aa7372f84798137c2d",
+      "sentenceCount": 27,
+      "agreementKappa": 0.5537190082644629
     },
     {
       "model": "deepseek-r1-distill-qwen-14b",
       "dataset": "medqa",
-      "caseIndex": 126,
-      "pmcid": "d73922538d21d5d84352168785541693",
-      "sentenceCount": 35,
-      "agreementKappa": 0.6130653266331659
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 494,
-      "pmcid": "39d7cd2dfc4385361b6f8c465021c71d",
-      "sentenceCount": 21,
-      "agreementKappa": 0.5939226519337016
+      "caseIndex": 206,
+      "pmcid": "ca1e9efdcb5a8267536ce993e5e87641",
+      "sentenceCount": 13,
+      "agreementKappa": 0.7173913043478262
     },
     {
       "model": "huatuogpt-o1-8b",
@@ -591,106 +407,18 @@
     {
       "model": "deepseek-r1-distill-llama-8b",
       "dataset": "medqa",
-      "caseIndex": 416,
-      "pmcid": "3e8a32b1fd5b218893e301a0e7940175",
-      "sentenceCount": 19,
-      "agreementKappa": 0.5899280575539568
+      "caseIndex": 242,
+      "pmcid": "f5479a460521f2a3b96e7924882b06d9",
+      "sentenceCount": 15,
+      "agreementKappa": 0.6571428571428571
     },
     {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medqa",
-      "caseIndex": 226,
-      "pmcid": "937211f39c631d4ccf3e61b8a6ce3acb",
-      "sentenceCount": 18,
-      "agreementKappa": 0.6101083032490975
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 10,
-      "pmcid": "58fc5096346b5b98186d054fe0471804",
-      "sentenceCount": 30,
-      "agreementKappa": 0.5879120879120878
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medqa",
-      "caseIndex": 103,
-      "pmcid": "1eec876ba9866e5465e8d8d3efd7c9df",
-      "sentenceCount": 18,
-      "agreementKappa": 0.6029411764705883
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 113,
-      "pmcid": "b58164a8eec23384aea2dd41b1b18f31",
-      "sentenceCount": 28,
-      "agreementKappa": 0.5848434925864909
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medqa",
-      "caseIndex": 196,
-      "pmcid": "5c0c7b72609989d58fb49df26f3edcf8",
-      "sentenceCount": 21,
-      "agreementKappa": 0.6027027027027028
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 483,
-      "pmcid": "1a757b01133dd544322fd41914b78a0a",
-      "sentenceCount": 29,
-      "agreementKappa": 0.5821325648414986
-    },
-    {
-      "model": "deepseek-r1-distill-qwen-14b",
-      "dataset": "medqa",
-      "caseIndex": 474,
-      "pmcid": "551efb2956e9b57ca1a2911582698af1",
-      "sentenceCount": 23,
-      "agreementKappa": 0.6014851485148515
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 366,
-      "pmcid": "f31c3814e305d57f67bdcfac27ec4bc2",
-      "sentenceCount": 23,
-      "agreementKappa": 0.580865603644647
-    },
-    {
-      "model": "huatuogpt-o1-8b",
+      "model": "gpt-oss-20b",
       "dataset": "medmcqa-filtered",
-      "caseIndex": 1079,
-      "pmcid": "215cf5fb92b00fb271ccf55cf931ab1c",
-      "sentenceCount": 17,
-      "agreementKappa": 0.5732217573221757
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 346,
-      "pmcid": "1eb96855ac4b1b8fca00ac110f110ff3",
-      "sentenceCount": 23,
-      "agreementKappa": 0.5796344647519581
-    },
-    {
-      "model": "huatuogpt-o1-8b",
-      "dataset": "medmcqa-filtered",
-      "caseIndex": 705,
-      "pmcid": "c00987a78e727419c27244329ae6db8c",
-      "sentenceCount": 19,
-      "agreementKappa": 0.5536912751677852
-    },
-    {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 427,
-      "pmcid": "6712661235beff1474c31f264dd564f0",
-      "sentenceCount": 26,
-      "agreementKappa": 0.5776173285198556
+      "caseIndex": 1099,
+      "pmcid": "1e98153fe23cb868dcd0865b4b002c89",
+      "sentenceCount": 14,
+      "agreementKappa": 0.6241610738255033
     },
     {
       "model": "qwq-32b",
@@ -701,12 +429,36 @@
       "agreementKappa": 0.5330739299610895
     },
     {
+      "model": "deepseek-r1-distill-qwen-14b",
+      "dataset": "medqa",
+      "caseIndex": 305,
+      "pmcid": "bb0c1f848aaa7e977ffb00d769d4a0e3",
+      "sentenceCount": 26,
+      "agreementKappa": 0.7142857142857143
+    },
+    {
       "model": "deepseek-r1-distill-llama-8b",
       "dataset": "medqa",
-      "caseIndex": 32,
-      "pmcid": "60d48dbdf6efe3834c0e03594ccac525",
-      "sentenceCount": 25,
-      "agreementKappa": 0.576271186440678
+      "caseIndex": 155,
+      "pmcid": "6a46090f5cac336a4403013a4ae5ed92",
+      "sentenceCount": 15,
+      "agreementKappa": 0.6511627906976742
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-14b",
+      "dataset": "medqa",
+      "caseIndex": 150,
+      "pmcid": "a117b7aea85ad92964e8445bce73f451",
+      "sentenceCount": 23,
+      "agreementKappa": 0.711779448621554
+    },
+    {
+      "model": "huatuogpt-o1-8b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 1079,
+      "pmcid": "215cf5fb92b00fb271ccf55cf931ab1c",
+      "sentenceCount": 17,
+      "agreementKappa": 0.5732217573221757
     },
     {
       "model": "qwq-32b",
@@ -717,12 +469,76 @@
       "agreementKappa": 0.5283687943262411
     },
     {
+      "model": "gpt-oss-20b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 580,
+      "pmcid": "48aa381c4d357b4478cba89aaed4a71c",
+      "sentenceCount": 18,
+      "agreementKappa": 0.6014760147601477
+    },
+    {
       "model": "deepseek-r1-distill-llama-8b",
       "dataset": "medqa",
-      "caseIndex": 410,
-      "pmcid": "c7b837935b3ffddea39f0a62bfc4a51f",
-      "sentenceCount": 26,
-      "agreementKappa": 0.5760869565217391
+      "caseIndex": 218,
+      "pmcid": "0d5846fa4ae0878e273afe34b5efe455",
+      "sentenceCount": 11,
+      "agreementKappa": 0.641304347826087
+    },
+    {
+      "model": "grok-3-mini",
+      "dataset": "nejm-cpc",
+      "caseIndex": 225,
+      "pmcid": "04812fc291a4a5e46def57c24c132b77",
+      "sentenceCount": 45,
+      "agreementKappa": null
+    },
+    {
+      "model": "deepseek-r1-distill-llama-8b",
+      "dataset": "medqa",
+      "caseIndex": 495,
+      "pmcid": "cf6f56a8544431124694ed5cf71ec687",
+      "sentenceCount": 20,
+      "agreementKappa": 0.6407185628742514
+    },
+    {
+      "model": "claude-3-7-sonnet-20250219",
+      "dataset": "nejm-cpc",
+      "caseIndex": 68,
+      "pmcid": "85a1ab618cc3ad67812c29344458ad6b",
+      "sentenceCount": 33,
+      "agreementKappa": null
+    },
+    {
+      "model": "huatuogpt-o1-8b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 705,
+      "pmcid": "c00987a78e727419c27244329ae6db8c",
+      "sentenceCount": 19,
+      "agreementKappa": 0.5536912751677852
+    },
+    {
+      "model": "qwq-32b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 870,
+      "pmcid": "efafd4d333395d1d2c33081674c5a72a",
+      "sentenceCount": 23,
+      "agreementKappa": 0.6229508196721311
+    },
+    {
+      "model": "gpt-oss-20b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 201,
+      "pmcid": "57cea63272a42358ae8b48408f878be2",
+      "sentenceCount": 12,
+      "agreementKappa": 0.5932203389830508
+    },
+    {
+      "model": "deepseek-r1-distill-llama-8b",
+      "dataset": "medqa",
+      "caseIndex": 217,
+      "pmcid": "e0d953de9d911e71b4922ef963b27bf9",
+      "sentenceCount": 27,
+      "agreementKappa": 0.6393989983305509
     },
     {
       "model": "qwq-32b",
@@ -735,10 +551,50 @@
     {
       "model": "deepseek-r1-distill-llama-8b",
       "dataset": "medqa",
-      "caseIndex": 216,
-      "pmcid": "f4c6e188a424c594cd12b14feff7574f",
-      "sentenceCount": 17,
-      "agreementKappa": 0.5728643216080402
+      "caseIndex": 310,
+      "pmcid": "fb8f37f7f5930e3e5184793bbbea3a98",
+      "sentenceCount": 14,
+      "agreementKappa": 0.6387096774193547
+    },
+    {
+      "model": "grok-3-mini",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 1150,
+      "pmcid": "b7d40a3bc70fc6178f2d25024c9bc19c",
+      "sentenceCount": 34,
+      "agreementKappa": null
+    },
+    {
+      "model": "huatuogpt-o1-8b",
+      "dataset": "nejm-cpc",
+      "caseIndex": 13,
+      "pmcid": "05b429a48cfa8a319288fab09afe6972",
+      "sentenceCount": 39,
+      "agreementKappa": null
+    },
+    {
+      "model": "deepseek-r1-distill-llama-8b",
+      "dataset": "medqa",
+      "caseIndex": 247,
+      "pmcid": "6c970a79414262fa22d95a13243ae619",
+      "sentenceCount": 25,
+      "agreementKappa": 0.626865671641791
+    },
+    {
+      "model": "gpt-oss-20b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 286,
+      "pmcid": "4a92576f11bdda75c7a95873e06f12c8",
+      "sentenceCount": 15,
+      "agreementKappa": 0.592391304347826
+    },
+    {
+      "model": "claude-3-7-sonnet-20250219",
+      "dataset": "medqa",
+      "caseIndex": 474,
+      "pmcid": "3e26f8c22ff71bd786299acd9cb047b6",
+      "sentenceCount": 31,
+      "agreementKappa": null
     },
     {
       "model": "qwq-32b",
@@ -749,12 +605,108 @@
       "agreementKappa": 0.5009242144177449
     },
     {
-      "model": "deepseek-r1-distill-llama-8b",
+      "model": "gpt-oss-20b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 327,
+      "pmcid": "7820c1e968dac175c895d945e0a3ef82",
+      "sentenceCount": 15,
+      "agreementKappa": 0.5901639344262295
+    },
+    {
+      "model": "grok-3-mini",
       "dataset": "medqa",
-      "caseIndex": 26,
-      "pmcid": "83d867d055230732179ed1d903a59c18",
+      "caseIndex": 449,
+      "pmcid": "0cfbb55063be42770268056c00e7ab72",
+      "sentenceCount": 31,
+      "agreementKappa": null
+    },
+    {
+      "model": "huatuogpt-o1-8b",
+      "dataset": "medqa",
+      "caseIndex": 367,
+      "pmcid": "b445e54b44430161683d43ce459d417b",
+      "sentenceCount": 35,
+      "agreementKappa": null
+    },
+    {
+      "model": "deepseek-r1-distill-llama-8b",
+      "dataset": "nejm-cpc",
+      "caseIndex": 200,
+      "pmcid": "85d8e9a9975b3b57c36fd37c8839f1fc",
+      "sentenceCount": 23,
+      "agreementKappa": null
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-1.5b",
+      "dataset": "nejm-cpc",
+      "caseIndex": 202,
+      "pmcid": "b38c60536f58e443b6d212d77c90e053",
+      "sentenceCount": 22,
+      "agreementKappa": null
+    },
+    {
+      "model": "claude-3-7-sonnet-20250219",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 352,
+      "pmcid": "8ff0ed35f2c1b792faf3157921d03e1e",
+      "sentenceCount": 24,
+      "agreementKappa": null
+    },
+    {
+      "model": "qwq-32b",
+      "dataset": "nejm-cpc",
+      "caseIndex": 257,
+      "pmcid": "192b1cdcd2503d647ef382047f728d3a",
+      "sentenceCount": 30,
+      "agreementKappa": 0.490084985835694
+    },
+    {
+      "model": "gpt-oss-20b",
+      "dataset": "medqa",
+      "caseIndex": 341,
+      "pmcid": "3e258dade2843a5a7ea2a37c9ce34cde",
+      "sentenceCount": 82,
+      "agreementKappa": null
+    },
+    {
+      "model": "qwq-32b",
+      "dataset": "nejm-cpc",
+      "caseIndex": 245,
+      "pmcid": "546ddbcafc0fd70b87cedf98d2a5c74b",
       "sentenceCount": 40,
-      "agreementKappa": 0.5715378729915838
+      "agreementKappa": 0.49003984063745015
+    },
+    {
+      "model": "huatuogpt-o1-8b",
+      "dataset": "medqa",
+      "caseIndex": 29,
+      "pmcid": "fdd81489b8d54a836217ce8460c17081",
+      "sentenceCount": 35,
+      "agreementKappa": null
+    },
+    {
+      "model": "qwq-32b",
+      "dataset": "nejm-cpc",
+      "caseIndex": 37,
+      "pmcid": "8f9eb93497ecffcf1d875bbda56d2d8c",
+      "sentenceCount": 37,
+      "agreementKappa": 0.48921484037963753
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-1.5b",
+      "dataset": "nejm-cpc",
+      "caseIndex": 289,
+      "pmcid": "7d75f92d5900e3229ee84a92255b30b0",
+      "sentenceCount": 17,
+      "agreementKappa": null
+    },
+    {
+      "model": "qwq-32b",
+      "dataset": "nejm-cpc",
+      "caseIndex": 46,
+      "pmcid": "10b2fa2061e18d4b673b3b564c20afe3",
+      "sentenceCount": 19,
+      "agreementKappa": 0.4847457627118644
     },
     {
       "model": "gpt-oss-20b",
@@ -765,44 +717,52 @@
       "agreementKappa": 0.3928571428571428
     },
     {
-      "model": "deepseek-r1-distill-llama-8b",
+      "model": "qwq-32b",
       "dataset": "medqa",
-      "caseIndex": 78,
-      "pmcid": "cb578937442f210eabd4f9f0f63d8615",
-      "sentenceCount": 31,
-      "agreementKappa": 0.5694444444444444
+      "caseIndex": 509,
+      "pmcid": "b27b30f0c9058c5614c7d669d9fd6756",
+      "sentenceCount": 52,
+      "agreementKappa": null
     },
     {
-      "model": "gpt-oss-20b",
+      "model": "qwq-32b",
       "dataset": "nejm-cpc",
-      "caseIndex": 159,
-      "pmcid": "e803336f1a5a07f6420daa3e8bf44548",
-      "sentenceCount": 17,
-      "agreementKappa": 0.28625954198473286
+      "caseIndex": 63,
+      "pmcid": "11f39b7819ad881d4008f0b7046d86fe",
+      "sentenceCount": 34,
+      "agreementKappa": 0.48170731707317077
     },
     {
-      "model": "deepseek-r1-distill-llama-8b",
-      "dataset": "medqa",
-      "caseIndex": 297,
-      "pmcid": "6cd81f9d0e5462512a531dc7bdd8126c",
-      "sentenceCount": 14,
-      "agreementKappa": 0.5679012345679013
-    },
-    {
-      "model": "gpt-oss-20b",
+      "model": "huatuogpt-o1-8b",
       "dataset": "nejm-cpc",
-      "caseIndex": 259,
-      "pmcid": "d11d0cb079e2b8aa7372f84798137c2d",
-      "sentenceCount": 22,
-      "agreementKappa": 0.2684085510688836
+      "caseIndex": 2,
+      "pmcid": "60f0a40220ba451288770b54271cb711",
+      "sentenceCount": 35,
+      "agreementKappa": null
     },
     {
-      "model": "deepseek-r1-distill-llama-8b",
+      "model": "qwq-32b",
+      "dataset": "nejm-cpc",
+      "caseIndex": 3,
+      "pmcid": "765697291d0bb41ca4afc1688f00a4a7",
+      "sentenceCount": 46,
+      "agreementKappa": 0.4691286785920369
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-1.5b",
       "dataset": "medqa",
-      "caseIndex": 274,
-      "pmcid": "7b1b65516597681eb61cc639787b9558",
-      "sentenceCount": 20,
-      "agreementKappa": 0.56656346749226
+      "caseIndex": 472,
+      "pmcid": "28aa47070479fa9b8b667176c382e57a",
+      "sentenceCount": 15,
+      "agreementKappa": null
+    },
+    {
+      "model": "huatuogpt-o1-8b",
+      "dataset": "medqa",
+      "caseIndex": 330,
+      "pmcid": "e2c2f40cf93984261e4aff3cdd19efe7",
+      "sentenceCount": 32,
+      "agreementKappa": null
     },
     {
       "model": "gpt-oss-20b",
@@ -813,12 +773,52 @@
       "agreementKappa": 0.1038961038961039
     },
     {
-      "model": "deepseek-r1-distill-llama-8b",
+      "model": "huatuogpt-o1-8b",
       "dataset": "medqa",
-      "caseIndex": 253,
-      "pmcid": "8bbe61212dcfb856e906768646945a5a",
-      "sentenceCount": 18,
-      "agreementKappa": 0.5627530364372468
+      "caseIndex": 350,
+      "pmcid": "0d34319fb4e08d5cff3cbaddb721aeb5",
+      "sentenceCount": 30,
+      "agreementKappa": null
+    },
+    {
+      "model": "gpt-oss-20b",
+      "dataset": "nejm-cpc",
+      "caseIndex": 288,
+      "pmcid": "b5cb86e6628c90b69ac2a7859e5fb09b",
+      "sentenceCount": 316,
+      "agreementKappa": null
+    },
+    {
+      "model": "huatuogpt-o1-8b",
+      "dataset": "medqa",
+      "caseIndex": 36,
+      "pmcid": "91adaaf50747f86b2b93571e743e84fa",
+      "sentenceCount": 30,
+      "agreementKappa": null
+    },
+    {
+      "model": "huatuogpt-o1-8b",
+      "dataset": "nejm-cpc",
+      "caseIndex": 197,
+      "pmcid": "e803336f1a5a07f6420daa3e8bf44548",
+      "sentenceCount": 29,
+      "agreementKappa": null
+    },
+    {
+      "model": "huatuogpt-o1-8b",
+      "dataset": "medqa",
+      "caseIndex": 170,
+      "pmcid": "72593ca0b28906df67c6c4e7313d7a52",
+      "sentenceCount": 27,
+      "agreementKappa": null
+    },
+    {
+      "model": "deepseek-r1-distill-qwen-14b",
+      "dataset": "medmcqa-filtered",
+      "caseIndex": 79,
+      "pmcid": "650e00e273df4f2b947cf25779cd1f83",
+      "sentenceCount": 12,
+      "agreementKappa": 1
     }
   ]
 }
