@@ -6,7 +6,9 @@
     "dev": "next dev --experimental-https --experimental-https-cert ./combooter.tail4fafac.ts.net.crt --experimental-https-key ./combooter.tail4fafac.ts.net.key --hostname combooter.tail4fafac.ts.net",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:node": "node --test tests/*.mjs",
+    "generate:labeler-pool": "node scripts/generate-labeler-pool.mjs"
   },
   "dependencies": {
     "@types/d3": "^7.4.3",

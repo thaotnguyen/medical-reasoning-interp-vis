@@ -164,7 +164,7 @@ export function computeCategoryMetrics(
   const results = [];
 
   for (let k = 0; k < numCategories; k++) {
-    let tp = matrix[k][k];
+    const tp = matrix[k][k];
     let rowSum = 0; // actual positives
     let colSum = 0; // predicted positives
     for (let j = 0; j < numCategories; j++) {

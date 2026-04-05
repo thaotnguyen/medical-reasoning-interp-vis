@@ -1,13 +1,19 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
-import { useMetadata } from "@/hooks/useMetadata";
-import { buildFullPool, type SampleItem } from "@/lib/sample-pool";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import useSWRImmutable from "swr/immutable";
+import {
+  buildIndexedLabelerPool,
+  type IndexedPoolItem,
+  type LabelerPoolManifest,
+} from "@/lib/labeler-pool";
 import type { Case } from "@/lib/types";
 
+const fetcher = (url: string) => fetch(url).then((r) => r.json());
+
 interface UseSamplePoolResult {
-  pool: SampleItem[];
-  currentItem: SampleItem | null;
+  pool: IndexedPoolItem[];
+  currentItem: IndexedPoolItem | null;
   currentCase: Case | null;
   selectedIndex: number;
   isLoading: boolean;
@@ -24,8 +30,15 @@ interface UseSamplePoolOptions {
  * Caches fetched case files so repeat visits are instant.
  */
 export function useSamplePool({ onCasesLoaded }: UseSamplePoolOptions = {}): UseSamplePoolResult {
-  const { metadata } = useMetadata();
-  const [pool, setPool] = useState<SampleItem[]>([]);
+  const {
+    data: manifest,
+    error,
+    isLoading: manifestLoading,
+  } = useSWRImmutable<LabelerPoolManifest>("/data/labeler-pool.json", fetcher);
+  const pool = useMemo(
+    () => (manifest ? buildIndexedLabelerPool(manifest) : []),
+    [manifest]
+  );
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [currentCase, setCurrentCase] = useState<Case | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,29 +50,28 @@ export function useSamplePool({ onCasesLoaded }: UseSamplePoolOptions = {}): Use
   const onCasesLoadedRef = useRef(onCasesLoaded);
   useEffect(() => { onCasesLoadedRef.current = onCasesLoaded; });
 
-  // Build pool once metadata arrives
+  // Reset selection if the manifest changes and the current index is invalid.
   useEffect(() => {
-    if (!metadata) return;
-
-    const caseCounts: Record<string, Record<string, number>> = {};
-    for (const [model, info] of Object.entries(metadata.models)) {
-      caseCounts[model] = {};
-      for (const [dataset, dsInfo] of Object.entries(info.datasets)) {
-        caseCounts[model][dataset] = dsInfo.num_cases;
-      }
+    if (selectedIndex >= pool.length && pool.length > 0) {
+      setSelectedIndex(0);
     }
+  }, [pool.length, selectedIndex]);
 
-    const built = buildFullPool(
-      metadata.model_order,
-      metadata.dataset_order,
-      caseCounts
-    );
-    setPool(built);
-    if (built.length === 0) setIsLoading(false);
-  }, [metadata]);
+  useEffect(() => {
+    if (manifestLoading) return;
+    if (!manifest || error) {
+      setCurrentCase(null);
+      setIsLoading(false);
+      return;
+    }
+    if (pool.length === 0) {
+      setCurrentCase(null);
+      setIsLoading(false);
+    }
+  }, [manifest, manifestLoading, error, pool.length]);
 
   // Fetch case data for current pool item
-  const loadCase = useCallback(async (item: SampleItem) => {
+  const loadCase = useCallback(async (item: IndexedPoolItem) => {
     const key = `${item.model}_${item.dataset}`;
     let cases = cacheRef.current.get(key);
 
@@ -125,7 +137,7 @@ export function useSamplePool({ onCasesLoaded }: UseSamplePoolOptions = {}): Use
     currentItem: pool[selectedIndex] ?? null,
     currentCase,
     selectedIndex,
-    isLoading: isLoading || pool.length === 0,
+    isLoading: manifestLoading || isLoading || (!error && pool.length === 0),
     navigateTo,
   };
 }

@@ -1,3 +1,6 @@
+import { TRAINING_CASES } from "./labeler-pool";
+export { TRAINING_CASES } from "./labeler-pool";
+
 // ============================================================
 // Deterministic sample pool for human labeling
 // Same seed → same cases for all raters on all devices
@@ -16,16 +19,6 @@ export const POOL_SIZE = 24;
 
 /** Seed for deterministic sampling — do NOT change after study begins */
 const SEED = 20260325;
-
-/**
- * Hardcoded training cases — shown first in the sidebar for rater calibration.
- * Case 0: Claude 3.7 Sonnet, Case 1: QWQ 32B, Case 2: GPT OSS 20B
- */
-export const TRAINING_CASES: Omit<SampleItem, "index">[] = [
-  { model: "claude-3-7-sonnet-20250219", dataset: "medqa",            caseIndex: 0, isTraining: true },
-  { model: "qwq-32b",                   dataset: "medmcqa-filtered",  caseIndex: 0, isTraining: true },
-  { model: "gpt-oss-20b",               dataset: "nejm-cpc",          caseIndex: 0, isTraining: true },
-];
 
 /**
  * Mulberry32: simple 32-bit seeded PRNG.
