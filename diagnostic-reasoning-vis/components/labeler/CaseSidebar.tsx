@@ -6,6 +6,7 @@ import { Check, Circle, Minus } from "lucide-react";
 import type { SampleItem } from "@/lib/sample-pool";
 import type { Metadata } from "@/lib/types";
 import type { RatingsStore, CasePoolInfo } from "@/lib/labeling-types";
+import { getPoolPhase } from "@/lib/labeler-ui";
 
 interface CaseSidebarProps {
   pool: SampleItem[];
@@ -162,8 +163,12 @@ export function CaseSidebar({
     }
   }, [selectedIndex]);
 
-  const trainingPool = pool.filter((item) => item.isTraining);
-  const testPool = pool.filter((item) => !item.isTraining);
+  const trainingPool = pool.filter(
+    (item) => getPoolPhase(item.index, item.isTraining) === "training"
+  );
+  const testPool = pool.filter(
+    (item) => getPoolPhase(item.index, item.isTraining) === "test"
+  );
 
   // Progress counts test cases only
   const { completed, partial } = useMemo(() => {

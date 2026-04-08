@@ -2,6 +2,7 @@
 
 import type { TaxonomyItem } from "@/lib/types";
 import { Check } from "lucide-react";
+import { consumePointerAction } from "@/lib/labeler-ui";
 
 interface TaxonomyPickerProps {
   taxonomy: TaxonomyItem[];
@@ -24,7 +25,9 @@ export function TaxonomyPicker({
           <button
             key={idx}
             type="button"
-            onClick={() => onSelect(idx)}
+            onClick={(event) =>
+              consumePointerAction(event, () => onSelect(idx))
+            }
             className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium transition-all border ${
               isSelected
                 ? "ring-2 ring-offset-1 border-transparent"
@@ -45,7 +48,7 @@ export function TaxonomyPicker({
       {currentSelection !== undefined && (
         <button
           type="button"
-          onClick={onClear}
+          onClick={(event) => consumePointerAction(event, onClear)}
           className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium text-muted-foreground hover:bg-muted border border-dashed border-border"
         >
           <span className="font-mono opacity-70 mr-0.5">0</span>

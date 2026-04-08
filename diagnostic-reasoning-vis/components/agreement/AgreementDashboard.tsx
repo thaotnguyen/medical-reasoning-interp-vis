@@ -3,11 +3,8 @@
 import { useMemo, useState } from "react";
 import type { RatingsStore } from "@/lib/labeling-types";
 import type { Case, Metadata } from "@/lib/types";
-import {
-  buildCaseIndexLookup,
-  filterCasesMapToPool,
-  type IndexedPoolItem,
-} from "@/lib/labeler-pool";
+import type { ActivePoolItem } from "@/lib/labeler-active-pool";
+import { buildAgreementCasesMap } from "@/lib/agreement-scope";
 import {
   computeCohenKappaNominal,
   computeCohenKappa,
@@ -37,7 +34,7 @@ interface AgreementDashboardProps {
   ratings: RatingsStore;
   raters: RaterInfo[];
   casesMap: Record<string, Case[]>;
-  labelerPool: IndexedPoolItem[];
+  labelerPool: ActivePoolItem[];
   metadata: Metadata;
   onImport: (merged: RatingsStore) => void;
 }
@@ -56,16 +53,9 @@ export function AgreementDashboard({
   const [sourceB, setSourceB] = useState<ComparisonSource>(defaultB);
 
   const numCategories = metadata.taxonomy.length;
-  const labelerCaseLookup = useMemo(
-    () => buildCaseIndexLookup(labelerPool),
-    [labelerPool]
-  );
   const agreementCasesMap = useMemo(
-    () =>
-      labelerPool.length > 0
-        ? filterCasesMapToPool(casesMap, labelerCaseLookup)
-        : casesMap,
-    [casesMap, labelerPool.length, labelerCaseLookup]
+    () => buildAgreementCasesMap(casesMap, labelerPool),
+    [casesMap, labelerPool]
   );
 
   const { labelsA, labelsB } = useMemo(() => {

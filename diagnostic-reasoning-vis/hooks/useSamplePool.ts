@@ -1,19 +1,16 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import useSWRImmutable from "swr/immutable";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useMetadata } from "@/hooks/useMetadata";
 import {
-  buildIndexedLabelerPool,
-  type IndexedPoolItem,
-  type LabelerPoolManifest,
-} from "@/lib/labeler-pool";
+  buildActiveLabelerPool,
+  type ActivePoolItem,
+} from "@/lib/labeler-active-pool";
 import type { Case } from "@/lib/types";
 
-const fetcher = (url: string) => fetch(url).then((r) => r.json());
-
 interface UseSamplePoolResult {
-  pool: IndexedPoolItem[];
-  currentItem: IndexedPoolItem | null;
+  pool: ActivePoolItem[];
+  currentItem: ActivePoolItem | null;
   currentCase: Case | null;
   selectedIndex: number;
   isLoading: boolean;
@@ -30,15 +27,8 @@ interface UseSamplePoolOptions {
  * Caches fetched case files so repeat visits are instant.
  */
 export function useSamplePool({ onCasesLoaded }: UseSamplePoolOptions = {}): UseSamplePoolResult {
-  const {
-    data: manifest,
-    error,
-    isLoading: manifestLoading,
-  } = useSWRImmutable<LabelerPoolManifest>("/data/labeler-pool.json", fetcher);
-  const pool = useMemo(
-    () => (manifest ? buildIndexedLabelerPool(manifest) : []),
-    [manifest]
-  );
+  const { metadata } = useMetadata();
+  const [pool, setPool] = useState<ActivePoolItem[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [currentCase, setCurrentCase] = useState<Case | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -50,7 +40,19 @@ export function useSamplePool({ onCasesLoaded }: UseSamplePoolOptions = {}): Use
   const onCasesLoadedRef = useRef(onCasesLoaded);
   useEffect(() => { onCasesLoadedRef.current = onCasesLoaded; });
 
-  // Reset selection if the manifest changes and the current index is invalid.
+  // Build the deployed-compatible pool once metadata arrives.
+  useEffect(() => {
+    if (!metadata) return;
+
+    const built = buildActiveLabelerPool(metadata);
+    setPool(built);
+    if (built.length === 0) {
+      setCurrentCase(null);
+      setIsLoading(false);
+    }
+  }, [metadata]);
+
+  // Reset selection if the pool changes and the current index is invalid.
   useEffect(() => {
     if (selectedIndex >= pool.length && pool.length > 0) {
       setSelectedIndex(0);
@@ -58,20 +60,14 @@ export function useSamplePool({ onCasesLoaded }: UseSamplePoolOptions = {}): Use
   }, [pool.length, selectedIndex]);
 
   useEffect(() => {
-    if (manifestLoading) return;
-    if (!manifest || error) {
-      setCurrentCase(null);
-      setIsLoading(false);
-      return;
-    }
     if (pool.length === 0) {
       setCurrentCase(null);
       setIsLoading(false);
     }
-  }, [manifest, manifestLoading, error, pool.length]);
+  }, [pool.length]);
 
   // Fetch case data for current pool item
-  const loadCase = useCallback(async (item: IndexedPoolItem) => {
+  const loadCase = useCallback(async (item: ActivePoolItem) => {
     const key = `${item.model}_${item.dataset}`;
     let cases = cacheRef.current.get(key);
 
@@ -137,7 +133,7 @@ export function useSamplePool({ onCasesLoaded }: UseSamplePoolOptions = {}): Use
     currentItem: pool[selectedIndex] ?? null,
     currentCase,
     selectedIndex,
-    isLoading: manifestLoading || isLoading || (!error && pool.length === 0),
+    isLoading: isLoading || pool.length === 0,
     navigateTo,
   };
 }
