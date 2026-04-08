@@ -717,3 +717,41 @@ export function buildIndexedLabelerPool(manifest: LabelerPoolManifest): IndexedP
     index,
   }));
 }
+
+function poolKey(model: string, dataset: string): string {
+  return `${model}_${dataset}`;
+}
+
+export function buildCaseIndexLookup(
+  pool: readonly Pick<IndexedPoolItem, "model" | "dataset" | "caseIndex">[]
+): Map<string, Set<number>> {
+  const lookup = new Map<string, Set<number>>();
+
+  for (const item of pool) {
+    const key = poolKey(item.model, item.dataset);
+    const indices = lookup.get(key) ?? new Set<number>();
+    indices.add(item.caseIndex);
+    lookup.set(key, indices);
+  }
+
+  return lookup;
+}
+
+export function filterCasesMapToPool<T>(
+  casesMap: Record<string, T[]>,
+  caseIndexLookup: ReadonlyMap<string, ReadonlySet<number>>
+): Record<string, T[]> {
+  const filtered: Record<string, T[]> = {};
+
+  for (const [key, cases] of Object.entries(casesMap)) {
+    const allowedIndices = caseIndexLookup.get(key);
+    if (!allowedIndices) continue;
+
+    const allowedCases = cases.filter((_, index) => allowedIndices.has(index));
+    if (allowedCases.length > 0) {
+      filtered[key] = allowedCases;
+    }
+  }
+
+  return filtered;
+}

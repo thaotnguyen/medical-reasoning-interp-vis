@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useEffect, useState, useCallback, useRef } from "react";
+import useSWRImmutable from "swr/immutable";
 import { useMetadata } from "@/hooks/useMetadata";
 import { useLabelingState } from "@/hooks/useLabelingState";
 import { fetchAllRatings } from "@/hooks/useRatingsSync";
@@ -9,16 +10,31 @@ import { Skeleton } from "@/components/ui/skeleton";
 import type { RatingsStore, ServerRatingsResponse } from "@/lib/labeling-types";
 import type { Case } from "@/lib/types";
 import { importRatings } from "@/lib/labeling-storage";
+import {
+  buildIndexedLabelerPool,
+  type LabelerPoolManifest,
+} from "@/lib/labeler-pool";
+
+const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export default function AgreementPage() {
   const { metadata, isLoading: metaLoading } = useMetadata();
   const { ratings: localRatings, importRatings: storeImport } = useLabelingState();
+  const {
+    data: labelerManifest,
+    isLoading: labelerPoolLoading,
+  } = useSWRImmutable<LabelerPoolManifest>("/data/labeler-pool.json", fetcher);
 
   const [serverData, setServerData] = useState<ServerRatingsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [casesMap, setCasesMap] = useState<Record<string, Case[]>>({});
   const [casesLoading, setCasesLoading] = useState(false);
   const fetchedKeysRef = useRef<Set<string>>(new Set());
+
+  const labelerPool = useMemo(
+    () => (labelerManifest ? buildIndexedLabelerPool(labelerManifest) : []),
+    [labelerManifest]
+  );
 
   // Fetch all ratings from server on mount
   useEffect(() => {
@@ -112,7 +128,7 @@ export default function AgreementPage() {
     storeImport(imported);
   }, [storeImport]);
 
-  if (metaLoading || !metadata || loading || casesLoading) {
+  if (metaLoading || !metadata || loading || casesLoading || labelerPoolLoading) {
     return (
       <div className="p-6">
         <Skeleton className="h-96 rounded-lg" />
@@ -126,6 +142,7 @@ export default function AgreementPage() {
         ratings={mergedRatings}
         raters={raters}
         casesMap={casesMap}
+        labelerPool={labelerPool}
         metadata={metadata}
         onImport={handleImport}
       />

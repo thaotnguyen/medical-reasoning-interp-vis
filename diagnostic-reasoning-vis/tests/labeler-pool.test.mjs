@@ -3,7 +3,9 @@ import assert from "node:assert/strict";
 
 import {
   buildCaseCandidateFromTraces,
+  buildCaseIndexLookup,
   buildIndexedLabelerPool,
+  filterCasesMapToPool,
   selectCasesWithCoverage,
   selectCasesByCellTargets,
   shuffleSelectedCasesDeterministically,
@@ -763,4 +765,66 @@ test("shuffleSelectedCasesDeterministically uses lookahead to mix datasets near 
     new Set(shuffled.slice(0, 3).map((item) => item.dataset)).size,
     3
   );
+});
+
+test("filterCasesMapToPool keeps only cases present in the labeler pool", () => {
+  const manifest = {
+    training: [
+      {
+        model: "model-a",
+        dataset: "dataset-1",
+        caseIndex: 1,
+        isTraining: true,
+      },
+    ],
+    test: [
+      {
+        model: "model-a",
+        dataset: "dataset-1",
+        caseIndex: 3,
+        pmcid: "pmcid-a",
+        sentenceCount: 12,
+        agreementKappa: 0.8,
+      },
+      {
+        model: "model-b",
+        dataset: "dataset-2",
+        caseIndex: 0,
+        pmcid: "pmcid-b",
+        sentenceCount: 11,
+        agreementKappa: 0.7,
+      },
+    ],
+  };
+
+  const pool = buildIndexedLabelerPool(manifest);
+  const caseLookup = buildCaseIndexLookup(pool);
+  const filtered = filterCasesMapToPool(
+    {
+      "model-a_dataset-1": [
+        { id: "a-0" },
+        { id: "a-1" },
+        { id: "a-2" },
+        { id: "a-3" },
+      ],
+      "model-b_dataset-2": [
+        { id: "b-0" },
+        { id: "b-1" },
+      ],
+      "model-c_dataset-3": [
+        { id: "c-0" },
+      ],
+    },
+    caseLookup
+  );
+
+  assert.deepEqual(filtered, {
+    "model-a_dataset-1": [
+      { id: "a-1" },
+      { id: "a-3" },
+    ],
+    "model-b_dataset-2": [
+      { id: "b-0" },
+    ],
+  });
 });

@@ -4,6 +4,11 @@ import { useMemo, useState } from "react";
 import type { RatingsStore } from "@/lib/labeling-types";
 import type { Case, Metadata } from "@/lib/types";
 import {
+  buildCaseIndexLookup,
+  filterCasesMapToPool,
+  type IndexedPoolItem,
+} from "@/lib/labeler-pool";
+import {
   computeCohenKappaNominal,
   computeCohenKappa,
   computeConfusionMatrix,
@@ -32,6 +37,7 @@ interface AgreementDashboardProps {
   ratings: RatingsStore;
   raters: RaterInfo[];
   casesMap: Record<string, Case[]>;
+  labelerPool: IndexedPoolItem[];
   metadata: Metadata;
   onImport: (merged: RatingsStore) => void;
 }
@@ -40,6 +46,7 @@ export function AgreementDashboard({
   ratings,
   raters,
   casesMap,
+  labelerPool,
   metadata,
   onImport,
 }: AgreementDashboardProps) {
@@ -49,18 +56,29 @@ export function AgreementDashboard({
   const [sourceB, setSourceB] = useState<ComparisonSource>(defaultB);
 
   const numCategories = metadata.taxonomy.length;
+  const labelerCaseLookup = useMemo(
+    () => buildCaseIndexLookup(labelerPool),
+    [labelerPool]
+  );
+  const agreementCasesMap = useMemo(
+    () =>
+      labelerPool.length > 0
+        ? filterCasesMapToPool(casesMap, labelerCaseLookup)
+        : casesMap,
+    [casesMap, labelerPool.length, labelerCaseLookup]
+  );
 
   const { labelsA, labelsB } = useMemo(() => {
-    if (Object.keys(casesMap).length === 0) return { labelsA: [], labelsB: [] };
+    if (Object.keys(agreementCasesMap).length === 0) return { labelsA: [], labelsB: [] };
 
     if (sourceA === "whitebox") {
       if (sourceB === "whitebox") return { labelsA: [], labelsB: [] };
-      const result = collectPairedLabelsMulti(ratings, casesMap, sourceB, "whitebox");
+      const result = collectPairedLabelsMulti(ratings, agreementCasesMap, sourceB, "whitebox");
       return { labelsA: result.labelsB, labelsB: result.labelsA };
     }
 
-    return collectPairedLabelsMulti(ratings, casesMap, sourceA, sourceB);
-  }, [ratings, casesMap, sourceA, sourceB]);
+    return collectPairedLabelsMulti(ratings, agreementCasesMap, sourceA, sourceB);
+  }, [ratings, agreementCasesMap, sourceA, sourceB]);
 
   const cohenKappaNominal = useMemo(
     () => computeCohenKappaNominal(labelsA, labelsB, numCategories),
@@ -85,9 +103,9 @@ export function AgreementDashboard({
   const raterIds = useMemo(() => raters.map((r) => r.id), [raters]);
 
   const fleissMatrix = useMemo(() => {
-    if (raterIds.length === 0 || Object.keys(casesMap).length === 0) return [];
-    return buildFleissMatrixMulti(ratings, casesMap, raterIds, true, numCategories);
-  }, [ratings, casesMap, raterIds, numCategories]);
+    if (raterIds.length === 0 || Object.keys(agreementCasesMap).length === 0) return [];
+    return buildFleissMatrixMulti(ratings, agreementCasesMap, raterIds, true, numCategories);
+  }, [ratings, agreementCasesMap, raterIds, numCategories]);
 
   const krippendorffNominal = useMemo(
     () => computeKrippendorffAlphaNominal(fleissMatrix, numCategories),
@@ -200,7 +218,7 @@ export function AgreementDashboard({
             </h3>
             <DisagreementReview
               ratings={ratings}
-              casesMap={casesMap}
+              casesMap={agreementCasesMap}
               sourceA={sourceA}
               sourceB={sourceB}
               sourceALabel={sourceALabel}
