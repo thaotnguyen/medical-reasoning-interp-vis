@@ -614,39 +614,29 @@
   },
   "taxonomy": [
     {
-      "label": "Orchestration / meta-control",
+      "label": "Enumerating clinical findings",
       "color": "#9467bd",
-      "short_name": "Orchestration"
+      "short_name": "Enumerating clinical findin…"
     },
     {
-      "label": "Case evidence extraction (patient-specific facts)",
+      "label": "Stating the final diagnosis",
       "color": "#ff7f0e",
-      "short_name": "Case Evidence Extraction"
+      "short_name": "Stating the final diagnosis"
     },
     {
-      "label": "Evidence processing (salience + interpretation + summarization)",
+      "label": "Generating differential diagnoses",
       "color": "#1f77b4",
-      "short_name": "Evidence Processing"
+      "short_name": "Generating differential dia…"
     },
     {
-      "label": "Hypothesis generation (differential expansion)",
+      "label": "Stepwise analysis planning",
       "color": "#e377c2",
-      "short_name": "Hypothesis Generation"
+      "short_name": "Stepwise analysis planning"
     },
     {
-      "label": "Hypothesis evaluation & narrowing (support OR exclude)",
+      "label": "Classifying Clinical Measurements",
       "color": "#2ca02c",
-      "short_name": "Hypothesis Evaluation"
-    },
-    {
-      "label": "Medical knowledge / templates / criteria (general facts)",
-      "color": "#d62728",
-      "short_name": "Recalling Medical Knowledge"
-    },
-    {
-      "label": "Final answer commitment",
-      "color": "#8c564b",
-      "short_name": "Final Answer"
+      "short_name": "Classifying Clinical Measur…"
     }
   ],
   "model_order": [

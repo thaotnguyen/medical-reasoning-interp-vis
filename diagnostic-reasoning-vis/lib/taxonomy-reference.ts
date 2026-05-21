@@ -1,6 +1,10 @@
 // ============================================================
-// Taxonomy category descriptions and examples for tutorial/help
+// Geometric-pipeline taxonomy category descriptions and examples
+// for tutorial / help. The 5 B0–B4 buckets were derived geometrically
+// from SAE-disentangled sentence activations and labeled by GPT-5.
 // ============================================================
+
+import type { Pipeline } from "./types";
 
 export interface TaxonomyReference {
   index: number;
@@ -12,110 +16,94 @@ export interface TaxonomyReference {
   negativeExplanation: string;
 }
 
-export const TAXONOMY_REFERENCES: TaxonomyReference[] = [
+const GEOMETRIC_REFERENCES: TaxonomyReference[] = [
   {
-    index: 0,
+    index: 0, // B0 — Enumerating clinical findings
     shortDescription:
-      "Procedural statements that structure or control the reasoning process.",
+      "Reporting patient-specific facts pulled from the case vignette.",
     longDescription:
-      "These are sentences where the model organizes its thinking, transitions between sections, or makes meta-comments about its reasoning strategy. They don't directly engage with medical content but instead manage the flow of the analysis.",
+      "Sentences that restate or enumerate specific clinical findings from the case — demographics, symptoms, vitals, exam findings, lab/imaging results, history. The information comes directly from the case text rather than from general medical knowledge.",
     positiveExample:
-      "Let me work through this systematically, starting with the key symptoms.",
+      "The patient is a 23-year-old with a history of anxiety and treated schizophrenia.",
     positiveExplanation:
-      "This is a meta-statement about how to approach the problem, not actual medical reasoning.",
+      "Restates case-specific facts the model is grounding its reasoning on.",
     negativeExample:
-      "The patient presents with fever and cough.",
+      "Hypocalcemia is a well-known cause of carpopedal spasm.",
     negativeExplanation:
-      "This extracts case facts (Case Evidence Extraction), not reasoning structure.",
+      "General medical knowledge, not a fact lifted from the vignette.",
   },
   {
-    index: 1,
+    index: 1, // B1 — Stating the final diagnosis
     shortDescription:
-      "Directly pulling facts from the patient case.",
+      "Committing to a final diagnosis or summary conclusion.",
     longDescription:
-      "Sentences that identify, extract, or restate specific clinical details from the case vignette \u2014 demographics, symptoms, lab values, imaging findings, history. The key marker is that the information comes directly from the case text, not from medical knowledge.",
+      "Sentences that consolidate the preceding analysis into a definitive diagnostic answer or summary judgement. They typically appear toward the end of a trace and signal the transition from deliberation to commitment.",
     positiveExample:
-      "The patient is a 45-year-old male presenting with acute chest pain and shortness of breath.",
+      "So the underlying issue is hypocalcemia, which can cause seizures.",
     positiveExplanation:
-      "Directly restates facts given in the case vignette without interpretation.",
+      "Names a single underlying diagnosis as the conclusion of the reasoning.",
     negativeExample:
-      "Chest pain with shortness of breath suggests a cardiopulmonary etiology.",
+      "It could be hypocalcemia, hypomagnesemia, or a medication side effect.",
     negativeExplanation:
-      "This interprets the findings (Evidence Processing), not just extracts them.",
+      "Still listing possibilities (Generating differential diagnoses).",
   },
   {
-    index: 2,
+    index: 2, // B2 — Generating differential diagnoses
     shortDescription:
-      "Interpreting, weighing, or synthesizing extracted findings.",
+      "Proposing or expanding candidate diagnoses to consider.",
     longDescription:
-      "Sentences that go beyond restating case facts to analyze their clinical significance, combine multiple findings, note patterns, or assess relevance. This is the interpretive bridge between raw evidence and hypothesis generation.",
+      "Sentences that introduce new diagnostic possibilities, list a differential, or pivot toward an alternative explanation. Hedged language (\"could be,\" \"maybe,\" \"points to\") and lists of conditions are typical markers.",
     positiveExample:
-      "The combination of sudden onset chest pain with elevated D-dimer is highly suggestive of a thromboembolic event.",
+      "Which is often associated with low calcium levels (hypocalcemia) or maybe low magnesium.",
     positiveExplanation:
-      "Synthesizes multiple case findings and draws a clinical inference from them.",
+      "Introduces multiple candidate causes worth considering.",
     negativeExample:
-      "Pulmonary embolism typically presents with pleuritic chest pain and dyspnea.",
+      "The patient has a 1-month history of carpopedal spasm.",
     negativeExplanation:
-      "This states general medical knowledge (Recalling Medical Knowledge), not patient-specific interpretation.",
+      "Just restates a case finding (Enumerating clinical findings).",
   },
   {
-    index: 3,
+    index: 3, // B3 — Stepwise analysis planning
     shortDescription:
-      "Proposing possible diagnoses or differential items.",
+      "Meta-statements that organize or steer the reasoning process.",
     longDescription:
-      "Sentences that introduce new diagnostic possibilities, expand the differential, or suggest potential diagnoses. The key marker is the introduction of a diagnosis that hasn\u2019t been previously mentioned in the reasoning trace.",
-    positiveExample:
-      "This could represent pulmonary embolism, pneumothorax, or acute coronary syndrome.",
+      "Procedural sentences that frame the analysis — opening remarks, transitions, statements of intent (\"let me think step by step\"). They manage how the model is going to reason rather than make a claim about the patient.",
+    positiveExample: "Okay, let's tackle this case.",
     positiveExplanation:
-      "Introduces multiple new diagnostic possibilities for the first time.",
-    negativeExample:
-      "Pulmonary embolism fits well with the elevated D-dimer finding.",
+      "Pure meta-framing of the upcoming analysis; no medical claim.",
+    negativeExample: "The seizure was managed with diazepam.",
     negativeExplanation:
-      "This evaluates an already-proposed hypothesis (Hypothesis Evaluation), not generates a new one.",
+      "Reports a case event (Enumerating clinical findings).",
   },
   {
-    index: 4,
+    index: 4, // B4 — Classifying Clinical Measurements
     shortDescription:
-      "Supporting, weighing, or eliminating diagnostic possibilities.",
+      "Interpreting vitals, labs, or other measurements as normal/abnormal.",
     longDescription:
-      "Sentences that assess how well evidence supports or refutes a previously proposed diagnosis. This includes comparing hypotheses, ruling diagnoses in or out, and explaining why certain diagnoses are more or less likely.",
+      "Sentences that judge whether a measurement is within range, elevated, depressed, or otherwise significant — translating raw numbers and observations into a clinical classification.",
     positiveExample:
-      "Pneumothorax is less likely given the absence of decreased breath sounds on the affected side.",
+      "But he has normal blood pressure and labs are normal.",
     positiveExplanation:
-      "Evaluates and weakens an existing hypothesis based on evidence.",
+      "Classifies the measurements as normal, a value judgement on the data.",
     negativeExample:
-      "We should also consider aortic dissection.",
+      "His blood pressure is 152/86 in the right arm and 130/72 in the left.",
     negativeExplanation:
-      "This introduces a new hypothesis (Hypothesis Generation), not evaluates an existing one.",
-  },
-  {
-    index: 5,
-    shortDescription:
-      "Recalling general medical facts, criteria, or disease features.",
-    longDescription:
-      "Sentences where the model draws on medical knowledge not present in the case \u2014 disease definitions, diagnostic criteria, pathophysiology, epidemiology, treatment guidelines. The information would be true regardless of this specific patient.",
-    positiveExample:
-      "Pulmonary embolism is diagnosed using the Wells criteria and confirmed with CT pulmonary angiography.",
-    positiveExplanation:
-      "States a general medical fact about PE diagnosis, independent of the patient case.",
-    negativeExample:
-      "This patient's Wells score would be high given the tachycardia and recent surgery.",
-    negativeExplanation:
-      "This applies criteria to the specific patient (Evidence Processing), not just recalls them.",
-  },
-  {
-    index: 6,
-    shortDescription:
-      "Committing to the final diagnosis or answer.",
-    longDescription:
-      "Sentences where the model makes its definitive diagnostic conclusion or selects its final answer. These typically appear near the end of the reasoning trace and represent the transition from deliberation to decision.",
-    positiveExample:
-      "Based on the clinical picture, the most likely diagnosis is pulmonary embolism. The answer is B.",
-    positiveExplanation:
-      "Makes a definitive commitment to a final answer.",
-    negativeExample:
-      "Pulmonary embolism remains the leading diagnosis at this point.",
-    negativeExplanation:
-      "Still deliberating and hedging (Hypothesis Evaluation), not yet committing to a final answer.",
+      "Just reports the raw number (Enumerating clinical findings).",
   },
 ];
+
+export const TAXONOMY_REFERENCES_BY_PIPELINE: Record<
+  Pipeline,
+  TaxonomyReference[]
+> = {
+  geometric: GEOMETRIC_REFERENCES,
+};
+
+/** Back-compat shim: the geometric references. */
+export const TAXONOMY_REFERENCES: TaxonomyReference[] = GEOMETRIC_REFERENCES;
+
+export function getTaxonomyReferences(
+  pipeline: Pipeline
+): TaxonomyReference[] {
+  return TAXONOMY_REFERENCES_BY_PIPELINE[pipeline] ?? GEOMETRIC_REFERENCES;
+}

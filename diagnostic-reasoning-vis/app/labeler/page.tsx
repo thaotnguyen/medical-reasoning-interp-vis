@@ -7,6 +7,8 @@ import { useLabelingState, getRating } from "@/hooks/useLabelingState";
 import { useKeyboardLabeling } from "@/hooks/useKeyboardLabeling";
 import { useRaterIdentity } from "@/hooks/useRaterIdentity";
 import { useRatingsSync } from "@/hooks/useRatingsSync";
+import { useAppState } from "@/hooks/useAppState";
+import { usePipelineTaxonomy } from "@/hooks/usePipelineTaxonomy";
 import { CaseSidebar } from "@/components/labeler/CaseSidebar";
 import { LabelingPanel } from "@/components/labeler/LabelingPanel";
 import { TutorialModal } from "@/components/labeler/TutorialModal";
@@ -40,6 +42,11 @@ function useIsMobile() {
 
 export default function LabelerPage() {
   const { metadata, isLoading: metaLoading } = useMetadata();
+  const { selectedPipeline, selectedModel } = useAppState();
+  const { taxonomy: pipelineTaxonomy } = usePipelineTaxonomy(selectedPipeline);
+  const activeTaxonomy = pipelineTaxonomy.length
+    ? pipelineTaxonomy
+    : metadata?.taxonomy ?? [];
 
   // Cache: "model_dataset_caseIndex" -> { sentenceCount, caseId }
   // Must be declared before useSamplePool so the callback can be passed in.
@@ -73,7 +80,11 @@ export default function LabelerPage() {
     selectedIndex,
     isLoading: poolLoading,
     navigateTo,
-  } = useSamplePool({ onCasesLoaded: handleCasesLoaded });
+  } = useSamplePool({
+    pipeline: selectedPipeline,
+    model: selectedModel,
+    onCasesLoaded: handleCasesLoaded,
+  });
 
   const {
     ratings,
@@ -90,7 +101,7 @@ export default function LabelerPage() {
     needsTutorial,
     isReady,
     completeTutorial,
-  } = useRaterIdentity();
+  } = useRaterIdentity(selectedPipeline);
 
   const [helpOpen, setHelpOpen] = useState(false);
   const isMobile = useIsMobile();
@@ -218,6 +229,7 @@ export default function LabelerPage() {
     caseId: currentCase?.id ?? "",
     ratings,
     totalSentences: currentCase?.sentences.length ?? 0,
+    numTaxonomy: activeTaxonomy.length,
     focusedIndex: focusedSentenceIndex,
     onFocus: setFocusedSentence,
     onLabel: handleLabel,
@@ -239,7 +251,8 @@ export default function LabelerPage() {
   if (needsTutorial) {
     return (
       <TutorialModal
-        taxonomy={metadata.taxonomy}
+        taxonomy={activeTaxonomy}
+        pipeline={selectedPipeline}
         onComplete={handleTutorialComplete}
       />
     );
@@ -429,7 +442,7 @@ export default function LabelerPage() {
             <div className="flex-1 overflow-hidden">
               <LabelingPanel
                 sentences={currentCase.sentences}
-                taxonomy={metadata.taxonomy}
+                taxonomy={activeTaxonomy}
                 ratings={ratings}
                 rater={raterId}
                 model={currentItem.model}
@@ -447,7 +460,8 @@ export default function LabelerPage() {
 
       {/* Help drawer */}
       <HelpDrawer
-        taxonomy={metadata.taxonomy}
+        taxonomy={activeTaxonomy}
+        pipeline={selectedPipeline}
         open={helpOpen}
         onClose={() => setHelpOpen(false)}
       />

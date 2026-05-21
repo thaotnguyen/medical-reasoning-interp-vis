@@ -1,18 +1,25 @@
 "use client";
 
-import type { TaxonomyItem } from "@/lib/types";
-import { TAXONOMY_REFERENCES } from "@/lib/taxonomy-reference";
+import type { TaxonomyItem, Pipeline } from "@/lib/types";
+import { getTaxonomyReferences } from "@/lib/taxonomy-reference";
 import { X, CheckCircle2, XCircle } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface HelpDrawerProps {
   taxonomy: TaxonomyItem[];
+  pipeline: Pipeline;
   open: boolean;
   onClose: () => void;
 }
 
-export function HelpDrawer({ taxonomy, open, onClose }: HelpDrawerProps) {
+export function HelpDrawer({
+  taxonomy,
+  pipeline,
+  open,
+  onClose,
+}: HelpDrawerProps) {
   if (!open) return null;
+  const references = getTaxonomyReferences(pipeline);
 
   return (
     <div className="fixed inset-0 z-40 flex justify-end">
@@ -35,7 +42,7 @@ export function HelpDrawer({ taxonomy, open, onClose }: HelpDrawerProps) {
         {/* Content */}
         <ScrollArea className="flex-1 min-h-0">
           <div className="p-5 space-y-6">
-            {TAXONOMY_REFERENCES.map((ref, idx) => {
+            {references.map((ref, idx) => {
               const tax = taxonomy[idx];
               if (!tax) return null;
 
@@ -78,7 +85,7 @@ export function HelpDrawer({ taxonomy, open, onClose }: HelpDrawerProps) {
                     </div>
                   </div>
 
-                  {idx < TAXONOMY_REFERENCES.length - 1 && (
+                  {idx < references.length - 1 && (
                     <div className="border-b pt-1" />
                   )}
                 </div>

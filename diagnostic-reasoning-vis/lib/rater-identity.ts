@@ -5,8 +5,14 @@
 // ============================================================
 
 const RATER_NAME_KEY = "drv-rater-name";
-const TUTORIAL_DONE_KEY = "drv-tutorial-done";
+const TUTORIAL_DONE_KEY_BASE = "drv-tutorial-done";
 const COOKIE_MAX_AGE = 365 * 24 * 60 * 60; // 1 year in seconds
+
+function tutorialKey(pipeline?: string | null): string {
+  return pipeline && pipeline !== "sentence"
+    ? `${TUTORIAL_DONE_KEY_BASE}:${pipeline}`
+    : TUTORIAL_DONE_KEY_BASE;
+}
 
 function setCookie(name: string, value: string): void {
   document.cookie = `${name}=${encodeURIComponent(value)};path=/;max-age=${COOKIE_MAX_AGE};SameSite=Lax`;
@@ -32,25 +38,31 @@ export function getRaterId(): string | null {
   return name ? nameToId(name) : null;
 }
 
-export function isTutorialDone(): boolean {
+export function isTutorialDone(pipeline?: string | null): boolean {
   if (typeof window === "undefined") return false;
-  return getCookie(TUTORIAL_DONE_KEY) === "1" || localStorage.getItem(TUTORIAL_DONE_KEY) === "1";
+  const k = tutorialKey(pipeline);
+  return getCookie(k) === "1" || localStorage.getItem(k) === "1";
 }
 
-export function createRaterIdentity(name: string): string {
+export function createRaterIdentity(
+  name: string,
+  pipeline?: string | null
+): string {
   const trimmed = name.trim();
   const id = nameToId(trimmed);
+  const k = tutorialKey(pipeline);
 
   // Store display name in both cookie and localStorage
   setCookie(RATER_NAME_KEY, trimmed);
-  setCookie(TUTORIAL_DONE_KEY, "1");
+  setCookie(k, "1");
   localStorage.setItem(RATER_NAME_KEY, trimmed);
-  localStorage.setItem(TUTORIAL_DONE_KEY, "1");
+  localStorage.setItem(k, "1");
 
   return id;
 }
 
-export function markTutorialDone(): void {
-  setCookie(TUTORIAL_DONE_KEY, "1");
-  localStorage.setItem(TUTORIAL_DONE_KEY, "1");
+export function markTutorialDone(pipeline?: string | null): void {
+  const k = tutorialKey(pipeline);
+  setCookie(k, "1");
+  localStorage.setItem(k, "1");
 }

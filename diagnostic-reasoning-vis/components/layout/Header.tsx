@@ -13,8 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function Header() {
   const { metadata, isLoading } = useMetadata();
-  const { selectedModel, selectedDataset, setModel, setDataset } =
-    useAppState();
+  const { selectedModel, setModel } = useAppState();
 
   if (isLoading || !metadata) {
     return (
@@ -63,21 +62,6 @@ export function Header() {
         </Select>
       </div>
 
-      <div className="flex items-center gap-2">
-        <span className="text-xs text-muted-foreground">Dataset</span>
-        <Select value={selectedDataset} onValueChange={setDataset}>
-          <SelectTrigger className="w-[140px] h-8 text-xs">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {metadata.dataset_order.map((slug) => (
-              <SelectItem key={slug} value={slug} className="text-xs">
-                {metadata.datasets[slug]}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
     </div>
   );
 }

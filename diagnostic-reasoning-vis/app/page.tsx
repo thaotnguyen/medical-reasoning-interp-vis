@@ -2,8 +2,9 @@
 
 import { useCallback } from "react";
 import { useMetadata } from "@/hooks/useMetadata";
-import { useCases } from "@/hooks/useCases";
-import { useTSNE } from "@/hooks/useTSNE";
+import { usePipelineCases } from "@/hooks/usePipelineCases";
+import { usePipelinePoints } from "@/hooks/usePipelinePoints";
+import { usePipelineTaxonomy } from "@/hooks/usePipelineTaxonomy";
 import { useAppState } from "@/hooks/useAppState";
 import { TSNEPanel } from "@/components/tsne/TSNEPanel";
 import { CasePanel } from "@/components/case/CasePanel";
@@ -13,6 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function ExplorerPage() {
   const { metadata, isLoading: metaLoading } = useMetadata();
   const {
+    selectedPipeline,
     selectedModel,
     selectedDataset,
     selectedCaseIndex,
@@ -27,19 +29,21 @@ export default function ExplorerPage() {
     setTrajectoryPlaying,
   } = useAppState();
 
-  const { cases, isLoading: casesLoading } = useCases(
+  const { cases, isLoading: casesLoading } = usePipelineCases(
+    selectedPipeline,
     selectedModel,
     selectedDataset
   );
+  const { taxonomy } = usePipelineTaxonomy(selectedPipeline);
 
   const modelInfo = metadata?.models[selectedModel];
-  const datasetInfo = modelInfo?.datasets[selectedDataset];
-  const hasTSNE = datasetInfo?.has_tsne ?? false;
-
-  // Only fetch t-SNE if model has activations and dataset supports it
-  const tsneModel =
-    hasTSNE && modelInfo?.has_activations ? selectedModel : null;
-  const { points, isLoading: tsneLoading } = useTSNE(tsneModel);
+  const hasTSNE = true;
+  const tsneEnabled = true;
+  const { points, isLoading: tsneLoading } = usePipelinePoints(
+    selectedPipeline,
+    selectedModel,
+    tsneEnabled
+  );
 
   const handleClickPoint = useCallback(
     (caseIdx: number) => {
@@ -75,7 +79,7 @@ export default function ExplorerPage() {
           <TSNEPanel
             points={points}
             isLoading={tsneLoading}
-            taxonomy={metadata.taxonomy}
+            taxonomy={taxonomy.length ? taxonomy : metadata.taxonomy}
             clusters={modelInfo?.clusters ?? {}}
             cases={cases}
             colorMode={colorMode}
@@ -116,7 +120,7 @@ export default function ExplorerPage() {
               {currentCase && (
                 <TracePanel
                   currentCase={currentCase}
-                  taxonomy={metadata.taxonomy}
+                  taxonomy={taxonomy.length ? taxonomy : metadata.taxonomy}
                   hoveredSentenceIndex={hoveredSentenceIndex}
                   onHoverSentence={setHoveredSentence}
                 />

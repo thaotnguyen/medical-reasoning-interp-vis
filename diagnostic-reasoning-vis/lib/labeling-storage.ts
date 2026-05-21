@@ -5,7 +5,10 @@
 import type { RatingsStore } from "./labeling-types";
 import type { Case, Metadata } from "./types";
 
-const STORAGE_KEY = "drv-ratings";
+// Bumped from "drv-ratings" when the taxonomy switched from the 7-state
+// sentence/clause schemes to the 5-state geometric scheme; old labels would
+// silently misalign so we start a fresh local store.
+const STORAGE_KEY = "drv-ratings-geometric";
 
 export function loadRatings(): RatingsStore {
   if (typeof window === "undefined") return {};

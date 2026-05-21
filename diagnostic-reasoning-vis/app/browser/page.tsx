@@ -2,12 +2,14 @@
 
 import { useMetadata } from "@/hooks/useMetadata";
 import { useAppState } from "@/hooks/useAppState";
+import { usePipelineTaxonomy } from "@/hooks/usePipelineTaxonomy";
 import { BrowserPanel } from "@/components/browser/BrowserPanel";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function BrowserPage() {
   const { metadata, isLoading } = useMetadata();
-  const { selectedModel } = useAppState();
+  const { selectedModel, selectedPipeline } = useAppState();
+  const { taxonomy } = usePipelineTaxonomy(selectedPipeline);
 
   if (isLoading || !metadata) {
     return (
@@ -24,7 +26,7 @@ export default function BrowserPage() {
 
   return (
     <BrowserPanel
-      taxonomy={metadata.taxonomy}
+      taxonomy={taxonomy.length ? taxonomy : metadata.taxonomy}
       clusters={modelInfo?.clusters ?? {}}
       modelDisplayName={modelInfo?.display_name ?? selectedModel}
       numClusters={modelInfo?.num_clusters ?? 0}

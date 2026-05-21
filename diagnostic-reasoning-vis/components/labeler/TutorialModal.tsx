@@ -1,27 +1,35 @@
 "use client";
 
 import { useState } from "react";
-import type { TaxonomyItem } from "@/lib/types";
-import { TAXONOMY_REFERENCES } from "@/lib/taxonomy-reference";
+import type { TaxonomyItem, Pipeline } from "@/lib/types";
+import { getTaxonomyReferences } from "@/lib/taxonomy-reference";
 import { ChevronLeft, ChevronRight, CheckCircle2, XCircle } from "lucide-react";
 
 interface TutorialModalProps {
   taxonomy: TaxonomyItem[];
+  pipeline: Pipeline;
   onComplete: (name: string) => void;
 }
 
-export function TutorialModal({ taxonomy, onComplete }: TutorialModalProps) {
+export function TutorialModal({
+  taxonomy,
+  pipeline,
+  onComplete,
+}: TutorialModalProps) {
   const [step, setStep] = useState(0);
   const [name, setName] = useState("");
 
-  // Step 0 = welcome, steps 1-7 = taxonomy categories, step 8 = name entry
-  const totalSteps = TAXONOMY_REFERENCES.length + 2;
+  const references = getTaxonomyReferences(pipeline);
+  // Step 0 = welcome, steps 1..N = taxonomy categories, last = name entry
+  const totalSteps = references.length + 2;
   const isWelcome = step === 0;
   const isNameStep = step === totalSteps - 1;
   const taxonomyStep = !isWelcome && !isNameStep ? step - 1 : -1;
 
-  const ref = taxonomyStep >= 0 ? TAXONOMY_REFERENCES[taxonomyStep] : null;
+  const ref = taxonomyStep >= 0 ? references[taxonomyStep] : null;
   const tax = taxonomyStep >= 0 ? taxonomy[taxonomyStep] : null;
+  const numStates = Math.max(taxonomy.length, references.length);
+  const lastKey = Math.min(numStates, 9);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
@@ -47,10 +55,11 @@ export function TutorialModal({ taxonomy, onComplete }: TutorialModalProps) {
                 how well automated labeling matches human judgment.
               </p>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Each sentence in a reasoning trace belongs to one of{" "}
-                <strong>7 categories</strong>. The next few screens will explain
-                each category with examples. Take your time &mdash; understanding
-                these categories is key to consistent labeling.
+                Each unit in a <strong>{pipeline}</strong> reasoning trace
+                belongs to one of <strong>{numStates} categories</strong>. The
+                next few screens explain each category with examples. Take your
+                time &mdash; understanding these categories is key to consistent
+                labeling.
               </p>
               <div className="pt-4 space-y-2">
                 <p className="text-xs font-medium text-muted-foreground">
@@ -65,7 +74,7 @@ export function TutorialModal({ taxonomy, onComplete }: TutorialModalProps) {
                       />
                       <span className="font-medium">{i + 1}. {t.short_name}</span>
                       <span className="text-muted-foreground">
-                        &mdash; {TAXONOMY_REFERENCES[i]?.shortDescription}
+                        &mdash; {references[i]?.shortDescription}
                       </span>
                     </div>
                   ))}
@@ -140,7 +149,7 @@ export function TutorialModal({ taxonomy, onComplete }: TutorialModalProps) {
                 </p>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
                   {[
-                    { keys: "1 – 7", desc: "Assign category to focused sentence" },
+                    { keys: `1 – ${lastKey}`, desc: "Assign category to focused sentence" },
                     { keys: "0  or  ⌫", desc: "Clear label" },
                     { keys: "↑ ↓  or  j k", desc: "Move between sentences" },
                     { keys: "Tab", desc: "Jump to next unlabeled" },

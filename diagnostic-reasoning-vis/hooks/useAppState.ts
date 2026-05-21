@@ -1,9 +1,15 @@
 "use client";
 
 import { create } from "zustand";
-import { DEFAULT_MODEL, DEFAULT_DATASET } from "@/lib/constants";
+import {
+  DEFAULT_MODEL,
+  DEFAULT_DATASET,
+  DEFAULT_PIPELINE,
+} from "@/lib/constants";
+import type { Pipeline } from "@/lib/types";
 
 interface AppState {
+  selectedPipeline: Pipeline;
   selectedModel: string;
   selectedDataset: string;
   selectedCaseIndex: number;
@@ -13,6 +19,7 @@ interface AppState {
   trajectoryProgress: number;
   trajectoryPlaying: boolean;
 
+  setPipeline: (pipeline: Pipeline) => void;
   setModel: (model: string) => void;
   setDataset: (dataset: string) => void;
   setCaseIndex: (index: number) => void;
@@ -25,6 +32,7 @@ interface AppState {
 }
 
 export const useAppState = create<AppState>((set) => ({
+  selectedPipeline: DEFAULT_PIPELINE,
   selectedModel: DEFAULT_MODEL,
   selectedDataset: DEFAULT_DATASET,
   selectedCaseIndex: 0,
@@ -34,6 +42,13 @@ export const useAppState = create<AppState>((set) => ({
   trajectoryProgress: 0,
   trajectoryPlaying: false,
 
+  setPipeline: (pipeline) =>
+    set({
+      selectedPipeline: pipeline,
+      selectedCaseIndex: 0,
+      hoveredPointIndex: null,
+      hoveredSentenceIndex: null,
+    }),
   setModel: (model) =>
     set({ selectedModel: model, selectedCaseIndex: 0, hoveredPointIndex: null, hoveredSentenceIndex: null }),
   setDataset: (dataset) =>

@@ -14,6 +14,8 @@ interface UseKeyboardLabelingOptions {
   ratings: RatingsStore;
   totalSentences: number;
   focusedIndex: number;
+  /** Number of taxonomy states for the active pipeline (clamps number keys). */
+  numTaxonomy?: number;
   onFocus: (index: number) => void;
   onLabel: (sentIdx: number, taxonomy: number) => void;
   onClear: (sentIdx: number) => void;
@@ -29,6 +31,7 @@ export function useKeyboardLabeling({
   ratings,
   totalSentences,
   focusedIndex,
+  numTaxonomy = 9,
   onFocus,
   onLabel,
   onClear,
@@ -63,8 +66,11 @@ export function useKeyboardLabeling({
         return;
       }
 
-      // Number keys: assign taxonomy
-      if (TAXONOMY_KEYBOARD_MAP[e.key] !== undefined) {
+      // Number keys: assign taxonomy (only if within pipeline taxonomy size)
+      if (
+        TAXONOMY_KEYBOARD_MAP[e.key] !== undefined &&
+        TAXONOMY_KEYBOARD_MAP[e.key] < numTaxonomy
+      ) {
         e.preventDefault();
         const taxonomy = TAXONOMY_KEYBOARD_MAP[e.key];
         onLabel(focusedIndex, taxonomy);

@@ -43,3 +43,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local-only runtime / scratch
+/ratings.json
+/ratings.json.bak
+/backups/
+/.tmp-tests/
+scripts/__pycache__/

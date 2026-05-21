@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useMetadata } from "@/hooks/useMetadata";
 import {
-  buildActiveLabelerPool,
+  poolEntriesToItems,
   type ActivePoolItem,
+  type GeometricPoolEntry,
 } from "@/lib/labeler-active-pool";
-import type { Case } from "@/lib/types";
+import type { Case, Pipeline } from "@/lib/types";
 
 interface UseSamplePoolResult {
   pool: ActivePoolItem[];
@@ -18,115 +18,128 @@ interface UseSamplePoolResult {
 }
 
 interface UseSamplePoolOptions {
-  /** Called once per session when a cases file is first loaded, with all cases in it. */
+  /** Kept for API back-compat (always treated as "geometric"). */
+  pipeline?: Pipeline;
+  /** Unused for geometric (pool is cross-model). */
+  model?: string;
+  /** Called once per cases file load, with all cases in it. */
   onCasesLoaded?: (model: string, dataset: string, cases: Case[]) => void;
 }
 
+const POOL_URL = "/data/pipelines/geometric/labeler-pool.json";
+const casesUrl = (model: string) =>
+  `/data/pipelines/geometric/cases/${model}.json`;
+
 /**
- * Manages the deterministic sample pool and lazy-loads case data.
- * Caches fetched case files so repeat visits are instant.
+ * Manages the geometric labeler pool (100 cases sampled across all models)
+ * and lazily loads case files keyed by model. Subsequent visits hit the cache.
  */
-export function useSamplePool({ onCasesLoaded }: UseSamplePoolOptions = {}): UseSamplePoolResult {
-  const { metadata } = useMetadata();
+export function useSamplePool({
+  onCasesLoaded,
+}: UseSamplePoolOptions = {}): UseSamplePoolResult {
   const [pool, setPool] = useState<ActivePoolItem[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [currentCase, setCurrentCase] = useState<Case | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Cache: model_dataset -> Case[]
+  // model -> Case[]
   const cacheRef = useRef<Map<string, Case[]>>(new Map());
 
-  // Keep a stable ref to the callback to avoid re-creating loadCase
   const onCasesLoadedRef = useRef(onCasesLoaded);
-  useEffect(() => { onCasesLoadedRef.current = onCasesLoaded; });
-
-  // Build the deployed-compatible pool once metadata arrives.
   useEffect(() => {
-    if (!metadata) return;
+    onCasesLoadedRef.current = onCasesLoaded;
+  });
 
-    const built = buildActiveLabelerPool(metadata);
-    setPool(built);
-    if (built.length === 0) {
-      setCurrentCase(null);
-      setIsLoading(false);
-    }
-  }, [metadata]);
-
-  // Reset selection if the pool changes and the current index is invalid.
+  // Load the pool manifest.
   useEffect(() => {
-    if (selectedIndex >= pool.length && pool.length > 0) {
-      setSelectedIndex(0);
-    }
-  }, [pool.length, selectedIndex]);
+    let cancelled = false;
+    setIsLoading(true);
+    fetch(POOL_URL)
+      .then((r) => (r.ok ? (r.json() as Promise<GeometricPoolEntry[]>) : []))
+      .then((entries) => {
+        if (cancelled) return;
+        setPool(poolEntriesToItems(entries));
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setPool([]);
+        setIsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
+  // Clamp selection if pool shrinks.
   useEffect(() => {
+    if (selectedIndex >= pool.length && pool.length > 0) setSelectedIndex(0);
     if (pool.length === 0) {
       setCurrentCase(null);
       setIsLoading(false);
     }
-  }, [pool.length]);
+  }, [pool.length, selectedIndex]);
 
-  // Fetch case data for current pool item
   const loadCase = useCallback(async (item: ActivePoolItem) => {
-    const key = `${item.model}_${item.dataset}`;
-    let cases = cacheRef.current.get(key);
-
+    let cases = cacheRef.current.get(item.model);
     if (!cases) {
       setIsLoading(true);
       try {
-        const res = await fetch(`/data/cases/${key}.json`);
+        const res = await fetch(casesUrl(item.model));
         if (!res.ok) throw new Error(`${res.status}`);
         cases = (await res.json()) as Case[];
-        cacheRef.current.set(key, cases);
-        // Notify caller with ALL cases so it can populate its cache up-front
-        onCasesLoadedRef.current?.(item.model, item.dataset, cases);
+        cacheRef.current.set(item.model, cases);
+        onCasesLoadedRef.current?.(item.model, "geometric", cases);
       } catch {
         setCurrentCase(null);
         setIsLoading(false);
         return;
       }
     }
-
     setCurrentCase(cases[item.caseIndex] ?? null);
     setIsLoading(false);
   }, []);
 
-  // Load case when selection changes
   useEffect(() => {
     const item = pool[selectedIndex];
     if (!item) return;
     loadCase(item);
   }, [pool, selectedIndex, loadCase]);
 
-  // Background-prefetch every unique case file as soon as the pool is known.
-  // This populates caseInfo for ALL pool items immediately, so the sidebar can
-  // show completion status without requiring the user to navigate to each case.
+  // Prefetch every distinct model's cases file once.
   useEffect(() => {
     if (pool.length === 0) return;
     const seen = new Set<string>();
     for (const item of pool) {
-      const fileKey = `${item.model}_${item.dataset}`;
-      if (seen.has(fileKey)) continue;
-      seen.add(fileKey);
-      if (cacheRef.current.has(fileKey)) {
-        // Already fetched (e.g. by loadCase) — fire callback now so caseInfo is populated
-        onCasesLoadedRef.current?.(item.model, item.dataset, cacheRef.current.get(fileKey)!);
-      } else {
-        fetch(`/data/cases/${fileKey}.json`)
-          .then(r => { if (!r.ok) throw new Error(); return r.json() as Promise<Case[]>; })
-          .then(cases => {
-            if (!cacheRef.current.has(fileKey)) cacheRef.current.set(fileKey, cases);
-            onCasesLoadedRef.current?.(item.model, item.dataset, cases);
-          })
-          .catch(() => {});
+      if (seen.has(item.model)) continue;
+      seen.add(item.model);
+      if (cacheRef.current.has(item.model)) {
+        onCasesLoadedRef.current?.(
+          item.model,
+          "geometric",
+          cacheRef.current.get(item.model)!
+        );
+        continue;
       }
+      fetch(casesUrl(item.model))
+        .then((r) => (r.ok ? (r.json() as Promise<Case[]>) : null))
+        .then((cases) => {
+          if (!cases) return;
+          if (!cacheRef.current.has(item.model)) {
+            cacheRef.current.set(item.model, cases);
+          }
+          onCasesLoadedRef.current?.(item.model, "geometric", cases);
+        })
+        .catch(() => {});
     }
   }, [pool]);
 
-  const navigateTo = useCallback((index: number) => {
-    if (pool.length === 0) return;
-    setSelectedIndex(Math.max(0, Math.min(index, pool.length - 1)));
-  }, [pool.length]);
+  const navigateTo = useCallback(
+    (index: number) => {
+      if (pool.length === 0) return;
+      setSelectedIndex(Math.max(0, Math.min(index, pool.length - 1)));
+    },
+    [pool.length]
+  );
 
   return {
     pool,

@@ -40,6 +40,8 @@ export const TAXONOMY_KEYBOARD_MAP: Record<string, number> = {
   "5": 4,
   "6": 5,
   "7": 6,
+  "8": 7,
+  "9": 8,
 };
 
 /** Colors assigned to raters in the agreement dashboard */

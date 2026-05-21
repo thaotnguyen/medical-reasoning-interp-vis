@@ -9,7 +9,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import type { RatingsStore, ServerRatingsResponse } from "@/lib/labeling-types";
 import type { Case } from "@/lib/types";
 import { importRatings } from "@/lib/labeling-storage";
-import { buildActiveLabelerPool } from "@/lib/labeler-active-pool";
+import {
+  poolEntriesToItems,
+  type ActivePoolItem,
+  type GeometricPoolEntry,
+} from "@/lib/labeler-active-pool";
 
 export default function AgreementPage() {
   const { metadata, isLoading: metaLoading } = useMetadata();
@@ -21,10 +25,24 @@ export default function AgreementPage() {
   const [casesLoading, setCasesLoading] = useState(false);
   const fetchedKeysRef = useRef<Set<string>>(new Set());
 
-  const labelerPool = useMemo(
-    () => (metadata ? buildActiveLabelerPool(metadata) : []),
-    [metadata]
-  );
+  const [labelerPool, setLabelerPool] = useState<ActivePoolItem[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/data/pipelines/geometric/labeler-pool.json")
+      .then((r) => (r.ok ? (r.json() as Promise<GeometricPoolEntry[]>) : []))
+      .then((entries) => {
+        if (cancelled) return;
+        setLabelerPool(poolEntriesToItems(entries));
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setLabelerPool([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Fetch all ratings from server on mount
   useEffect(() => {
@@ -64,9 +82,13 @@ export default function AgreementPage() {
     return { mergedRatings: merged, raters: ratersList };
   }, [localRatings, serverData]);
 
-  // Discover all model_dataset combos from merged ratings
+  // Load case files for every model in the geometric labeler pool, plus any
+  // model that already has ratings recorded (covers historical raters).
   const neededKeys = useMemo(() => {
     const keys = new Set<string>();
+    for (const item of labelerPool) {
+      keys.add(`${item.model}_${item.dataset}`);
+    }
     for (const raterId of Object.keys(mergedRatings)) {
       const models = mergedRatings[raterId];
       if (!models) continue;
@@ -77,24 +99,23 @@ export default function AgreementPage() {
       }
     }
     return Array.from(keys).sort();
-  }, [mergedRatings]);
+  }, [mergedRatings, labelerPool]);
 
-  // Load cases for all needed model_dataset combos
-  // Use a ref to track fetched keys so we don't depend on casesMap in the effect
   useEffect(() => {
     if (neededKeys.length === 0) return;
-
     const missing = neededKeys.filter((k) => !fetchedKeysRef.current.has(k));
     if (missing.length === 0) return;
-
-    // Mark as fetched immediately to prevent duplicate requests
     for (const k of missing) fetchedKeysRef.current.add(k);
 
     setCasesLoading(true);
     Promise.all(
       missing.map(async (key) => {
+        const idx = key.lastIndexOf("_");
+        const model = idx >= 0 ? key.slice(0, idx) : key;
         try {
-          const res = await fetch(`/data/cases/${key}.json`);
+          const res = await fetch(
+            `/data/pipelines/geometric/cases/${model}.json`
+          );
           if (!res.ok) return { key, cases: null };
           const cases: Case[] = await res.json();
           return { key, cases };

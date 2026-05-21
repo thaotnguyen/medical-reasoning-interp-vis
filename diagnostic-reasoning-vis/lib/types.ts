@@ -60,3 +60,16 @@ export interface Sentence {
 /** tsne/{model}.json - flat array of tuples */
 // [x, y, taxonomy_idx, cluster_id, case_idx, sent_idx]
 export type TSNEPoint = [number, number, number, number, number, number];
+
+/** Pipeline identifier — only the geometric pipeline is supported. */
+export type Pipeline = "geometric";
+
+/** Per-pipeline taxonomy descriptor (mirrors metadata.taxonomy shape). */
+export interface PipelineTaxonomy {
+  pipeline: Pipeline;
+  states: TaxonomyItem[];
+  /** Models contributing points to the pipeline (cross-model pipelines list >1). */
+  models?: string[];
+  /** Whether this pipeline is per-(model,dataset) (sentence) or model-only. */
+  has_dataset?: boolean;
+}
