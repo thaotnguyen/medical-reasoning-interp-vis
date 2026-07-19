@@ -18,6 +18,7 @@ export interface GeometricPoolEntry {
   caseIndex: number;
   caseId: string;
   sentenceCount: number;
+  isTraining?: boolean;
 }
 
 export function poolEntriesToItems(
@@ -30,6 +31,7 @@ export function poolEntriesToItems(
     caseIndex: e.caseIndex,
     caseId: e.caseId,
     sentenceCount: e.sentenceCount,
+    isTraining: e.isTraining,
   }));
 }
 

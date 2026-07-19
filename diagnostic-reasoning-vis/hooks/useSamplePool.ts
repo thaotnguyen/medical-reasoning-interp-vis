@@ -26,9 +26,9 @@ interface UseSamplePoolOptions {
   onCasesLoaded?: (model: string, dataset: string, cases: Case[]) => void;
 }
 
-const POOL_URL = "/data/pipelines/geometric/labeler-pool.json";
+const POOL_URL = "/data/pipelines/dedup/labeler-pool.json";
 const casesUrl = (model: string) =>
-  `/data/pipelines/geometric/cases/${model}.json`;
+  `/data/pipelines/dedup/cases/${model}.json`;
 
 /**
  * Manages the geometric labeler pool (100 cases sampled across all models)
