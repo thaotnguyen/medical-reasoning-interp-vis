@@ -47,6 +47,20 @@ MODELS = [
     "qwq-32b",
 ]
 
+# Winning (layer, sae_k) per model from the taxonomy search (results/plain/winner.json).
+# The left-panel projection is the taxonomy's own geometry: each sentence embedded through this
+# SAE's latents, i.e. vecs = Vn (Vnᵀ S) = L Lᵀ S with Vn = per-block centred + Frobenius-normalised
+# latents (matching cache_latents), S = the sentence embedding.
+WINNING_SEL = {
+    "deepseek-r1-distill-llama-8b": (14, 18),
+    "deepseek-r1-distill-qwen-1.5b": (8, 14),
+    "deepseek-r1-distill-qwen-14b": (26, 14),
+    "gpt-oss-20b": (17, 16),
+    "huatuogpt-o1-8b": (10, 14),
+    "qwq-32b": (45, 16),
+}
+SIDECAR_DIR = WT / "universal-taxonomy" / "results" / "vars" / "latents"
+
 PALETTE = [
     "#9467bd", "#ff7f0e", "#1f77b4", "#e377c2", "#2ca02c", "#d62728",
     "#8c564b", "#17becf", "#bcbd22", "#7f7f7f", "#5b8def", "#e7969c",
@@ -102,6 +116,40 @@ def load_grading(model: str) -> dict[str, dict]:
     return out
 
 
+def latent_reconstructed_embedding(model: str, pmcids: list[str], sent_idx: np.ndarray,
+                                   S: np.ndarray) -> np.ndarray:
+    """vecs = Vn (Vnᵀ S) for the model's winning SAE, aligned to the cache rows.
+
+    Vn = per-block centred + Frobenius-normalised per-sentence latents (as in cache_latents),
+    so this is the exact space the taxonomy search/labels live in — 'the sentence as the SAE
+    sees it' = L Lᵀ S.
+    """
+    layer, k = WINNING_SEL[model]
+    base = SIDECAR_DIR / model / f"layer{layer}"
+    L_side = np.load(base / "latents.npz")[f"k{k}"].astype(np.float32)   # (N_side, k)
+    idx = np.load(base / "index.npz", allow_pickle=True)
+    side_pm = [p.decode() if isinstance(p, bytes) else str(p) for p in idx["pmcid"]]
+    side_si = idx["sentence_idx"].astype(int)
+    row_of = {(pm, int(si)): r for r, (pm, si) in enumerate(zip(side_pm, side_si))}
+
+    L = np.empty((len(pmcids), k), dtype=np.float32)
+    miss = 0
+    for i, (pm, si) in enumerate(zip(pmcids, sent_idx)):
+        r = row_of.get((pm, int(si)))
+        if r is None:
+            L[i] = 0.0
+            miss += 1
+        else:
+            L[i] = L_side[r]
+    if miss:
+        print(f"  [warn] {miss}/{len(pmcids)} sentences missing from sidecar (zero-filled)")
+
+    Vn = L - L.mean(0, keepdims=True)
+    Vn = Vn / (np.linalg.norm(Vn) + 1e-8)                 # Frobenius (matches cache_latents)
+    E = Vn.T @ S                                          # (k, 256)
+    return (Vn @ E).astype(np.float32)                    # (N, 256) = L Lᵀ S
+
+
 def project_2d(features: np.ndarray, max_points: int, seed: int = 42) -> np.ndarray:
     from sklearn.decomposition import PCA
     from sklearn.manifold import TSNE
@@ -133,8 +181,9 @@ def emit_model(model: str, state_names: list[str], tsne_max: int) -> None:
     resp = {r["pmcid"]: r for r in json.load(open(RESP_DIR / f"responses_{model}.json"))}
     grading = load_grading(model)  # pmcid -> {true, pred, correct}
 
-    print(f"  projecting {S.shape[0]} × {S.shape[1]} → 2D", flush=True)
-    coords = project_2d(S, tsne_max)
+    vecs = latent_reconstructed_embedding(model, pmcids, sent_idx, S)
+    print(f"  projecting {vecs.shape[0]} × {vecs.shape[1]} (L Lᵀ S) → 2D", flush=True)
+    coords = project_2d(vecs, tsne_max)
 
     # group sentence rows by case in first-appearance order
     order: list[str] = []
@@ -155,9 +204,10 @@ def emit_model(model: str, state_names: list[str], tsne_max: int) -> None:
         correct = bool(g["correct"]) if g else False
         sentences = []
         for pos, row in enumerate(rows):
+            x, y = coords[row]
             sentences.append({
                 "s": texts[row], "t": int(cats[row]), "c": None,
-                "i": pos + 1, "x": None, "y": None,
+                "i": pos + 1, "x": round(float(x), 2), "y": round(float(y), 2),
             })
             x, y = coords[row]
             # point cols: x, y, taxonomy, cluster, caseIdx, sentenceArrayPos (0-based)

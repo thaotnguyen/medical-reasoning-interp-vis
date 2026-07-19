@@ -5,7 +5,7 @@ import { scaleLinear, type ScaleLinear } from "d3-scale";
 import { zoom, zoomIdentity, type ZoomTransform } from "d3-zoom";
 import { select } from "d3-selection";
 import { schemeTableau10 } from "d3-scale-chromatic";
-import { renderBase, renderHover } from "@/lib/tsne-renderer";
+import { renderBase, renderOverlay } from "@/lib/tsne-renderer";
 import { findNearestPointLinear } from "@/lib/quadtree";
 import type { TSNEPoint, TaxonomyItem, ClusterInfo } from "@/lib/types";
 
@@ -71,6 +71,17 @@ export function TSNECanvas({
     return map;
   }, [clusters]);
 
+  // Row indices of the current case's sentences, in sentence order. Recomputed only on case
+  // change (not hover), so the overlay redraws just these (+ the hovered point) each hover.
+  const activeCaseIndices = useMemo(() => {
+    if (activeCaseIdx === null) return [] as number[];
+    const arr: number[] = [];
+    for (let i = 0; i < points.length; i++) {
+      if (points[i][4] === activeCaseIdx) arr.push(i);
+    }
+    return arr;
+  }, [points, activeCaseIdx]);
+
   // Compute scales from point extents
   const { scaleX, scaleY } = useMemo(() => {
     if (points.length === 0) {
@@ -125,11 +136,10 @@ export function TSNECanvas({
       colorMode,
       taxonomyColors,
       clusterColorMap,
-      activeCaseIdx,
       transform: transformRef.current,
       dpr: window.devicePixelRatio || 1,
     });
-  }, [points, scaleX, scaleY, colorMode, taxonomyColors, clusterColorMap, activeCaseIdx]);
+  }, [points, scaleX, scaleY, colorMode, taxonomyColors, clusterColorMap]);
 
   // --- Overlay layer: only the hovered point (cheap redraw on every hover) ---
   const drawOverlay = useCallback(() => {
@@ -137,18 +147,13 @@ export function TSNECanvas({
     const ctx = canvas?.getContext("2d");
     if (!ctx) return;
 
-    // A sentence hovered in the trace maps to its point in the active case.
+    // A sentence hovered in the trace maps to its point via the case's ordered indices.
     let effectiveHoveredIdx = hoveredIdx;
-    if (hoveredSentenceIdx !== null && activeCaseIdx !== null) {
-      for (let i = 0; i < points.length; i++) {
-        if (points[i][4] === activeCaseIdx && points[i][5] === hoveredSentenceIdx) {
-          effectiveHoveredIdx = i;
-          break;
-        }
-      }
+    if (hoveredSentenceIdx !== null && hoveredSentenceIdx < activeCaseIndices.length) {
+      effectiveHoveredIdx = activeCaseIndices[hoveredSentenceIdx];
     }
 
-    renderHover({
+    renderOverlay({
       ctx,
       width: sizeRef.current.width,
       height: sizeRef.current.height,
@@ -158,11 +163,12 @@ export function TSNECanvas({
       colorMode,
       taxonomyColors,
       clusterColorMap,
+      activeCaseIndices,
       hoveredIdx: effectiveHoveredIdx,
       transform: transformRef.current,
       dpr: window.devicePixelRatio || 1,
     });
-  }, [points, scaleX, scaleY, colorMode, taxonomyColors, clusterColorMap, hoveredIdx, hoveredSentenceIdx, activeCaseIdx]);
+  }, [points, scaleX, scaleY, colorMode, taxonomyColors, clusterColorMap, activeCaseIndices, hoveredIdx, hoveredSentenceIdx]);
 
   const scheduleBase = useCallback(() => {
     cancelAnimationFrame(baseRafRef.current);

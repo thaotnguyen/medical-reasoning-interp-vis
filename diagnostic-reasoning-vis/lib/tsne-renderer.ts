@@ -45,57 +45,58 @@ function applyTransform(
 }
 
 /**
- * Base layer: every point (background + active-case emphasis), independent of hover.
- * This is the expensive ~O(N) pass over all points, so it only needs to redraw when the
- * data / scales / colors / active case / zoom change — never on a mousemove.
+ * Base layer: every point drawn once, uniformly faint (alpha 0.1), independent of hover and of
+ * the active case. This is the expensive ~O(N) pass, so it redraws only when the
+ * data / scales / colors / zoom change — never on hover or case navigation.
  */
-export function renderBase(opts: Omit<RenderOptions, "hoveredIdx">) {
+export function renderBase(opts: Omit<RenderOptions, "hoveredIdx" | "activeCaseIdx">) {
   const { ctx, width, height, points, scaleX, scaleY, colorMode,
-    taxonomyColors, clusterColorMap, activeCaseIdx, transform, dpr } = opts;
+    taxonomyColors, clusterColorMap, transform, dpr } = opts;
 
   applyTransform(ctx, width, height, dpr, transform);
-
-  // Pass 1: background points
+  ctx.globalAlpha = 0.1;
   for (let i = 0; i < points.length; i++) {
-    const [x, y, tax, cluster, caseIdx] = points[i];
-    if (caseIdx === activeCaseIdx) continue;
+    const [x, y, tax, cluster] = points[i];
     ctx.beginPath();
     ctx.arc(scaleX(x), scaleY(y), 3, 0, Math.PI * 2);
     ctx.fillStyle = colorFor(tax, cluster, colorMode, taxonomyColors, clusterColorMap);
-    ctx.globalAlpha = 0.1;
     ctx.fill();
   }
-
-  // Pass 2: active case points
-  if (activeCaseIdx !== null) {
-    for (let i = 0; i < points.length; i++) {
-      const [x, y, tax, cluster, caseIdx] = points[i];
-      if (caseIdx !== activeCaseIdx) continue;
-      ctx.beginPath();
-      ctx.arc(scaleX(x), scaleY(y), 5, 0, Math.PI * 2);
-      ctx.fillStyle = colorFor(tax, cluster, colorMode, taxonomyColors, clusterColorMap);
-      ctx.globalAlpha = 0.9;
-      ctx.fill();
-      ctx.strokeStyle = "#000";
-      ctx.lineWidth = 0.5;
-      ctx.globalAlpha = 0.5;
-      ctx.stroke();
-    }
-  }
-
   ctx.restore();
 }
 
+export interface OverlayOptions extends Omit<RenderOptions, "activeCaseIdx"> {
+  /** Row indices of the current case's sentences (precomputed so hover stays O(caseSize)). */
+  activeCaseIndices: number[];
+}
+
 /**
- * Overlay layer: just the single hovered point highlight. Drawn on a separate canvas so a
- * mousemove clears/repaints one arc instead of all ~70k, which is what caused the flicker.
+ * Overlay layer: the current case's sentences drawn solid, plus the single hovered/current
+ * sentence emphasised on top. Only these (~case-size + 1) marks are drawn, so it repaints cheaply
+ * on hover or case change without touching the 70k base.
  */
-export function renderHover(opts: Omit<RenderOptions, "activeCaseIdx">) {
+export function renderOverlay(opts: OverlayOptions) {
   const { ctx, width, height, points, scaleX, scaleY, colorMode,
-    taxonomyColors, clusterColorMap, hoveredIdx, transform, dpr } = opts;
+    taxonomyColors, clusterColorMap, activeCaseIndices, hoveredIdx, transform, dpr } = opts;
 
   applyTransform(ctx, width, height, dpr, transform);
 
+  // current case: solid, slightly larger, thin dark ring
+  for (const i of activeCaseIndices) {
+    if (i === hoveredIdx) continue;
+    const [x, y, tax, cluster] = points[i];
+    ctx.beginPath();
+    ctx.arc(scaleX(x), scaleY(y), 4.5, 0, Math.PI * 2);
+    ctx.fillStyle = colorFor(tax, cluster, colorMode, taxonomyColors, clusterColorMap);
+    ctx.globalAlpha = 1.0;
+    ctx.fill();
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 0.5;
+    ctx.globalAlpha = 0.4;
+    ctx.stroke();
+  }
+
+  // hovered / current sentence: largest, full ring
   if (hoveredIdx !== null && hoveredIdx >= 0 && hoveredIdx < points.length) {
     const [x, y, tax, cluster] = points[hoveredIdx];
     ctx.beginPath();
@@ -114,5 +115,12 @@ export function renderHover(opts: Omit<RenderOptions, "activeCaseIdx">) {
 /** Single-pass renderer (kept for non-interactive/export callers). */
 export function renderTSNE(opts: RenderOptions) {
   renderBase(opts);
-  renderHover(opts);
+  const { activeCaseIdx, ...rest } = opts;
+  const activeCaseIndices: number[] = [];
+  if (activeCaseIdx !== null) {
+    for (let i = 0; i < opts.points.length; i++) {
+      if (opts.points[i][4] === activeCaseIdx) activeCaseIndices.push(i);
+    }
+  }
+  renderOverlay({ ...rest, activeCaseIndices });
 }
