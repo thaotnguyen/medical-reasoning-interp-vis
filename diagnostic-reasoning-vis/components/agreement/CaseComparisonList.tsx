@@ -42,11 +42,9 @@ export function CaseComparisonList({
                 ${isSelected ? "bg-accent" : "hover:bg-accent/50"}
               `}
             >
-              {/* Model + dataset */}
+              {/* Model */}
               <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground/60 mb-0.5">
                 <span className="font-mono truncate">{c.model}</span>
-                <span>·</span>
-                <span>{c.dataset}</span>
               </div>
 
               {/* Diagnosis */}
