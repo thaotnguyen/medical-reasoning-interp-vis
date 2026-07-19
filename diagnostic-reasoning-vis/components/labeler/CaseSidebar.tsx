@@ -30,7 +30,8 @@ function getCaseStatus(
 ): CaseStatus {
   const caseRatings = ratings[raterId]?.[model]?.[dataset]?.[caseId];
   if (!caseRatings) return "empty";
-  const labeled = Object.keys(caseRatings).length;
+  // Tombstones (taxonomy < 0) are cleared labels; don't count them.
+  const labeled = Object.values(caseRatings).filter((r) => r.taxonomy >= 0).length;
   if (labeled >= totalSentences) return "complete";
   if (labeled > 0) return "partial";
   return "empty";

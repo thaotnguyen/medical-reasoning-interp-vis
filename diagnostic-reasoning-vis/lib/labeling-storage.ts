@@ -90,7 +90,8 @@ function getRaterLabel(
   taxonomyNames: string[]
 ): string {
   const r = ratings[raterId]?.[model]?.[dataset]?.[caseId]?.[sentIdx];
-  if (!r) return "";
+  // Tombstones (taxonomy < 0) are cleared labels; export as blank.
+  if (!r || r.taxonomy < 0) return "";
   return taxonomyNames[r.taxonomy] ?? String(r.taxonomy);
 }
 

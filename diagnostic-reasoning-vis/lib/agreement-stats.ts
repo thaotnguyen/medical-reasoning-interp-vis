@@ -204,7 +204,8 @@ export function collectPairedLabels(
 
     for (let si = 0; si < c.sentences.length; si++) {
       const rA = ratingsA[si];
-      if (!rA) continue;
+      // Skip missing and cleared (tombstone, taxonomy < 0) ratings.
+      if (!rA || rA.taxonomy < 0) continue;
 
       let labelB: number | undefined;
       if (raterB === "whitebox") {
@@ -212,7 +213,7 @@ export function collectPairedLabels(
         if (t >= 0) labelB = t;
       } else {
         const rB = ratings[raterB]?.[model]?.[dataset]?.[c.id]?.[si];
-        if (rB) labelB = rB.taxonomy;
+        if (rB && rB.taxonomy >= 0) labelB = rB.taxonomy;
       }
 
       if (labelB !== undefined) {
