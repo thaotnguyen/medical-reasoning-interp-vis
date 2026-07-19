@@ -5,7 +5,7 @@ import { scaleLinear, type ScaleLinear } from "d3-scale";
 import { zoom, zoomIdentity, type ZoomTransform } from "d3-zoom";
 import { select } from "d3-selection";
 import { schemeTableau10 } from "d3-scale-chromatic";
-import { renderTSNE } from "@/lib/tsne-renderer";
+import { renderBase, renderHover } from "@/lib/tsne-renderer";
 import { findNearestPointLinear } from "@/lib/quadtree";
 import type { TSNEPoint, TaxonomyItem, ClusterInfo } from "@/lib/types";
 
@@ -40,11 +40,14 @@ export function TSNECanvas({
   onClickPoint,
   onScalesChange,
 }: TSNECanvasProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const baseCanvasRef = useRef<HTMLCanvasElement>(null);
+  const overlayCanvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const transformRef = useRef<ZoomTransform>(zoomIdentity);
-  const rafRef = useRef<number>(0);
+  const baseRafRef = useRef<number>(0);
+  const overlayRafRef = useRef<number>(0);
   const sizeRef = useRef({ width: 0, height: 0 });
+  const lastHoverRef = useRef<number | null>(null);
 
   const taxonomyColors = useMemo(
     () => taxonomy.map((t) => t.color),
@@ -59,7 +62,6 @@ export function TSNECanvas({
     clusterIds.forEach((id, i) => {
       map.set(id, schemeTableau10[i % 10]);
     });
-    // Also handle -1
     map.set(-1, "#94a3b8");
     return map;
   }, [clusters]);
@@ -103,29 +105,12 @@ export function TSNECanvas({
     onScalesChange?.({ scaleX, scaleY, transform: transformRef.current });
   }, [scaleX, scaleY, onScalesChange]);
 
-  // Render function
-  const draw = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+  // --- Base layer: all points, hover-independent (redraws only on data/zoom/active change) ---
+  const drawBase = useCallback(() => {
+    const canvas = baseCanvasRef.current;
+    const ctx = canvas?.getContext("2d");
     if (!ctx) return;
-
-    // Determine effective hovered index:
-    // If a sentence is hovered in the trace, find the corresponding point
-    let effectiveHoveredIdx = hoveredIdx;
-    if (hoveredSentenceIdx !== null && activeCaseIdx !== null) {
-      for (let i = 0; i < points.length; i++) {
-        if (
-          points[i][4] === activeCaseIdx &&
-          points[i][5] === hoveredSentenceIdx
-        ) {
-          effectiveHoveredIdx = i;
-          break;
-        }
-      }
-    }
-
-    renderTSNE({
+    renderBase({
       ctx,
       width: sizeRef.current.width,
       height: sizeRef.current.height,
@@ -136,52 +121,82 @@ export function TSNECanvas({
       taxonomyColors,
       clusterColorMap,
       activeCaseIdx,
+      transform: transformRef.current,
+      dpr: window.devicePixelRatio || 1,
+    });
+  }, [points, scaleX, scaleY, colorMode, taxonomyColors, clusterColorMap, activeCaseIdx]);
+
+  // --- Overlay layer: only the hovered point (cheap redraw on every hover) ---
+  const drawOverlay = useCallback(() => {
+    const canvas = overlayCanvasRef.current;
+    const ctx = canvas?.getContext("2d");
+    if (!ctx) return;
+
+    // A sentence hovered in the trace maps to its point in the active case.
+    let effectiveHoveredIdx = hoveredIdx;
+    if (hoveredSentenceIdx !== null && activeCaseIdx !== null) {
+      for (let i = 0; i < points.length; i++) {
+        if (points[i][4] === activeCaseIdx && points[i][5] === hoveredSentenceIdx) {
+          effectiveHoveredIdx = i;
+          break;
+        }
+      }
+    }
+
+    renderHover({
+      ctx,
+      width: sizeRef.current.width,
+      height: sizeRef.current.height,
+      points,
+      scaleX,
+      scaleY,
+      colorMode,
+      taxonomyColors,
+      clusterColorMap,
       hoveredIdx: effectiveHoveredIdx,
       transform: transformRef.current,
       dpr: window.devicePixelRatio || 1,
     });
-  }, [
-    points,
-    scaleX,
-    scaleY,
-    colorMode,
-    taxonomyColors,
-    clusterColorMap,
-    activeCaseIdx,
-    hoveredIdx,
-    hoveredSentenceIdx,
-  ]);
+  }, [points, scaleX, scaleY, colorMode, taxonomyColors, clusterColorMap, hoveredIdx, hoveredSentenceIdx, activeCaseIdx]);
 
-  // Schedule draw with rAF
-  const scheduleDraw = useCallback(() => {
-    cancelAnimationFrame(rafRef.current);
-    rafRef.current = requestAnimationFrame(draw);
-  }, [draw]);
+  const scheduleBase = useCallback(() => {
+    cancelAnimationFrame(baseRafRef.current);
+    baseRafRef.current = requestAnimationFrame(drawBase);
+  }, [drawBase]);
 
-  // Resize observer
+  const scheduleOverlay = useCallback(() => {
+    cancelAnimationFrame(overlayRafRef.current);
+    overlayRafRef.current = requestAnimationFrame(drawOverlay);
+  }, [drawOverlay]);
+
+  // Resize observer: size both canvases, redraw both
   useEffect(() => {
     const container = containerRef.current;
-    const canvas = canvasRef.current;
-    if (!container || !canvas) return;
+    const base = baseCanvasRef.current;
+    const overlay = overlayCanvasRef.current;
+    if (!container || !base || !overlay) return;
 
     const ro = new ResizeObserver((entries) => {
       const { width, height } = entries[0].contentRect;
       sizeRef.current = { width, height };
       const dpr = window.devicePixelRatio || 1;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      scheduleDraw();
+      for (const canvas of [base, overlay]) {
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+      }
+      scheduleBase();
+      scheduleOverlay();
     });
 
     ro.observe(container);
     return () => ro.disconnect();
-  }, [scheduleDraw]);
+  }, [scheduleBase, scheduleOverlay]);
 
-  // Zoom behavior
+  // Zoom behavior (attached to the base canvas; overlay is pointer-events-none)
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = baseCanvasRef.current;
     if (!canvas) return;
 
     const zoomBehavior = zoom<HTMLCanvasElement, unknown>()
@@ -189,59 +204,58 @@ export function TSNECanvas({
       .on("zoom", (event) => {
         transformRef.current = event.transform;
         onScalesChange?.({ scaleX, scaleY, transform: event.transform });
-        scheduleDraw();
+        scheduleBase();
+        scheduleOverlay();
       });
 
     select(canvas).call(zoomBehavior);
-
     return () => {
       select(canvas).on(".zoom", null);
     };
-  }, [scheduleDraw]);
+  }, [scheduleBase, scheduleOverlay, scaleX, scaleY, onScalesChange]);
 
-  // Mouse interaction
+  // Mouse interaction (on the base canvas). Dedupe hover so we only update state when the
+  // nearest point actually changes — otherwise every mousemove frame churns React state
+  // and forces a full re-render (the source of the flicker).
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = baseCanvasRef.current;
     if (!canvas) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const pick = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
-      const mx = e.clientX - rect.left;
-      const my = e.clientY - rect.top;
-
-      const idx = findNearestPointLinear(
+      return findNearestPointLinear(
         points,
-        mx,
-        my,
+        e.clientX - rect.left,
+        e.clientY - rect.top,
         15,
         scaleX,
         scaleY,
         transformRef.current
       );
-      onHoverPoint(idx);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const idx = pick(e);
+      if (idx !== lastHoverRef.current) {
+        lastHoverRef.current = idx;
+        onHoverPoint(idx);
+      }
     };
 
     const handleClick = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      const mx = e.clientX - rect.left;
-      const my = e.clientY - rect.top;
-
-      const idx = findNearestPointLinear(
-        points,
-        mx,
-        my,
-        15,
-        scaleX,
-        scaleY,
-        transformRef.current
-      );
+      const idx = pick(e);
       if (idx !== null) {
         const [, , , , caseIdx, sentIdx] = points[idx];
         onClickPoint(caseIdx, sentIdx);
       }
     };
 
-    const handleMouseLeave = () => onHoverPoint(null);
+    const handleMouseLeave = () => {
+      if (lastHoverRef.current !== null) {
+        lastHoverRef.current = null;
+        onHoverPoint(null);
+      }
+    };
 
     canvas.addEventListener("mousemove", handleMouseMove);
     canvas.addEventListener("click", handleClick);
@@ -254,14 +268,22 @@ export function TSNECanvas({
     };
   }, [points, scaleX, scaleY, onHoverPoint, onClickPoint]);
 
-  // Re-draw on prop changes
+  // Redraw base only when base inputs change; overlay only when hover changes.
   useEffect(() => {
-    scheduleDraw();
-  }, [scheduleDraw]);
+    scheduleBase();
+  }, [scheduleBase]);
+
+  useEffect(() => {
+    scheduleOverlay();
+  }, [scheduleOverlay]);
 
   return (
     <div ref={containerRef} className="w-full h-full relative">
-      <canvas ref={canvasRef} className="absolute inset-0 cursor-crosshair" />
+      <canvas ref={baseCanvasRef} className="absolute inset-0 cursor-crosshair" />
+      <canvas
+        ref={overlayCanvasRef}
+        className="absolute inset-0 pointer-events-none"
+      />
     </div>
   );
 }

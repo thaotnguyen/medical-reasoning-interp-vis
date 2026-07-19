@@ -2,14 +2,15 @@ import type { Pipeline } from "./types";
 
 export const DEFAULT_MODEL = "deepseek-r1-distill-llama-8b";
 export const DEFAULT_DATASET = "medqa";
-export const DEFAULT_PIPELINE: Pipeline = "geometric";
+export const DEFAULT_PIPELINE: Pipeline = "dedup";
 
 export const PIPELINES: { id: Pipeline; label: string; short: string }[] = [
-  { id: "geometric", label: "Geometric", short: "Geometric" },
+  { id: "dedup", label: "Latent embedding", short: "Latent embedding" },
 ];
 
 export const PIPELINE_HAS_DATASET: Record<Pipeline, boolean> = {
-  geometric: false,
+  dedup: false,
+  pipeline: false,
 };
 
 /**
