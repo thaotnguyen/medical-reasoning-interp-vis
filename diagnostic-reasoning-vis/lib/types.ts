@@ -35,6 +35,9 @@ export interface TaxonomyItem {
   label: string;
   color: string;
   short_name: string;
+  description?: string;
+  /** Example sentences for this category (seeded random sample). */
+  examples?: string[];
 }
 
 /** cases/{model}_{dataset}.json entry */
@@ -42,6 +45,7 @@ export interface Case {
   id: string;
   qid: number | null;
   prompt: string;
+  dataset?: string;
   true_dx: string;
   pred_dx: string;
   correct: boolean;
@@ -61,8 +65,8 @@ export interface Sentence {
 // [x, y, taxonomy_idx, cluster_id, case_idx, sent_idx]
 export type TSNEPoint = [number, number, number, number, number, number];
 
-/** Pipeline identifier — only the geometric pipeline is supported. */
-export type Pipeline = "geometric";
+/** Pipeline identifier: plain coverage/balanced, plus convergent dedup / near-dedup taxonomies. */
+export type Pipeline = "dedup" | "pipeline";
 
 /** Per-pipeline taxonomy descriptor (mirrors metadata.taxonomy shape). */
 export interface PipelineTaxonomy {

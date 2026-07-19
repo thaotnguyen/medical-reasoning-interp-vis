@@ -22,14 +22,7 @@ export default function BrowserPage() {
     );
   }
 
-  const modelInfo = metadata.models[selectedModel];
-
   return (
-    <BrowserPanel
-      taxonomy={taxonomy.length ? taxonomy : metadata.taxonomy}
-      clusters={modelInfo?.clusters ?? {}}
-      modelDisplayName={modelInfo?.display_name ?? selectedModel}
-      numClusters={modelInfo?.num_clusters ?? 0}
-    />
+    <BrowserPanel taxonomy={taxonomy.length ? taxonomy : metadata.taxonomy} />
   );
 }

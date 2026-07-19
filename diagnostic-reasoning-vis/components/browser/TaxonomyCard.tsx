@@ -1,29 +1,36 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
 import type { TaxonomyItem } from "@/lib/types";
 
 interface TaxonomyCardProps {
   item: TaxonomyItem;
-  index: number;
+  selected: boolean;
+  onSelect: () => void;
 }
 
-export function TaxonomyCard({ item, index }: TaxonomyCardProps) {
+export function TaxonomyCard({ item, selected, onSelect }: TaxonomyCardProps) {
   return (
-    <Card>
-      <CardContent className="flex items-start gap-3 p-4">
-        <div
-          className="w-4 h-4 rounded-full shrink-0 mt-0.5"
+    <button
+      type="button"
+      onClick={onSelect}
+      className={`w-full text-left rounded-lg border p-3 transition-colors ${
+        selected ? "border-foreground/25 bg-accent" : "hover:bg-accent/50"
+      }`}
+    >
+      <div className="flex items-start gap-2.5">
+        <span
+          className="w-3 h-3 rounded-full shrink-0 mt-1"
           style={{ backgroundColor: item.color }}
         />
         <div className="min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="font-medium text-sm">{item.short_name}</span>
-            <span className="text-xs text-muted-foreground">({index})</span>
-          </div>
-          <p className="text-xs text-muted-foreground mt-1">{item.label}</p>
+          <div className="text-sm font-medium leading-snug">{item.label}</div>
+          {item.description && (
+            <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+              {item.description}
+            </p>
+          )}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </button>
   );
 }

@@ -61,6 +61,19 @@ WINNING_SEL = {
 }
 SIDECAR_DIR = WT / "universal-taxonomy" / "results" / "vars" / "latents"
 
+# (dataset_name, dataset_split) -> viewer dataset id (matches metadata.json datasets).
+DATASET_MAP = {
+    ("tmknguyen/MedCaseReasoning-filtered", "nejm"): "nejm-cpc",
+    ("tmknguyen/MedCaseReasoning-filtered", "medqa"): "medqa",
+    ("matthewshu/medmcqa-filtered", "train"): "medmcqa-filtered",
+}
+EXAMPLES_PER_CATEGORY = 100
+EXAMPLES_SEED = 42
+
+
+def _dataset_of(r: dict) -> str:
+    return DATASET_MAP.get((r.get("dataset_name"), r.get("dataset_split")), "medqa")
+
 PALETTE = [
     "#9467bd", "#ff7f0e", "#1f77b4", "#e377c2", "#2ca02c", "#d62728",
     "#8c564b", "#17becf", "#bcbd22", "#7f7f7f", "#5b8def", "#e7969c",
@@ -169,7 +182,7 @@ def project_2d(features: np.ndarray, max_points: int, seed: int = 42) -> np.ndar
     return emb.astype(np.float32)
 
 
-def emit_model(model: str, state_names: list[str], tsne_max: int) -> None:
+def emit_model(model: str, tsne_max: int, category_sentences: dict[int, list[str]]) -> None:
     cache = np.load(CACHE_DIR / f"{model}.npz", allow_pickle=True)
     pmcids = [str(p) for p in cache["pmcid"]]
     sent_idx = cache["sent_idx"].astype(int)
@@ -205,18 +218,20 @@ def emit_model(model: str, state_names: list[str], tsne_max: int) -> None:
         sentences = []
         for pos, row in enumerate(rows):
             x, y = coords[row]
+            cat = int(cats[row])
             sentences.append({
-                "s": texts[row], "t": int(cats[row]), "c": None,
+                "s": texts[row], "t": cat, "c": None,
                 "i": pos + 1, "x": round(float(x), 2), "y": round(float(y), 2),
             })
-            x, y = coords[row]
+            category_sentences[cat].append(texts[row])
             # point cols: x, y, taxonomy, cluster, caseIdx, sentenceArrayPos (0-based)
             points.append([round(float(x), 2), round(float(y), 2),
-                           int(cats[row]), 0, int(case_idx), int(pos)])
+                           cat, 0, int(case_idx), int(pos)])
         cases.append({
             "id": f"{model}::{pm}",
             "qid": r.get("question_id"),
             "prompt": r.get("question", "") or "",
+            "dataset": _dataset_of(r),
             "true_dx": true,
             "pred_dx": pred,
             "correct": correct,
@@ -233,14 +248,17 @@ def emit_model(model: str, state_names: list[str], tsne_max: int) -> None:
     print(f"  wrote {len(cases)} cases ({n_correct} correct), {len(points)} points", flush=True)
 
 
-def write_taxonomy(state_names: list[str], models: list[str]) -> None:
-    states = [{"label": s, "short_name": _short_name(s), "color": PALETTE[i % len(PALETTE)]}
+def write_taxonomy(state_names: list[str], descriptions: list[str],
+                   examples: dict[int, list[str]], models: list[str]) -> None:
+    states = [{"label": s, "short_name": _short_name(s), "description": descriptions[i],
+               "color": PALETTE[i % len(PALETTE)], "examples": examples.get(i, [])}
               for i, s in enumerate(state_names)]
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     (OUT_DIR / "taxonomy.json").write_text(json.dumps(
         {"pipeline": "dedup", "states": states, "has_dataset": False, "models": models},
         ensure_ascii=False, indent=2))
-    print(f"wrote taxonomy.json with {len(states)} states")
+    n_ex = sum(len(e) for e in examples.values())
+    print(f"wrote taxonomy.json with {len(states)} states, {n_ex} example sentences")
 
 
 def main(argv: list[str]) -> int:
@@ -249,12 +267,24 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--tsne-max", type=int, default=20000)
     args = ap.parse_args(argv)
 
-    state_names = [s["label"] for s in json.load(open(TAX_JSON))["states"]]
+    tax = json.load(open(TAX_JSON))["states"]
+    state_names = [s["label"] for s in tax]
+    descriptions = [s.get("description", "") for s in tax]
+
+    category_sentences: dict[int, list[str]] = defaultdict(list)
     targets = [args.model] if args.model else MODELS
     for m in targets:
         print(f"[{m}]", flush=True)
-        emit_model(m, state_names, args.tsne_max)
-    write_taxonomy(state_names, MODELS)
+        emit_model(m, args.tsne_max, category_sentences)
+
+    # 100 example sentences per category, seeded so they never drift between runs.
+    rng = np.random.default_rng(EXAMPLES_SEED)
+    examples: dict[int, list[str]] = {}
+    for c, sents in category_sentences.items():
+        uniq = sorted(set(sents))
+        pick = sorted(rng.permutation(len(uniq))[:EXAMPLES_PER_CATEGORY].tolist())
+        examples[c] = [uniq[i] for i in pick]
+    write_taxonomy(state_names, descriptions, examples, MODELS)
     return 0
 
 

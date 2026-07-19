@@ -61,5 +61,5 @@ export const useAppState = create<AppState>((set) => ({
   setTrajectoryProgress: (progress) => set({ trajectoryProgress: progress }),
   setTrajectoryPlaying: (playing) => set({ trajectoryPlaying: playing }),
   navigateToCase: (caseIndex) =>
-    set({ selectedCaseIndex: caseIndex, hoveredPointIndex: null, hoveredSentenceIndex: null, trajectoryProgress: 0, trajectoryPlaying: true }),
+    set({ selectedCaseIndex: caseIndex, hoveredPointIndex: null, hoveredSentenceIndex: null, trajectoryProgress: 0, trajectoryPlaying: false }),
 }));
