@@ -605,6 +605,96 @@
           "num_cases": 302
         }
       }
+    },
+    "ministral-3-14b-reasoning-2512": {
+      "display_name": "Ministral 3 14B Reasoning 2512",
+      "has_activations": true,
+      "layer": 7,
+      "num_clusters": 4,
+      "clusters": {
+        "0": {
+          "title": "Generating Differential Diagnoses",
+          "description": "This cluster represents the reasoning process of generating alternative hypotheses or potential diagnoses based on provided clinical information. The sentences frequently initiate with phrases like \"Alternatively, could it be...\" or \"Another possibility,\" indicating exploration of various medical conditions that fit the observed symptoms. This category specifically includes speculative formulations that propose multiple possible explanations for a medical scenario. It does not include statements that express definitive conclusions or uncertainty about the hypotheses, as well as direct plans for future actions in the reasoning process."
+        },
+        "1": {
+          "title": "Medical Data Analysis",
+          "description": "This cluster represents the cognitive function of analyzing and interpreting lab results and patient histories in a clinical context. It includes detailed observations about lab values such as RBC count, hemoglobin levels, and leukocyte counts, as well as notable symptoms and medical histories of the patients. The use of analytical phrases like \"low,\" \"elevated,\" and \"within normal range\" signifies the assessment of results. It does NOT include direct hypotheses, planning future steps, or expressions of uncertainty, as it focuses solely on the factual analysis of medical data without suggesting next actions or unexplored possibilities."
+        },
+        "2": {
+          "title": "Identifying Clinical Findings",
+          "description": "This category represents the cognitive process of synthesizing clinical observations and diagnostic indicators to arrive at potential medical diagnoses. Included in this category are sentences that highlight the absence of certain conditions (e.g., \"No signs of infection\") as well as those that correlate symptoms with possible medical conditions (e.g., \"The skin biopsy findings... are classic for systemic sclerosis\"). These sentences focus on drawing connections between observed clinical data and expected health outcomes or issues. What is NOT included in this category are any speculative hypotheses about conditions or explicit statements of uncertainty that do not directly relate to established clinical observations."
+        },
+        "3": {
+          "title": "Expressing Uncertainty",
+          "description": "This cluster represents the cognitive function of acknowledging and articulating uncertainty within the reasoning process. It includes phrases that explicitly convey a lack of confidence or clarity, such as \"I'm not sure,\" \"I'm a bit confused,\" and \"I'm stuck.\" This category does not include statements that propose potential explanations or hypotheses, nor those that lay out a clear plan for future steps in reasoning."
+        }
+      },
+      "datasets": {
+        "all": {
+          "display_name": "All",
+          "has_tsne": true,
+          "num_cases": 2073
+        }
+      }
+    },
+    "qwen3.6-27b": {
+      "display_name": "Qwen3.6 27B",
+      "has_activations": true,
+      "layer": 18,
+      "num_clusters": 4,
+      "clusters": {
+        "0": {
+          "title": "Generating Differential Diagnoses",
+          "description": "This cluster represents the reasoning process of generating alternative hypotheses or potential diagnoses based on provided clinical information. The sentences frequently initiate with phrases like \"Alternatively, could it be...\" or \"Another possibility,\" indicating exploration of various medical conditions that fit the observed symptoms. This category specifically includes speculative formulations that propose multiple possible explanations for a medical scenario. It does not include statements that express definitive conclusions or uncertainty about the hypotheses, as well as direct plans for future actions in the reasoning process."
+        },
+        "1": {
+          "title": "Medical Data Analysis",
+          "description": "This cluster represents the cognitive function of analyzing and interpreting lab results and patient histories in a clinical context. It includes detailed observations about lab values such as RBC count, hemoglobin levels, and leukocyte counts, as well as notable symptoms and medical histories of the patients. The use of analytical phrases like \"low,\" \"elevated,\" and \"within normal range\" signifies the assessment of results. It does NOT include direct hypotheses, planning future steps, or expressions of uncertainty, as it focuses solely on the factual analysis of medical data without suggesting next actions or unexplored possibilities."
+        },
+        "2": {
+          "title": "Identifying Clinical Findings",
+          "description": "This category represents the cognitive process of synthesizing clinical observations and diagnostic indicators to arrive at potential medical diagnoses. Included in this category are sentences that highlight the absence of certain conditions (e.g., \"No signs of infection\") as well as those that correlate symptoms with possible medical conditions (e.g., \"The skin biopsy findings... are classic for systemic sclerosis\"). These sentences focus on drawing connections between observed clinical data and expected health outcomes or issues. What is NOT included in this category are any speculative hypotheses about conditions or explicit statements of uncertainty that do not directly relate to established clinical observations."
+        },
+        "3": {
+          "title": "Expressing Uncertainty",
+          "description": "This cluster represents the cognitive function of acknowledging and articulating uncertainty within the reasoning process. It includes phrases that explicitly convey a lack of confidence or clarity, such as \"I'm not sure,\" \"I'm a bit confused,\" and \"I'm stuck.\" This category does not include statements that propose potential explanations or hypotheses, nor those that lay out a clear plan for future steps in reasoning."
+        }
+      },
+      "datasets": {
+        "all": {
+          "display_name": "All",
+          "has_tsne": true,
+          "num_cases": 2073
+        }
+      }
+    },
+    "gemma-4-31b-it": {
+      "display_name": "Gemma 4 31B It",
+      "has_activations": true,
+      "layer": 26,
+      "num_clusters": 4,
+      "clusters": {},
+      "datasets": {
+        "all": {
+          "display_name": "All",
+          "has_tsne": true,
+          "num_cases": 2073
+        }
+      }
+    },
+    "glm-4.7-flash": {
+      "display_name": "Glm 4.7 Flash",
+      "has_activations": true,
+      "layer": 38,
+      "num_clusters": 4,
+      "clusters": {},
+      "datasets": {
+        "all": {
+          "display_name": "All",
+          "has_tsne": true,
+          "num_cases": 2073
+        }
+      }
     }
   },
   "datasets": {
@@ -614,29 +704,29 @@
   },
   "taxonomy": [
     {
-      "label": "Enumerating clinical findings",
-      "color": "#9467bd",
-      "short_name": "Enumerating clinical findin…"
+      "label": "Presenting Clinical Data",
+      "short_name": "Presenting Clinical Data",
+      "color": "#9467bd"
     },
     {
-      "label": "Stating the final diagnosis",
-      "color": "#ff7f0e",
-      "short_name": "Stating the final diagnosis"
+      "label": "Generating Hypotheses",
+      "short_name": "Generating Hypotheses",
+      "color": "#ff7f0e"
     },
     {
-      "label": "Generating differential diagnoses",
-      "color": "#1f77b4",
-      "short_name": "Generating differential dia…"
+      "label": "Formulating Diagnosis",
+      "short_name": "Formulating Diagnosis",
+      "color": "#1f77b4"
     },
     {
-      "label": "Stepwise analysis planning",
-      "color": "#e377c2",
-      "short_name": "Stepwise analysis planning"
+      "label": "Explaining Mechanisms",
+      "short_name": "Explaining Mechanisms",
+      "color": "#e377c2"
     },
     {
-      "label": "Classifying Clinical Measurements",
-      "color": "#2ca02c",
-      "short_name": "Classifying Clinical Measur…"
+      "label": "Structuring Reasoning",
+      "short_name": "Structuring Reasoning",
+      "color": "#2ca02c"
     }
   ],
   "model_order": [
@@ -645,9 +735,7 @@
     "deepseek-r1-distill-qwen-14b",
     "gpt-oss-20b",
     "huatuogpt-o1-8b",
-    "qwq-32b",
-    "grok-3-mini",
-    "claude-3-7-sonnet-20250219"
+    "qwq-32b"
   ],
   "dataset_order": [
     "medqa",

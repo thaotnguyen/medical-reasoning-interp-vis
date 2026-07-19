@@ -1,0 +1,212 @@
+#!/usr/bin/env python3
+"""Build viewer data for the recommended_decoding universal taxonomy (6 models).
+
+For each model, emit into the "dedup" pipeline (the single "Latent embedding" view):
+    public/data/pipelines/dedup/cases/{model}.json
+    public/data/pipelines/dedup/points/{model}.json
+    public/data/pipelines/dedup/taxonomy.json   (once)
+
+Inputs come from the recommended-decoding run in the rec-decoding worktree:
+  - latent_cache/{model}.npz : per-sentence pmcid, sent_idx, text, S256 (OpenAI sentence emb)
+  - labels/{model}.npy       : per-sentence final taxonomy category (0..K-1), aligned to the cache
+  - responses_{model}.json   : per-case prompt (question), gold_answer, full_response
+  - taxonomy.json            : the K category names
+
+2-D projection = PCA→50 + t-SNE on the S256 sentence embeddings (subsampled, 1-NN extended),
+coloured by the taxonomy category. No model is loaded.
+
+Usage: python scripts/precompute_recommended.py [--model M] [--tsne-max 20000]
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from collections import defaultdict
+from pathlib import Path
+
+import numpy as np
+
+HF_REPO = "matthewshu/medcasereasoning-cot-activations"
+WT = Path("/home/ttn/Development/med-interp/thinking-llms-interp-rec")
+CACHE_DIR = WT / "universal-taxonomy" / "results" / "plain" / "latent_cache"
+LABELS_DIR = WT / "universal-taxonomy" / "results" / "plain" / "labels"
+TAX_JSON = WT / "universal-taxonomy" / "results" / "plain" / "taxonomy.json"
+RESP_DIR = WT / "rec_data" / "snapshot" / "responses"
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+OUT_DIR = REPO_ROOT / "public" / "data" / "pipelines" / "dedup"
+
+MODELS = [
+    "deepseek-r1-distill-llama-8b",
+    "deepseek-r1-distill-qwen-1.5b",
+    "deepseek-r1-distill-qwen-14b",
+    "gpt-oss-20b",
+    "huatuogpt-o1-8b",
+    "qwq-32b",
+]
+
+PALETTE = [
+    "#9467bd", "#ff7f0e", "#1f77b4", "#e377c2", "#2ca02c", "#d62728",
+    "#8c564b", "#17becf", "#bcbd22", "#7f7f7f", "#5b8def", "#e7969c",
+]
+
+_ANSWER_RE = re.compile(r"<answer>(.*?)</answer>", re.S)
+_NORM_RE = re.compile(r"[^a-z0-9 ]+")
+
+
+def _short_name(label: str) -> str:
+    s = label.split("(", 1)[0].split(",", 1)[0].split(":", 1)[0].strip()
+    return (s[:27].rstrip(" -/") + "…") if len(s) > 28 else (s or label)
+
+
+def _norm_dx(s: str) -> str:
+    return _NORM_RE.sub("", (s or "").lower()).strip()
+
+
+def parse_pred(full_response: str) -> str:
+    """The real diagnosis is the LAST <answer> block (earlier ones echo the prompt template)."""
+    matches = _ANSWER_RE.findall(full_response or "")
+    for cand in reversed(matches):
+        c = cand.strip()
+        if c and "the name of the disease" not in c and c != "...":
+            return c
+    return ""
+
+
+def _clean_dx(s: str) -> str:
+    """Tidy the graded extracted_answer for display (drop markdown / boilerplate)."""
+    s = (s or "").replace("**", "").strip()
+    s = re.sub(r"^(the\s+)?most likely diagnosis is[:\s]*", "", s, flags=re.I).strip()
+    return s.rstrip(".").strip() or s
+
+
+def load_grading(model: str) -> dict[str, dict]:
+    """pmcid -> {true, pred, correct} from the HF temp0 graded responses (semantic LLM grade).
+
+    recommended_decoding responses ship ungraded; the graded set (extracted_answer / is_correct /
+    gold_answer, keyed by pmcid) lives under temp0_greedy_decoding on the same HF dataset.
+    """
+    from huggingface_hub import hf_hub_download
+    path = hf_hub_download(
+        HF_REPO, repo_type="dataset",
+        filename=f"temp0_greedy_decoding/responses/responses_{model}.graded.json")
+    out: dict[str, dict] = {}
+    for r in json.load(open(path)):
+        out[r["pmcid"]] = {
+            "true": r.get("gold_answer", "") or "",
+            "pred": _clean_dx(r.get("extracted_answer", "")),
+            "correct": bool(r.get("is_correct", False)),
+        }
+    return out
+
+
+def project_2d(features: np.ndarray, max_points: int, seed: int = 42) -> np.ndarray:
+    from sklearn.decomposition import PCA
+    from sklearn.manifold import TSNE
+    from sklearn.neighbors import NearestNeighbors
+
+    n = features.shape[0]
+    x = PCA(n_components=50, random_state=seed).fit_transform(features) if features.shape[1] > 50 else features
+    if n > max_points:
+        rng = np.random.default_rng(seed)
+        sample = np.sort(rng.choice(n, max_points, replace=False))
+        emb_s = TSNE(n_components=2, init="pca", random_state=seed, perplexity=30).fit_transform(x[sample])
+        nn = NearestNeighbors(n_neighbors=1).fit(x[sample])
+        idx = nn.kneighbors(x, return_distance=False)[:, 0]
+        emb = emb_s[idx]
+    else:
+        emb = TSNE(n_components=2, init="pca", random_state=seed, perplexity=30).fit_transform(x)
+    return emb.astype(np.float32)
+
+
+def emit_model(model: str, state_names: list[str], tsne_max: int) -> None:
+    cache = np.load(CACHE_DIR / f"{model}.npz", allow_pickle=True)
+    pmcids = [str(p) for p in cache["pmcid"]]
+    sent_idx = cache["sent_idx"].astype(int)
+    texts = [str(t) for t in cache["text"]]
+    S = cache["S256"].astype(np.float32)
+    cats = np.load(LABELS_DIR / f"{model}.npy").astype(int)
+    assert len(pmcids) == len(cats) == S.shape[0], f"{model}: misaligned cache/labels"
+
+    resp = {r["pmcid"]: r for r in json.load(open(RESP_DIR / f"responses_{model}.json"))}
+    grading = load_grading(model)  # pmcid -> {true, pred, correct}
+
+    print(f"  projecting {S.shape[0]} × {S.shape[1]} → 2D", flush=True)
+    coords = project_2d(S, tsne_max)
+
+    # group sentence rows by case in first-appearance order
+    order: list[str] = []
+    rows_by_case: dict[str, list[int]] = defaultdict(list)
+    for row, pm in enumerate(pmcids):
+        if pm not in rows_by_case:
+            order.append(pm)
+        rows_by_case[pm].append(row)
+
+    cases: list[dict] = []
+    points: list[list[float | int]] = []
+    for case_idx, pm in enumerate(order):
+        rows = sorted(rows_by_case[pm], key=lambda r: sent_idx[r])
+        r = resp.get(pm, {})
+        g = grading.get(pm)
+        true = (g["true"] if g else r.get("gold_answer", "")) or ""
+        pred = g["pred"] if g else parse_pred(r.get("full_response", ""))
+        correct = bool(g["correct"]) if g else False
+        sentences = []
+        for pos, row in enumerate(rows):
+            sentences.append({
+                "s": texts[row], "t": int(cats[row]), "c": None,
+                "i": pos + 1, "x": None, "y": None,
+            })
+            x, y = coords[row]
+            # point cols: x, y, taxonomy, cluster, caseIdx, sentenceArrayPos (0-based)
+            points.append([round(float(x), 2), round(float(y), 2),
+                           int(cats[row]), 0, int(case_idx), int(pos)])
+        cases.append({
+            "id": f"{model}::{pm}",
+            "qid": r.get("question_id"),
+            "prompt": r.get("question", "") or "",
+            "true_dx": true,
+            "pred_dx": pred,
+            "correct": correct,
+            "sentences": sentences,
+        })
+
+    (OUT_DIR / "cases").mkdir(parents=True, exist_ok=True)
+    (OUT_DIR / "points").mkdir(parents=True, exist_ok=True)
+    (OUT_DIR / "cases" / f"{model}.json").write_text(
+        json.dumps(cases, ensure_ascii=False, separators=(",", ":")))
+    (OUT_DIR / "points" / f"{model}.json").write_text(
+        json.dumps(points, separators=(",", ":")))
+    n_correct = sum(c["correct"] for c in cases)
+    print(f"  wrote {len(cases)} cases ({n_correct} correct), {len(points)} points", flush=True)
+
+
+def write_taxonomy(state_names: list[str], models: list[str]) -> None:
+    states = [{"label": s, "short_name": _short_name(s), "color": PALETTE[i % len(PALETTE)]}
+              for i, s in enumerate(state_names)]
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    (OUT_DIR / "taxonomy.json").write_text(json.dumps(
+        {"pipeline": "dedup", "states": states, "has_dataset": False, "models": models},
+        ensure_ascii=False, indent=2))
+    print(f"wrote taxonomy.json with {len(states)} states")
+
+
+def main(argv: list[str]) -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--model")
+    ap.add_argument("--tsne-max", type=int, default=20000)
+    args = ap.parse_args(argv)
+
+    state_names = [s["label"] for s in json.load(open(TAX_JSON))["states"]]
+    targets = [args.model] if args.model else MODELS
+    for m in targets:
+        print(f"[{m}]", flush=True)
+        emit_model(m, state_names, args.tsne_max)
+    write_taxonomy(state_names, MODELS)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))
