@@ -23,7 +23,7 @@ export function ConfusionMatrix({
       <div className="text-xs text-muted-foreground mb-2">
         Rows: {sourceALabel} | Columns: {sourceBLabel}
       </div>
-      <table className="w-full max-w-2xl text-[11px] border-collapse">
+      <table className="w-full text-[11px] border-collapse">
         <thead>
           <tr>
             <th className="p-1.5" />

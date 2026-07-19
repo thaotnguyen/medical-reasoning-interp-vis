@@ -1,6 +1,6 @@
 import type { Pipeline } from "./types";
 
-export const DEFAULT_MODEL = "deepseek-r1-distill-llama-8b";
+export const DEFAULT_MODEL = "qwq-32b";
 export const DEFAULT_DATASET = "medqa";
 export const DEFAULT_PIPELINE: Pipeline = "dedup";
 

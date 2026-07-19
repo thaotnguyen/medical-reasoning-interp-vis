@@ -70,40 +70,33 @@ export function AgreementDashboard({
     return collectPairedLabelsMulti(ratings, agreementCasesMap, sourceA, sourceB);
   }, [ratings, agreementCasesMap, sourceA, sourceB]);
 
-  const cohenKappaNominal = useMemo(
-    () => computeCohenKappaNominal(labelsA, labelsB, numCategories),
-    [labelsA, labelsB, numCategories]
-  );
-
   // Human rater ids (everything except the automated whitebox source).
   const humanIds = useMemo(
     () => raters.map((r) => r.id).filter((id) => id !== "whitebox"),
     [raters]
   );
 
-  // Raw agreement: humans vs AI = every human label vs the whitebox label, pooled.
+  // Cohen's κ (chance-corrected): every human label vs the whitebox/AI label, pooled.
   const humansVsAI = useMemo(() => {
-    let m = 0, n = 0;
+    let a: number[] = [], b: number[] = [];
     for (const id of humanIds) {
-      const { labelsA: a, labelsB: b } = collectPairedLabelsMulti(
-        ratings, agreementCasesMap, id, "whitebox");
-      for (let i = 0; i < a.length; i++) { n++; if (a[i] === b[i]) m++; }
+      const r = collectPairedLabelsMulti(ratings, agreementCasesMap, id, "whitebox");
+      a = a.concat(r.labelsA); b = b.concat(r.labelsB);
     }
-    return { value: n ? m / n : NaN, n };
-  }, [ratings, agreementCasesMap, humanIds]);
+    return { kappa: computeCohenKappaNominal(a, b, numCategories), n: a.length };
+  }, [ratings, agreementCasesMap, humanIds, numCategories]);
 
-  // Raw agreement: human vs human = every pair of humans, pooled.
+  // Cohen's κ: every pair of humans, pooled.
   const humanVsHuman = useMemo(() => {
-    let m = 0, n = 0;
+    let a: number[] = [], b: number[] = [];
     for (let i = 0; i < humanIds.length; i++) {
       for (let j = i + 1; j < humanIds.length; j++) {
-        const { labelsA: a, labelsB: b } = collectPairedLabelsMulti(
-          ratings, agreementCasesMap, humanIds[i], humanIds[j]);
-        for (let k = 0; k < a.length; k++) { n++; if (a[k] === b[k]) m++; }
+        const r = collectPairedLabelsMulti(ratings, agreementCasesMap, humanIds[i], humanIds[j]);
+        a = a.concat(r.labelsA); b = b.concat(r.labelsB);
       }
     }
-    return { value: n ? m / n : NaN, n };
-  }, [ratings, agreementCasesMap, humanIds]);
+    return { kappa: computeCohenKappaNominal(a, b, numCategories), n: a.length };
+  }, [ratings, agreementCasesMap, humanIds, numCategories]);
 
   const matrix = useMemo(
     () => computeConfusionMatrix(labelsA, labelsB, numCategories),
@@ -114,20 +107,6 @@ export function AgreementDashboard({
     () => computeCategoryMetrics(labelsA, labelsB, numCategories),
     [labelsA, labelsB, numCategories]
   );
-
-  const raterIds = useMemo(() => raters.map((r) => r.id), [raters]);
-
-  const fleissMatrix = useMemo(() => {
-    if (raterIds.length === 0 || Object.keys(agreementCasesMap).length === 0) return [];
-    return buildFleissMatrixMulti(ratings, agreementCasesMap, raterIds, true, numCategories);
-  }, [ratings, agreementCasesMap, raterIds, numCategories]);
-
-  const krippendorffNominal = useMemo(
-    () => computeKrippendorffAlphaNominal(fleissMatrix, numCategories),
-    [fleissMatrix, numCategories]
-  );
-
-  const fleissN = fleissMatrix.length;
 
   const getSourceLabel = (s: ComparisonSource) => {
     if (s === "whitebox") return "Whitebox";
@@ -178,47 +157,39 @@ export function AgreementDashboard({
           {/* Agreement metric cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <KappaCard
-              title="Agreement: Humans vs AI"
-              kappa={humansVsAI.value}
+              title="Cohen's \u03BA: Humans vs AI"
+              kappa={humansVsAI.kappa}
               n={humansVsAI.n}
             />
             <KappaCard
-              title="Agreement: Human vs Human"
-              kappa={humanVsHuman.value}
+              title="Cohen's \u03BA: Human vs Human"
+              kappa={humanVsHuman.kappa}
               n={humanVsHuman.n}
             />
-            <KappaCard
-              title={`Cohen's \u03BA: ${sourceALabel} vs ${sourceBLabel}`}
-              kappa={cohenKappaNominal}
-              n={labelsA.length}
-            />
-            <KappaCard
-              title={`Krippendorff's \u03B1: All ${humanIds.length} humans + AI`}
-              kappa={krippendorffNominal}
-              n={fleissN}
-            />
           </div>
 
-          {/* Confusion matrix */}
+          {/* Confusion matrix + per-category metrics share a box (side-by-side when wide) */}
           <div className="border rounded-lg p-4">
-            <h3 className="text-sm font-medium mb-3">Confusion Matrix</h3>
-            <ConfusionMatrix
-              matrix={matrix}
-              taxonomy={metadata.taxonomy}
-              sourceALabel={sourceALabel}
-              sourceBLabel={sourceBLabel}
-            />
-          </div>
-
-          {/* Per-category metrics */}
-          <div className="border rounded-lg p-4">
-            <h3 className="text-sm font-medium mb-3">
-              Per-Category Metrics ({sourceALabel} as reference)
-            </h3>
-            <CategoryAgreementTable
-              metrics={categoryMetrics}
-              taxonomy={metadata.taxonomy}
-            />
+            <div className="flex flex-col lg:flex-row gap-6">
+              <div className="lg:w-[420px] lg:shrink-0 min-w-0">
+                <h3 className="text-sm font-medium mb-3">Confusion Matrix</h3>
+                <ConfusionMatrix
+                  matrix={matrix}
+                  taxonomy={metadata.taxonomy}
+                  sourceALabel={sourceALabel}
+                  sourceBLabel={sourceBLabel}
+                />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-sm font-medium mb-3">
+                  Per-Category Metrics ({sourceALabel} as reference)
+                </h3>
+                <CategoryAgreementTable
+                  metrics={categoryMetrics}
+                  taxonomy={metadata.taxonomy}
+                />
+              </div>
+            </div>
           </div>
 
           {/* Case-by-case disagreement review */}

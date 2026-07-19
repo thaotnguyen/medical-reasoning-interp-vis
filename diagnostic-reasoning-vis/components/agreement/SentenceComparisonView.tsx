@@ -33,9 +33,8 @@ function LabelBadge({ label, taxonomy }: { label: number; taxonomy: TaxonomyItem
   if (!tax) return null;
   return (
     <span
-      className="inline-block max-w-full truncate align-middle px-2 py-0.5 rounded-md text-[11px] font-medium"
+      className="inline-block max-w-full align-top px-2 py-0.5 rounded-md text-[11px] font-medium whitespace-normal break-words leading-snug"
       style={{ backgroundColor: `${tax.color}20`, color: tax.color }}
-      title={tax.short_name}
     >
       {tax.short_name}
     </span>
