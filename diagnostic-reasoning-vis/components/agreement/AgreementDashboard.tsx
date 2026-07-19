@@ -118,7 +118,7 @@ export function AgreementDashboard({
   const hasData = labelsA.length > 0;
 
   return (
-    <div className="flex flex-col gap-6 p-6 max-w-5xl mx-auto">
+    <div className="flex flex-col gap-4 md:gap-6 p-4 md:p-6 max-w-5xl mx-auto">
       {/* Header row */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <AgreementScopeSelector
@@ -157,12 +157,12 @@ export function AgreementDashboard({
           {/* Agreement metric cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <KappaCard
-              title="Cohen's \u03BA: Humans vs AI"
+              title="Cohen's κ: Humans vs AI"
               kappa={humansVsAI.kappa}
               n={humansVsAI.n}
             />
             <KappaCard
-              title="Cohen's \u03BA: Human vs Human"
+              title="Cohen's κ: Human vs Human"
               kappa={humanVsHuman.kappa}
               n={humanVsHuman.n}
             />

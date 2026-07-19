@@ -38,7 +38,7 @@ function AppShellInner({ children }: { children: React.ReactNode }) {
     <TooltipProvider>
       <div className="h-screen flex flex-col overflow-hidden">
         <Header />
-        <div className="px-6 py-2 border-b">
+        <div className="px-3 md:px-6 py-2 border-b overflow-x-auto">
           <Tabs
             value={currentTab}
             onValueChange={(val) => {
@@ -47,7 +47,7 @@ function AppShellInner({ children }: { children: React.ReactNode }) {
               router.push(qs ? `${next}?${qs}` : next);
             }}
           >
-            <TabsList className="h-8">
+            <TabsList className="h-8 w-max">
               <TabsTrigger value="explorer" className="text-xs px-3">
                 Explorer
               </TabsTrigger>

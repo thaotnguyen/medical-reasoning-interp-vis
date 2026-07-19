@@ -72,10 +72,10 @@ export default function ExplorerPage() {
   const currentCase = cases?.[selectedCaseIndex];
 
   return (
-    <div className="flex h-full">
+    <div className="flex flex-col md:flex-row h-full min-h-0">
       {/* Left: t-SNE panel */}
       {hasTSNE && (
-        <div className="flex-[3] border-r overflow-hidden">
+        <div className="flex-[3] border-b md:border-b-0 md:border-r overflow-hidden min-h-0">
           <TSNEPanel
             points={points}
             isLoading={tsneLoading}
@@ -98,7 +98,7 @@ export default function ExplorerPage() {
 
       {/* Right: Case + Trace panels */}
       <div
-        className={`${hasTSNE ? "flex-[2]" : "flex-1 max-w-4xl mx-auto"} flex flex-col overflow-hidden`}
+        className={`${hasTSNE ? "flex-[2]" : "flex-1 max-w-4xl mx-auto"} flex flex-col overflow-hidden min-h-0`}
       >
         {casesLoading || !cases ? (
           <div className="flex-1 p-4">

@@ -28,8 +28,8 @@ export function Header() {
   }
 
   return (
-    <div className="flex items-center gap-4 px-6 py-3 border-b bg-background">
-      <h1 className="text-sm font-semibold tracking-tight mr-4">
+    <div className="flex items-center gap-2 md:gap-4 px-3 md:px-6 py-2 md:py-3 border-b bg-background flex-wrap">
+      <h1 className="text-sm font-semibold tracking-tight mr-1 md:mr-4">
         Diagnostic Reasoning Visualization
       </h1>
 

@@ -38,9 +38,9 @@ export function BrowserPanel({ taxonomy }: BrowserPanelProps) {
   };
 
   return (
-    <div className="flex h-full min-h-0">
+    <div className="flex flex-col md:flex-row h-full min-h-0">
       {/* Left: the universal taxonomy categories */}
-      <div className="w-[360px] shrink-0 border-r flex flex-col min-h-0">
+      <div className="w-full md:w-[360px] shrink-0 border-b md:border-b-0 md:border-r flex flex-col min-h-0 max-h-[45vh] md:max-h-none">
         <div className="px-5 py-4 border-b shrink-0">
           <h2 className="text-sm font-semibold">Universal Taxonomy</h2>
           <p className="text-xs text-muted-foreground mt-0.5">
