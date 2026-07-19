@@ -63,14 +63,20 @@ def main() -> None:
 
     # ---- Test: 20 per model, 40 per dataset (each model gives 7/7/6) ----
     # Each model's "6" dataset chosen so each dataset is the "6" for exactly 2 models.
+    test_entries: list[dict] = []
     for i, model in enumerate(MODELS):
         six_ds = DATASETS[i // 2]
         for dataset in DATASETS:
             n = 6 if dataset == six_ds else 7
             for _ in range(n):
                 ci, cid, sc = take(model, dataset)
-                entries.append({"index": len(entries), "model": model, "caseIndex": ci,
-                                "caseId": cid, "sentenceCount": sc, "isTraining": False})
+                test_entries.append({"model": model, "caseIndex": ci,
+                                     "caseId": cid, "sentenceCount": sc, "isTraining": False})
+    # Shuffle so the test cases appear in a random (not model-grouped) order.
+    rng.shuffle(test_entries)
+    for e in test_entries:
+        e["index"] = len(entries)
+        entries.append(e)
 
     out = DEDUP / "labeler-pool.json"
     out.write_text(json.dumps(entries, ensure_ascii=False, indent=2))
