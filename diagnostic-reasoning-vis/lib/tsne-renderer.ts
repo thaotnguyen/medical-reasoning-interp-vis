@@ -62,7 +62,7 @@ export function renderBase(opts: Omit<RenderOptions, "hoveredIdx">) {
     ctx.beginPath();
     ctx.arc(scaleX(x), scaleY(y), 3, 0, Math.PI * 2);
     ctx.fillStyle = colorFor(tax, cluster, colorMode, taxonomyColors, clusterColorMap);
-    ctx.globalAlpha = 0.5;
+    ctx.globalAlpha = 0.1;
     ctx.fill();
   }
 

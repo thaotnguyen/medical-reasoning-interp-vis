@@ -48,6 +48,11 @@ export function TSNECanvas({
   const overlayRafRef = useRef<number>(0);
   const sizeRef = useRef({ width: 0, height: 0 });
   const lastHoverRef = useRef<number | null>(null);
+  // Stable indirection so the resize/zoom subscriptions never depend on the hover-changing
+  // schedule callbacks (re-subscribing a ResizeObserver resets canvas.width, which clears the
+  // canvas and caused the hover flicker).
+  const scheduleBaseRef = useRef<() => void>(() => {});
+  const scheduleOverlayRef = useRef<() => void>(() => {});
 
   const taxonomyColors = useMemo(
     () => taxonomy.map((t) => t.color),
@@ -169,7 +174,12 @@ export function TSNECanvas({
     overlayRafRef.current = requestAnimationFrame(drawOverlay);
   }, [drawOverlay]);
 
-  // Resize observer: size both canvases, redraw both
+  // Keep the refs pointing at the latest schedulers without re-subscribing observers.
+  scheduleBaseRef.current = scheduleBase;
+  scheduleOverlayRef.current = scheduleOverlay;
+
+  // Resize observer: set up ONCE. Resetting canvas.width clears the canvas, so this must not
+  // re-run on hover — it calls the schedulers through refs instead of depending on them.
   useEffect(() => {
     const container = containerRef.current;
     const base = baseCanvasRef.current;
@@ -186,15 +196,15 @@ export function TSNECanvas({
         canvas.style.width = `${width}px`;
         canvas.style.height = `${height}px`;
       }
-      scheduleBase();
-      scheduleOverlay();
+      scheduleBaseRef.current();
+      scheduleOverlayRef.current();
     });
 
     ro.observe(container);
     return () => ro.disconnect();
-  }, [scheduleBase, scheduleOverlay]);
+  }, []);
 
-  // Zoom behavior (attached to the base canvas; overlay is pointer-events-none)
+  // Zoom behavior (attached once to the base canvas; overlay is pointer-events-none).
   useEffect(() => {
     const canvas = baseCanvasRef.current;
     if (!canvas) return;
@@ -204,15 +214,15 @@ export function TSNECanvas({
       .on("zoom", (event) => {
         transformRef.current = event.transform;
         onScalesChange?.({ scaleX, scaleY, transform: event.transform });
-        scheduleBase();
-        scheduleOverlay();
+        scheduleBaseRef.current();
+        scheduleOverlayRef.current();
       });
 
     select(canvas).call(zoomBehavior);
     return () => {
       select(canvas).on(".zoom", null);
     };
-  }, [scheduleBase, scheduleOverlay, scaleX, scaleY, onScalesChange]);
+  }, [scaleX, scaleY, onScalesChange]);
 
   // Mouse interaction (on the base canvas). Dedupe hover so we only update state when the
   // nearest point actually changes — otherwise every mousemove frame churns React state
