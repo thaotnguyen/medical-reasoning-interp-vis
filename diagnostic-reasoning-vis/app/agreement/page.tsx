@@ -29,7 +29,7 @@ export default function AgreementPage() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch("/data/pipelines/geometric/labeler-pool.json")
+    fetch("/data/pipelines/dedup/labeler-pool.json")
       .then((r) => (r.ok ? (r.json() as Promise<GeometricPoolEntry[]>) : []))
       .then((entries) => {
         if (cancelled) return;
@@ -114,7 +114,7 @@ export default function AgreementPage() {
         const model = idx >= 0 ? key.slice(0, idx) : key;
         try {
           const res = await fetch(
-            `/data/pipelines/geometric/cases/${model}.json`
+            `/data/pipelines/dedup/cases/${model}.json`
           );
           if (!res.ok) return { key, cases: null };
           const cases: Case[] = await res.json();

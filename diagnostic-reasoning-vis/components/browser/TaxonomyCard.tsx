@@ -25,7 +25,7 @@ export function TaxonomyCard({ item, selected, onSelect }: TaxonomyCardProps) {
         <div className="min-w-0">
           <div className="text-sm font-medium leading-snug">{item.label}</div>
           {item.description && (
-            <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+            <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
               {item.description}
             </p>
           )}

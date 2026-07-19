@@ -218,6 +218,7 @@ def emit_model(model: str, tsne_max: int, category_sentences: dict[int, list[str
         true = (g["true"] if g else r.get("gold_answer", "")) or ""
         pred = g["pred"] if g else parse_pred(r.get("full_response", ""))
         correct = bool(g["correct"]) if g else False
+        ds = _dataset_of(r)
         sentences = []
         for pos, row in enumerate(rows):
             x, y = coords[row]
@@ -226,7 +227,7 @@ def emit_model(model: str, tsne_max: int, category_sentences: dict[int, list[str
                 "s": texts[row], "t": cat, "c": None,
                 "i": pos + 1, "x": round(float(x), 2), "y": round(float(y), 2),
             })
-            category_sentences[cat].append((texts[row], model, int(case_idx), int(pos)))
+            category_sentences[cat].append((texts[row], model, int(case_idx), int(pos), ds, true))
             # point cols: x, y, taxonomy, cluster, caseIdx, sentenceArrayPos (0-based)
             points.append([round(float(x), 2), round(float(y), 2),
                            cat, 0, int(case_idx), int(pos)])
@@ -234,7 +235,7 @@ def emit_model(model: str, tsne_max: int, category_sentences: dict[int, list[str
             "id": f"{model}::{pm}",
             "qid": r.get("question_id"),
             "prompt": r.get("question", "") or "",
-            "dataset": _dataset_of(r),
+            "dataset": ds,
             "true_dx": true,
             "pred_dx": pred,
             "correct": correct,
@@ -286,12 +287,13 @@ def main(argv: list[str]) -> int:
     examples: dict[int, list[dict]] = {}
     for c, items in category_sentences.items():
         by_text: dict[str, tuple] = {}
-        for (t, m, ci, pos) in items:
-            by_text.setdefault(t, (m, ci, pos))
+        for (t, m, ci, pos, ds, dx) in items:
+            by_text.setdefault(t, (m, ci, pos, ds, dx))
         keys = sorted(by_text)
         pick = sorted(rng.permutation(len(keys))[:EXAMPLES_PER_CATEGORY].tolist())
         examples[c] = [{"s": keys[i], "model": by_text[keys[i]][0],
-                        "caseIdx": by_text[keys[i]][1], "sentIdx": by_text[keys[i]][2]}
+                        "caseIdx": by_text[keys[i]][1], "sentIdx": by_text[keys[i]][2],
+                        "dataset": by_text[keys[i]][3], "dx": by_text[keys[i]][4]}
                        for i in pick]
     write_taxonomy(state_names, descriptions, examples, MODELS)
     return 0

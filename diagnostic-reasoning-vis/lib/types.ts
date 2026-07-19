@@ -36,6 +36,8 @@ export interface TaxonomyExample {
   model: string;    // source model slug
   caseIdx: number;  // index into cases/{model}.json
   sentIdx: number;  // 0-based sentence position within that case
+  dataset?: string; // source dataset id (medqa / medmcqa-filtered / nejm-cpc)
+  dx?: string;      // the case's gold diagnosis
 }
 
 export interface TaxonomyItem {

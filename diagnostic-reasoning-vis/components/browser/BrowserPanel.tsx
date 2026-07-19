@@ -22,6 +22,13 @@ export function BrowserPanel({ taxonomy }: BrowserPanelProps) {
   const modelName = (slug: string) =>
     metadata?.models[slug]?.display_name ?? slug;
 
+  const DATASET_SHORT: Record<string, string> = {
+    medqa: "MedQA",
+    "medmcqa-filtered": "MedMCQA",
+    "nejm-cpc": "NEJM",
+  };
+  const datasetName = (id?: string) => (id ? DATASET_SHORT[id] ?? id : "");
+
   const openInExplorer = (ex: TaxonomyExample) => {
     // setModel resets the case to 0 and clears hover, so order matters.
     setModel(ex.model);
@@ -72,7 +79,9 @@ export function BrowserPanel({ taxonomy }: BrowserPanelProps) {
                       className="w-2 h-2 rounded-full"
                       style={{ backgroundColor: current?.color }}
                     />
-                    {modelName(ex.model)} · case {ex.caseIdx}
+                    {modelName(ex.model)}
+                    {ex.dataset ? ` · ${datasetName(ex.dataset)}` : ""}
+                    {ex.dx ? ` · ${ex.dx}` : ""}
                     <span className="opacity-0 group-hover:opacity-100 transition-opacity">
                       → open in Explorer
                     </span>

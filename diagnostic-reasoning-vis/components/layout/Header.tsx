@@ -42,21 +42,9 @@ export function Header() {
           <SelectContent>
             {metadata.model_order.map((slug) => {
               const model = metadata.models[slug];
-              const isWhiteBox = model.has_activations;
               return (
                 <SelectItem key={slug} value={slug} className="text-xs">
-                  <span className="flex items-center gap-1.5">
-                    {model.display_name}
-                    <span
-                      className={`inline-flex items-center rounded px-1 py-0.5 text-[10px] leading-none font-medium ${
-                        isWhiteBox
-                          ? "bg-emerald-100 text-emerald-700"
-                          : "bg-zinc-100 text-zinc-500"
-                      }`}
-                    >
-                      {isWhiteBox ? "white-box" : "black-box"}
-                    </span>
-                  </span>
+                  {model.display_name}
                 </SelectItem>
               );
             })}
