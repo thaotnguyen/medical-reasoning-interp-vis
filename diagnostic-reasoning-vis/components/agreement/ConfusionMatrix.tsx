@@ -23,14 +23,14 @@ export function ConfusionMatrix({
       <div className="text-xs text-muted-foreground mb-2">
         Rows: {sourceALabel} | Columns: {sourceBLabel}
       </div>
-      <table className="text-[11px] border-collapse">
+      <table className="w-full max-w-2xl text-[11px] border-collapse">
         <thead>
           <tr>
             <th className="p-1.5" />
             {taxonomy.map((t, j) => (
               <th
                 key={j}
-                className="p-1.5 text-center font-medium max-w-16 truncate"
+                className="p-1.5 text-center font-medium"
                 title={t.short_name}
               >
                 <span

@@ -24,7 +24,7 @@ function caseText(prompt: string): string {
   return s;
 }
 
-/** A category label rendered as the site's colored dot + name. */
+/** A category label styled like the labeler's choices: light tint + darker text. */
 function LabelBadge({ label, taxonomy }: { label: number; taxonomy: TaxonomyItem[] }) {
   if (label < 0) {
     return <span className="text-[10px] text-muted-foreground/50">—</span>;
@@ -32,12 +32,12 @@ function LabelBadge({ label, taxonomy }: { label: number; taxonomy: TaxonomyItem
   const tax = taxonomy[label];
   if (!tax) return null;
   return (
-    <span className="inline-flex items-center gap-1.5 text-[11px] text-foreground/80">
-      <span
-        className="w-2 h-2 rounded-full shrink-0"
-        style={{ backgroundColor: tax.color }}
-      />
-      <span className="truncate">{tax.short_name}</span>
+    <span
+      className="inline-block max-w-full truncate align-middle px-2 py-0.5 rounded-md text-[11px] font-medium"
+      style={{ backgroundColor: `${tax.color}20`, color: tax.color }}
+      title={tax.short_name}
+    >
+      {tax.short_name}
     </span>
   );
 }
@@ -61,20 +61,19 @@ export function SentenceComparisonView({
 
   return (
     <div className="flex flex-col h-full">
-      {/* Case header */}
-      <div className="px-4 py-3 border-b shrink-0 space-y-2">
-        <div className="text-sm font-medium truncate">Dx: {caseData.trueDx}</div>
-        <p className="text-xs text-muted-foreground leading-relaxed max-h-40 overflow-auto whitespace-pre-wrap border rounded p-2 bg-muted/30">
+      {/* Case prompt */}
+      <div className="px-4 py-3 border-b shrink-0">
+        <p className="text-xs text-muted-foreground leading-relaxed max-h-40 overflow-auto whitespace-pre-wrap">
           {caseText(caseData.prompt)}
         </p>
       </div>
 
       {/* Column headers */}
-      <div className="flex items-center gap-3 px-4 py-1.5 border-b bg-muted/30 shrink-0 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+      <div className="flex items-center gap-3 px-4 py-1.5 border-b bg-muted/30 shrink-0 text-[10px] font-semibold text-muted-foreground">
         <span className="w-6 text-center">#</span>
         <span className="flex-1">Sentence</span>
-        <span className="w-32">{sourceALabel}</span>
-        <span className="w-32">{sourceBLabel}</span>
+        <span className="w-24 truncate">{sourceALabel}</span>
+        <span className="w-24 truncate">{sourceBLabel}</span>
       </div>
 
       {/* Sentence rows */}
@@ -104,10 +103,10 @@ export function SentenceComparisonView({
                     {s.sentIdx}
                   </span>
                   <span className="flex-1 leading-relaxed">{s.text}</span>
-                  <span className="w-32 shrink-0 pt-0.5">
+                  <span className="w-24 shrink-0 pt-0.5 min-w-0">
                     <LabelBadge label={s.labelA} taxonomy={taxonomy} />
                   </span>
-                  <span className="w-32 shrink-0 pt-0.5">
+                  <span className="w-24 shrink-0 pt-0.5 min-w-0">
                     <LabelBadge label={s.labelB} taxonomy={taxonomy} />
                   </span>
                 </div>

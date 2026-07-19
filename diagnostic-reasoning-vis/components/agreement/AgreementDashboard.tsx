@@ -75,10 +75,35 @@ export function AgreementDashboard({
     [labelsA, labelsB, numCategories]
   );
 
-  const cohenKappaWeighted = useMemo(
-    () => computeCohenKappa(labelsA, labelsB, numCategories),
-    [labelsA, labelsB, numCategories]
+  // Human rater ids (everything except the automated whitebox source).
+  const humanIds = useMemo(
+    () => raters.map((r) => r.id).filter((id) => id !== "whitebox"),
+    [raters]
   );
+
+  // Raw agreement: humans vs AI = every human label vs the whitebox label, pooled.
+  const humansVsAI = useMemo(() => {
+    let m = 0, n = 0;
+    for (const id of humanIds) {
+      const { labelsA: a, labelsB: b } = collectPairedLabelsMulti(
+        ratings, agreementCasesMap, id, "whitebox");
+      for (let i = 0; i < a.length; i++) { n++; if (a[i] === b[i]) m++; }
+    }
+    return { value: n ? m / n : NaN, n };
+  }, [ratings, agreementCasesMap, humanIds]);
+
+  // Raw agreement: human vs human = every pair of humans, pooled.
+  const humanVsHuman = useMemo(() => {
+    let m = 0, n = 0;
+    for (let i = 0; i < humanIds.length; i++) {
+      for (let j = i + 1; j < humanIds.length; j++) {
+        const { labelsA: a, labelsB: b } = collectPairedLabelsMulti(
+          ratings, agreementCasesMap, humanIds[i], humanIds[j]);
+        for (let k = 0; k < a.length; k++) { n++; if (a[k] === b[k]) m++; }
+      }
+    }
+    return { value: n ? m / n : NaN, n };
+  }, [ratings, agreementCasesMap, humanIds]);
 
   const matrix = useMemo(
     () => computeConfusionMatrix(labelsA, labelsB, numCategories),
@@ -99,11 +124,6 @@ export function AgreementDashboard({
 
   const krippendorffNominal = useMemo(
     () => computeKrippendorffAlphaNominal(fleissMatrix, numCategories),
-    [fleissMatrix, numCategories]
-  );
-
-  const krippendorffOrdinal = useMemo(
-    () => computeKrippendorffAlpha(fleissMatrix, numCategories),
     [fleissMatrix, numCategories]
   );
 
@@ -158,23 +178,23 @@ export function AgreementDashboard({
           {/* Agreement metric cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <KappaCard
+              title="Agreement: Humans vs AI"
+              kappa={humansVsAI.value}
+              n={humansVsAI.n}
+            />
+            <KappaCard
+              title="Agreement: Human vs Human"
+              kappa={humanVsHuman.value}
+              n={humanVsHuman.n}
+            />
+            <KappaCard
               title={`Cohen's \u03BA: ${sourceALabel} vs ${sourceBLabel}`}
               kappa={cohenKappaNominal}
               n={labelsA.length}
             />
             <KappaCard
-              title={`Weighted Cohen's \u03BA: ${sourceALabel} vs ${sourceBLabel}`}
-              kappa={cohenKappaWeighted}
-              n={labelsA.length}
-            />
-            <KappaCard
-              title={`Krippendorff's \u03B1: All ${raterIds.length} raters + Whitebox`}
+              title={`Krippendorff's \u03B1: All ${humanIds.length} humans + AI`}
               kappa={krippendorffNominal}
-              n={fleissN}
-            />
-            <KappaCard
-              title={`Ordinal Krippendorff's \u03B1: All ${raterIds.length} raters + Whitebox`}
-              kappa={krippendorffOrdinal}
               n={fleissN}
             />
           </div>
