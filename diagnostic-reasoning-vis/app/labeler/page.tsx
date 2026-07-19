@@ -64,7 +64,7 @@ export default function LabelerPage() {
         const key = `${model}_${dataset}_${idx}`;
         const existing = map.get(key);
         if (existing?.caseId !== c.id || existing?.sentenceCount !== c.sentences.length) {
-          map.set(key, { sentenceCount: c.sentences.length, caseId: c.id });
+          map.set(key, { sentenceCount: c.sentences.length, caseId: c.id, trueDx: c.true_dx });
           changed = true;
         }
       });
@@ -312,42 +312,22 @@ export default function LabelerPage() {
           </button>
         </div>
 
-        {/* Mobile prompt toggle */}
-        {isMobile && currentCase && (
-          <button
-            onClick={() => { setPromptOpen((v) => !v); setSidebarOpen(false); }}
-            className={`p-1.5 rounded hover:bg-accent transition-colors ${promptOpen ? "bg-accent" : ""}`}
-            title="Toggle case prompt"
-          >
-            <FileText className="w-4 h-4" />
-          </button>
-        )}
-
-        {/* Source info — hide on mobile */}
-        {currentItem && (
+        {/* Source info — model + gold diagnosis */}
+        {currentItem && currentCase && (
           <div className="hidden md:flex items-center gap-2 border-l pl-3">
             <span className="text-[10px] text-muted-foreground/60">
-              {modelName} · {datasetName}
+              {modelName}
+              {currentCase.true_dx ? ` · Dx: ${currentCase.true_dx}` : ""}
             </span>
             {currentItem.isTraining && (
               <span className="text-[9px] font-semibold uppercase tracking-wide text-blue-500 border border-blue-500/40 px-1.5 py-0.5 rounded">
-                Training
+                Practice
               </span>
             )}
           </div>
         )}
 
         <div className="flex-1" />
-
-        {/* Training review link */}
-        <Link
-          href="/training"
-          className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs rounded-md border hover:bg-accent transition-colors"
-          title="Review training cases with gold standard"
-        >
-          <BookOpen className="w-3.5 h-3.5" />
-          Training
-        </Link>
 
         {/* Help button */}
         <button
@@ -395,49 +375,6 @@ export default function LabelerPage() {
           </div>
         ) : (
           <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
-            {/* Case prompt — overlay on mobile, inline on desktop */}
-            {showPrompt && (
-              <>
-                {isMobile && (
-                  <div
-                    className="absolute inset-0 bg-black/30 z-20"
-                    onClick={() => setPromptOpen(false)}
-                  />
-                )}
-                <div className={`
-                  ${isMobile
-                    ? "absolute left-0 top-0 bottom-0 z-30 w-[85%] max-w-sm shadow-xl bg-background"
-                    : "w-[35%] border-r"
-                  }
-                  overflow-hidden flex flex-col
-                `}>
-                  <div className="px-4 py-2 border-b shrink-0 flex items-center justify-between">
-                    <div>
-                      <div className="text-xs font-medium text-muted-foreground">Case Prompt</div>
-                      {currentCase.true_dx && (
-                        <div className="text-[10px] text-muted-foreground/50 mt-0.5 truncate">
-                          Dx: {currentCase.true_dx}
-                        </div>
-                      )}
-                    </div>
-                    {isMobile && (
-                      <button
-                        onClick={() => setPromptOpen(false)}
-                        className="p-1 rounded hover:bg-accent transition-colors text-muted-foreground"
-                      >
-                        ✕
-                      </button>
-                    )}
-                  </div>
-                  <ScrollArea className="flex-1 min-h-0 px-4 py-3">
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                      {currentCase.prompt}
-                    </p>
-                  </ScrollArea>
-                </div>
-              </>
-            )}
-
             {/* Labeling panel */}
             <div className="flex-1 overflow-hidden">
               <LabelingPanel

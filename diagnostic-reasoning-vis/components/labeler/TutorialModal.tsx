@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import type { TaxonomyItem, Pipeline } from "@/lib/types";
-import { getTaxonomyReferences } from "@/lib/taxonomy-reference";
 import { ChevronLeft, ChevronRight, CheckCircle2, XCircle } from "lucide-react";
 
 interface TutorialModalProps {
@@ -13,23 +12,20 @@ interface TutorialModalProps {
 
 export function TutorialModal({
   taxonomy,
-  pipeline,
   onComplete,
 }: TutorialModalProps) {
   const [step, setStep] = useState(0);
   const [name, setName] = useState("");
 
-  const references = getTaxonomyReferences(pipeline);
   // Step 0 = welcome, steps 1..N = taxonomy categories, last = name entry
-  const totalSteps = references.length + 2;
+  const totalSteps = taxonomy.length + 2;
   const isWelcome = step === 0;
   const isNameStep = step === totalSteps - 1;
   const taxonomyStep = !isWelcome && !isNameStep ? step - 1 : -1;
 
-  const ref = taxonomyStep >= 0 ? references[taxonomyStep] : null;
   const tax = taxonomyStep >= 0 ? taxonomy[taxonomyStep] : null;
-  const numStates = Math.max(taxonomy.length, references.length);
-  const lastKey = Math.min(numStates, 9);
+  const negTax = taxonomyStep >= 0 ? taxonomy[(taxonomyStep + 1) % taxonomy.length] : null;
+  const lastKey = Math.min(taxonomy.length, 9);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
@@ -55,10 +51,10 @@ export function TutorialModal({
                 how well automated labeling matches human judgment.
               </p>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Each unit in a <strong>{pipeline}</strong> reasoning trace
-                belongs to one of <strong>{numStates} categories</strong>. The
-                next few screens explain each category with examples. Take your
-                time &mdash; understanding these categories is key to consistent
+                Each sentence in a clinical reasoning trace belongs to one of{" "}
+                <strong>{taxonomy.length} categories</strong>. The next few
+                screens explain each category with examples. Take your time
+                &mdash; understanding these categories is key to consistent
                 labeling.
               </p>
               <div className="pt-4 space-y-2">
@@ -72,9 +68,9 @@ export function TutorialModal({
                         className="w-3 h-3 rounded-full shrink-0"
                         style={{ backgroundColor: t.color }}
                       />
-                      <span className="font-medium">{i + 1}. {t.short_name}</span>
-                      <span className="text-muted-foreground">
-                        &mdash; {references[i]?.shortDescription}
+                      <span className="font-medium">{i + 1}. {t.label}</span>
+                      <span className="text-muted-foreground line-clamp-1">
+                        &mdash; {t.description}
                       </span>
                     </div>
                   ))}
@@ -83,7 +79,7 @@ export function TutorialModal({
             </div>
           )}
 
-          {ref && tax && (
+          {tax && (
             <div className="space-y-5">
               <div className="flex items-center gap-3">
                 <span
@@ -93,39 +89,37 @@ export function TutorialModal({
                   {taxonomyStep + 1}
                 </span>
                 <div>
-                  <h2 className="text-xl font-bold">{tax.short_name}</h2>
-                  <p className="text-xs text-muted-foreground">{tax.label}</p>
+                  <h2 className="text-xl font-bold">{tax.label}</h2>
                 </div>
               </div>
 
-              <p className="text-sm leading-relaxed">{ref.shortDescription}</p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {ref.longDescription}
-              </p>
+              {tax.description && (
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {tax.description}
+                </p>
+              )}
 
               {/* Positive example */}
-              <div className="rounded-lg border border-green-200 bg-green-50 dark:border-green-900 dark:bg-green-950/30 p-4 space-y-2">
-                <div className="flex items-center gap-1.5 text-xs font-semibold text-green-700 dark:text-green-400">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  This IS {tax.short_name}
+              {tax.examples?.[0]?.s && (
+                <div className="rounded-lg border border-green-200 bg-green-50 dark:border-green-900 dark:bg-green-950/30 p-4 space-y-2">
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-green-700 dark:text-green-400">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    This IS {tax.label}
+                  </div>
+                  <p className="text-sm italic">&ldquo;{tax.examples[0].s}&rdquo;</p>
                 </div>
-                <p className="text-sm italic">&ldquo;{ref.positiveExample}&rdquo;</p>
-                <p className="text-xs text-muted-foreground">
-                  {ref.positiveExplanation}
-                </p>
-              </div>
+              )}
 
-              {/* Negative example */}
-              <div className="rounded-lg border border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-950/30 p-4 space-y-2">
-                <div className="flex items-center gap-1.5 text-xs font-semibold text-red-700 dark:text-red-400">
-                  <XCircle className="w-3.5 h-3.5" />
-                  This is NOT {tax.short_name}
+              {/* Negative example (from another category) */}
+              {negTax?.examples?.[0]?.s && (
+                <div className="rounded-lg border border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-950/30 p-4 space-y-2">
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-red-700 dark:text-red-400">
+                    <XCircle className="w-3.5 h-3.5" />
+                    This is NOT {tax.label}
+                  </div>
+                  <p className="text-sm italic">&ldquo;{negTax.examples[0].s}&rdquo;</p>
                 </div>
-                <p className="text-sm italic">&ldquo;{ref.negativeExample}&rdquo;</p>
-                <p className="text-xs text-muted-foreground">
-                  {ref.negativeExplanation}
-                </p>
-              </div>
+              )}
             </div>
           )}
 

@@ -31,13 +31,20 @@ export interface DatasetInfo {
   num_cases: number;
 }
 
+export interface TaxonomyExample {
+  s: string;        // sentence text
+  model: string;    // source model slug
+  caseIdx: number;  // index into cases/{model}.json
+  sentIdx: number;  // 0-based sentence position within that case
+}
+
 export interface TaxonomyItem {
   label: string;
   color: string;
   short_name: string;
   description?: string;
-  /** Example sentences for this category (seeded random sample). */
-  examples?: string[];
+  /** Example sentences for this category (seeded random sample), with their source. */
+  examples?: TaxonomyExample[];
 }
 
 /** cases/{model}_{dataset}.json entry */

@@ -29,10 +29,13 @@ from pathlib import Path
 import numpy as np
 
 HF_REPO = "matthewshu/medcasereasoning-cot-activations"
-WT = Path("/home/ttn/Development/med-interp/thinking-llms-interp-rec")
-CACHE_DIR = WT / "universal-taxonomy" / "results" / "plain" / "latent_cache"
-LABELS_DIR = WT / "universal-taxonomy" / "results" / "plain" / "labels"
-TAX_JSON = WT / "universal-taxonomy" / "results" / "plain" / "taxonomy.json"
+# The rec worktree was consolidated into the main repo: rec taxonomy now lives under
+# universal-taxonomy/results_recommended/ and rec_data/ at the main repo root.
+WT = Path("/home/ttn/Development/med-interp/thinking-llms-interp")
+_REC = WT / "universal-taxonomy" / "results_recommended"
+CACHE_DIR = _REC / "plain" / "latent_cache"
+LABELS_DIR = _REC / "plain" / "labels"
+TAX_JSON = _REC / "plain" / "taxonomy.json"
 RESP_DIR = WT / "rec_data" / "snapshot" / "responses"
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -59,7 +62,7 @@ WINNING_SEL = {
     "huatuogpt-o1-8b": (10, 14),
     "qwq-32b": (45, 16),
 }
-SIDECAR_DIR = WT / "universal-taxonomy" / "results" / "vars" / "latents"
+SIDECAR_DIR = _REC / "vars" / "latents"
 
 # (dataset_name, dataset_split) -> viewer dataset id (matches metadata.json datasets).
 DATASET_MAP = {
@@ -223,7 +226,7 @@ def emit_model(model: str, tsne_max: int, category_sentences: dict[int, list[str
                 "s": texts[row], "t": cat, "c": None,
                 "i": pos + 1, "x": round(float(x), 2), "y": round(float(y), 2),
             })
-            category_sentences[cat].append(texts[row])
+            category_sentences[cat].append((texts[row], model, int(case_idx), int(pos)))
             # point cols: x, y, taxonomy, cluster, caseIdx, sentenceArrayPos (0-based)
             points.append([round(float(x), 2), round(float(y), 2),
                            cat, 0, int(case_idx), int(pos)])
@@ -277,13 +280,19 @@ def main(argv: list[str]) -> int:
         print(f"[{m}]", flush=True)
         emit_model(m, args.tsne_max, category_sentences)
 
-    # 100 example sentences per category, seeded so they never drift between runs.
+    # 100 example sentences per category, seeded so they never drift between runs. Each keeps
+    # its source (model, caseIdx, sentIdx) so the browser can jump to it in the Explorer.
     rng = np.random.default_rng(EXAMPLES_SEED)
-    examples: dict[int, list[str]] = {}
-    for c, sents in category_sentences.items():
-        uniq = sorted(set(sents))
-        pick = sorted(rng.permutation(len(uniq))[:EXAMPLES_PER_CATEGORY].tolist())
-        examples[c] = [uniq[i] for i in pick]
+    examples: dict[int, list[dict]] = {}
+    for c, items in category_sentences.items():
+        by_text: dict[str, tuple] = {}
+        for (t, m, ci, pos) in items:
+            by_text.setdefault(t, (m, ci, pos))
+        keys = sorted(by_text)
+        pick = sorted(rng.permutation(len(keys))[:EXAMPLES_PER_CATEGORY].tolist())
+        examples[c] = [{"s": keys[i], "model": by_text[keys[i]][0],
+                        "caseIdx": by_text[keys[i]][1], "sentIdx": by_text[keys[i]][2]}
+                       for i in pick]
     write_taxonomy(state_names, descriptions, examples, MODELS)
     return 0
 

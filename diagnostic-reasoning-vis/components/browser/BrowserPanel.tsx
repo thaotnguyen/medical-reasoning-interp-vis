@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TaxonomyCard } from "./TaxonomyCard";
-import type { TaxonomyItem } from "@/lib/types";
+import { useMetadata } from "@/hooks/useMetadata";
+import { useAppState } from "@/hooks/useAppState";
+import type { TaxonomyItem, TaxonomyExample } from "@/lib/types";
 
 interface BrowserPanelProps {
   taxonomy: TaxonomyItem[];
@@ -12,6 +15,20 @@ interface BrowserPanelProps {
 export function BrowserPanel({ taxonomy }: BrowserPanelProps) {
   const [selected, setSelected] = useState(0);
   const current = taxonomy[selected];
+  const router = useRouter();
+  const { metadata } = useMetadata();
+  const { setModel, setCaseIndex, setHoveredSentence } = useAppState();
+
+  const modelName = (slug: string) =>
+    metadata?.models[slug]?.display_name ?? slug;
+
+  const openInExplorer = (ex: TaxonomyExample) => {
+    // setModel resets the case to 0 and clears hover, so order matters.
+    setModel(ex.model);
+    setCaseIndex(ex.caseIdx);
+    setHoveredSentence(ex.sentIdx);
+    router.push("/");
+  };
 
   return (
     <div className="flex h-full min-h-0">
@@ -37,49 +54,39 @@ export function BrowserPanel({ taxonomy }: BrowserPanelProps) {
         </ScrollArea>
       </div>
 
-      {/* Right: example sentences for the selected category */}
+      {/* Right: example sentences (click to open in the Explorer) */}
       <div className="flex-1 flex flex-col min-w-0 min-h-0">
-        {current && (
-          <>
-            <div className="px-6 py-4 border-b shrink-0">
-              <div className="flex items-center gap-2.5">
-                <span
-                  className="w-3.5 h-3.5 rounded-full shrink-0"
-                  style={{ backgroundColor: current.color }}
-                />
-                <h2 className="text-base font-semibold">{current.label}</h2>
-              </div>
-              {current.description && (
-                <p className="text-sm text-muted-foreground mt-1.5 max-w-3xl leading-relaxed">
-                  {current.description}
-                </p>
-              )}
-            </div>
-            <ScrollArea className="flex-1 min-h-0">
-              <div className="px-6 py-5 max-w-3xl">
-                <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wide mb-3">
-                  {current.examples?.length ?? 0} example sentences
-                </p>
-                <ul className="space-y-2">
-                  {(current.examples ?? []).map((s, i) => (
-                    <li
-                      key={i}
-                      className="text-sm leading-relaxed border-l-2 pl-3 py-0.5 text-foreground/90"
-                      style={{ borderColor: current.color }}
-                    >
-                      {s}
-                    </li>
-                  ))}
-                </ul>
-                {!current.examples?.length && (
-                  <p className="text-sm text-muted-foreground">
-                    No example sentences available.
-                  </p>
-                )}
-              </div>
-            </ScrollArea>
-          </>
-        )}
+        <ScrollArea className="flex-1 min-h-0">
+          <ul className="divide-y">
+            {(current?.examples ?? []).map((ex, i) => (
+              <li key={i}>
+                <button
+                  type="button"
+                  onClick={() => openInExplorer(ex)}
+                  className="w-full text-left px-6 py-3 hover:bg-accent/50 transition-colors group"
+                  title="Open this sentence in the Explorer"
+                >
+                  <p className="text-sm leading-relaxed text-foreground/90">{ex.s}</p>
+                  <span className="mt-1 inline-flex items-center gap-1.5 text-[11px] text-muted-foreground group-hover:text-foreground/70">
+                    <span
+                      className="w-2 h-2 rounded-full"
+                      style={{ backgroundColor: current?.color }}
+                    />
+                    {modelName(ex.model)} · case {ex.caseIdx}
+                    <span className="opacity-0 group-hover:opacity-100 transition-opacity">
+                      → open in Explorer
+                    </span>
+                  </span>
+                </button>
+              </li>
+            ))}
+            {!current?.examples?.length && (
+              <li className="px-6 py-4 text-sm text-muted-foreground">
+                No example sentences available.
+              </li>
+            )}
+          </ul>
+        </ScrollArea>
       </div>
     </div>
   );

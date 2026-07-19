@@ -10,10 +10,12 @@ import {
 import { useMetadata } from "@/hooks/useMetadata";
 import { useAppState } from "@/hooks/useAppState";
 import { Skeleton } from "@/components/ui/skeleton";
+import { PIPELINES } from "@/lib/constants";
 
 export function Header() {
   const { metadata, isLoading } = useMetadata();
-  const { selectedModel, setModel } = useAppState();
+  const { selectedModel, setModel, selectedPipeline, setPipeline } =
+    useAppState();
 
   if (isLoading || !metadata) {
     return (

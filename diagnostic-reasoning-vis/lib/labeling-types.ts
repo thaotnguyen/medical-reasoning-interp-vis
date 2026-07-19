@@ -29,6 +29,7 @@ export type ServerRatingsResponse = Record<
 export interface CasePoolInfo {
   sentenceCount: number;
   caseId: string;
+  trueDx?: string;
 }
 
 /** Maps keyboard keys "1"-"7" to taxonomy indices 0-6 */
