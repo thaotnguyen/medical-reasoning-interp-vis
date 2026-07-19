@@ -7,13 +7,9 @@ import type { ActivePoolItem } from "@/lib/labeler-active-pool";
 import { buildAgreementCasesMap } from "@/lib/agreement-scope";
 import {
   computeCohenKappaNominal,
-  computeCohenKappa,
   computeConfusionMatrix,
   computeCategoryMetrics,
-  computeKrippendorffAlphaNominal,
-  computeKrippendorffAlpha,
   collectPairedLabelsMulti,
-  buildFleissMatrixMulti,
 } from "@/lib/agreement-stats";
 import {
   AgreementScopeSelector,
@@ -77,13 +73,14 @@ export function AgreementDashboard({
   );
 
   // Cohen's κ (chance-corrected): every human label vs the whitebox/AI label, pooled.
+  // Also drives the confusion matrix + per-category metrics (humans vs whitebox).
   const humansVsAI = useMemo(() => {
     let a: number[] = [], b: number[] = [];
     for (const id of humanIds) {
       const r = collectPairedLabelsMulti(ratings, agreementCasesMap, id, "whitebox");
       a = a.concat(r.labelsA); b = b.concat(r.labelsB);
     }
-    return { kappa: computeCohenKappaNominal(a, b, numCategories), n: a.length };
+    return { a, b, kappa: computeCohenKappaNominal(a, b, numCategories), n: a.length };
   }, [ratings, agreementCasesMap, humanIds, numCategories]);
 
   // Cohen's κ: every pair of humans, pooled.
@@ -98,13 +95,20 @@ export function AgreementDashboard({
     return { kappa: computeCohenKappaNominal(a, b, numCategories), n: a.length };
   }, [ratings, agreementCasesMap, humanIds, numCategories]);
 
+  // Confusion matrix + per-category metrics: humans (rows) vs whitebox (columns).
   const matrix = useMemo(
-    () => computeConfusionMatrix(labelsA, labelsB, numCategories),
-    [labelsA, labelsB, numCategories]
+    () => computeConfusionMatrix(humansVsAI.a, humansVsAI.b, numCategories),
+    [humansVsAI, numCategories]
   );
 
   const categoryMetrics = useMemo(
-    () => computeCategoryMetrics(labelsA, labelsB, numCategories),
+    () => computeCategoryMetrics(humansVsAI.a, humansVsAI.b, numCategories),
+    [humansVsAI, numCategories]
+  );
+
+  // Cohen's κ for the pair selected in the Review section.
+  const cohenKappaSelected = useMemo(
+    () => computeCohenKappaNominal(labelsA, labelsB, numCategories),
     [labelsA, labelsB, numCategories]
   );
 
@@ -115,19 +119,12 @@ export function AgreementDashboard({
 
   const sourceALabel = getSourceLabel(sourceA);
   const sourceBLabel = getSourceLabel(sourceB);
-  const hasData = labelsA.length > 0;
+  const hasData = humansVsAI.n > 0 || humanVsHuman.n > 0;
 
   return (
     <div className="flex flex-col gap-4 md:gap-6 p-4 md:p-6 max-w-5xl mx-auto">
       {/* Header row */}
-      <div className="flex items-center justify-between flex-wrap gap-4">
-        <AgreementScopeSelector
-          raters={raters}
-          sourceA={sourceA}
-          sourceB={sourceB}
-          onSourceAChange={setSourceA}
-          onSourceBChange={setSourceB}
-        />
+      <div className="flex items-center justify-end flex-wrap gap-4">
         <ImportExportButtons
           ratings={ratings}
           casesMap={casesMap}
@@ -148,8 +145,8 @@ export function AgreementDashboard({
         <div className="text-center py-16 text-muted-foreground">
           <p className="text-lg font-medium mb-2">No co-labeled data yet</p>
           <p className="text-sm">
-            Both selected sources need labels for the same sentences.
-            Try a different comparison pair, or label more sentences.
+            Agreement appears once raters and the whitebox model have labels for
+            the same sentences. Label more sentences to populate this view.
           </p>
         </div>
       ) : (
@@ -168,22 +165,15 @@ export function AgreementDashboard({
             />
           </div>
 
-          {/* Confusion matrix + per-category metrics share a box (side-by-side when wide) */}
+          {/* Confusion matrix + per-category metrics (humans vs whitebox) share a box */}
           <div className="border rounded-lg p-4">
             <div className="flex flex-col lg:flex-row gap-6">
-              <div className="lg:w-[420px] lg:shrink-0 min-w-0">
-                <h3 className="text-sm font-medium mb-3">Confusion Matrix</h3>
-                <ConfusionMatrix
-                  matrix={matrix}
-                  taxonomy={metadata.taxonomy}
-                  sourceALabel={sourceALabel}
-                  sourceBLabel={sourceBLabel}
-                />
-              </div>
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium mb-3">
-                  Per-Category Metrics ({sourceALabel} as reference)
-                </h3>
+                <h3 className="text-sm font-medium mb-3">Confusion Matrix</h3>
+                <ConfusionMatrix matrix={matrix} taxonomy={metadata.taxonomy} />
+              </div>
+              <div className="lg:shrink-0 min-w-0">
+                <h3 className="text-sm font-medium mb-3">Per-Category Metrics</h3>
                 <CategoryAgreementTable
                   metrics={categoryMetrics}
                   taxonomy={metadata.taxonomy}
@@ -192,11 +182,26 @@ export function AgreementDashboard({
             </div>
           </div>
 
-          {/* Case-by-case disagreement review */}
-          <div className="border rounded-lg p-4">
-            <h3 className="text-sm font-medium mb-3">
-              Case-by-Case Review ({sourceALabel} vs {sourceBLabel})
-            </h3>
+          {/* Review: pick any pair, see their Cohen's κ + case-by-case sentences */}
+          <div className="border rounded-lg p-4 space-y-3">
+            <div className="flex items-center justify-between flex-wrap gap-3">
+              <h3 className="text-sm font-medium">Review</h3>
+              <AgreementScopeSelector
+                raters={raters}
+                sourceA={sourceA}
+                sourceB={sourceB}
+                onSourceAChange={setSourceA}
+                onSourceBChange={setSourceB}
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Cohen&apos;s κ ({sourceALabel} vs {sourceBLabel}):{" "}
+              <span className="font-semibold tabular-nums text-foreground">
+                {isNaN(cohenKappaSelected) ? "---" : cohenKappaSelected.toFixed(3)}
+              </span>
+              {" · "}
+              {labelsA.length} co-labeled sentence{labelsA.length === 1 ? "" : "s"}
+            </p>
             <DisagreementReview
               ratings={ratings}
               casesMap={agreementCasesMap}

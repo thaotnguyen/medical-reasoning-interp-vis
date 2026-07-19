@@ -25,7 +25,7 @@ export function CategoryAgreementTable({
 }: CategoryAgreementTableProps) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-xs">
+      <table className="text-xs">
         <thead>
           <tr className="border-b">
             <th className="text-left p-2 font-medium">Category</th>

@@ -5,24 +5,17 @@ import type { TaxonomyItem } from "@/lib/types";
 interface ConfusionMatrixProps {
   matrix: number[][];
   taxonomy: TaxonomyItem[];
-  sourceALabel: string;
-  sourceBLabel: string;
 }
 
 export function ConfusionMatrix({
   matrix,
   taxonomy,
-  sourceALabel,
-  sourceBLabel,
 }: ConfusionMatrixProps) {
   const maxVal = Math.max(1, ...matrix.flat());
   const numCats = taxonomy.length;
 
   return (
     <div className="overflow-x-auto">
-      <div className="text-xs text-muted-foreground mb-2">
-        Rows: {sourceALabel} | Columns: {sourceBLabel}
-      </div>
       <table className="w-full text-[11px] border-collapse">
         <thead>
           <tr>
