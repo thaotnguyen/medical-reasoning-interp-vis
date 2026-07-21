@@ -109,13 +109,19 @@ def chord_svg(P: np.ndarray, states, colors, dest: Path) -> None:
         # Built-in sector labels follow the arc. Suppress them and place our own with
         # Circos.text(adjust_rotation=False), which is the only way to get text that stays
         # horizontal on screen regardless of where the sector sits on the circle.
-        label_kws=dict(size=0),
+        label_kws=dict(size=0, alpha=0),
         link_kws=dict(direction=1, ec="white", lw=0.2, alpha=0.72),
     )
     for sector in circos.sectors:
         lo, hi = sector.deg_lim
-        circos.text(sector.name, r=118, deg=(lo + hi) / 2,
-                    adjust_rotation=False, size=9, color="#334155")
+        # A 0.9-opacity white plate behind each label: the ribbons reach close to the ring,
+        # so horizontal text at a fixed radius otherwise overlaps them.
+        circos.text(
+            sector.name, r=118, deg=(lo + hi) / 2,
+            adjust_rotation=False, size=9, color="#334155",
+            bbox=dict(boxstyle="round,pad=0.28", facecolor="white",
+                      edgecolor="none", alpha=0.9),
+        )
     fig = circos.plotfig(dpi=100, figsize=(6, 6))
     fig.savefig(dest, format="svg", bbox_inches="tight", transparent=True)
     import matplotlib.pyplot as plt

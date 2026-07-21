@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-07-21T12:37:53.947494</dc:date>
+    <dc:date>2026-07-21T13:19:10.245889</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -2996,34 +2996,99 @@ z
 " style="fill: none; stroke: #000000; stroke-width: 0.5; stroke-linejoin: miter"/>
    </g>
    <g id="text_1">
+    <g id="patch_12">
+     <path d="M 263.611152 48.671337 
+L 368.150371 48.671337 
+Q 370.670371 48.671337 370.670371 46.151337 
+L 370.670371 37.150634 
+Q 370.670371 34.630634 368.150371 34.630634 
+L 263.611152 34.630634 
+Q 261.091152 34.630634 261.091152 37.150634 
+L 261.091152 46.151337 
+Q 261.091152 48.671337 263.611152 48.671337 
+z
+" style="fill: #ffffff; opacity: 0.9"/>
+    </g>
     <text style="font-size: 9px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; fill: #334155" x="315.880762" y="43.989228" transform="rotate(-0 315.880762 43.989228)">Gathering Clinical Data</text>
    </g>
    <g id="text_2">
+    <g id="patch_13">
+     <path d="M 341.867833 212.883463 
+L 441.891583 212.883463 
+Q 444.411583 212.883463 444.411583 210.363463 
+L 444.411583 201.362759 
+Q 444.411583 198.842759 441.891583 198.842759 
+L 341.867833 198.842759 
+Q 339.347833 198.842759 339.347833 201.362759 
+L 339.347833 210.363463 
+Q 339.347833 212.883463 341.867833 212.883463 
+z
+" style="fill: #ffffff; opacity: 0.9"/>
+    </g>
     <text style="font-size: 9px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; fill: #334155" x="391.879708" y="208.201353" transform="rotate(-0 391.879708 208.201353)">Structuring Reasoning</text>
    </g>
    <g id="text_3">
+    <g id="patch_14">
+     <path d="M 167.262472 335.453285 
+L 295.804972 335.453285 
+Q 298.324972 335.453285 298.324972 332.933285 
+L 298.324972 323.932582 
+Q 298.324972 321.412582 295.804972 321.412582 
+L 167.262472 321.412582 
+Q 164.742472 321.412582 164.742472 323.932582 
+L 164.742472 332.933285 
+Q 164.742472 335.453285 167.262472 335.453285 
+z
+" style="fill: #ffffff; opacity: 0.9"/>
+    </g>
     <text style="font-size: 9px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; fill: #334155" x="231.533722" y="330.771175" transform="rotate(-0 231.533722 330.771175)">Interpreting Clinical Findings</text>
    </g>
    <g id="text_4">
+    <g id="patch_15">
+     <path d="M 36 195.076631 
+L 142.274531 195.076631 
+Q 144.794531 195.076631 144.794531 192.556631 
+L 144.794531 183.555928 
+Q 144.794531 181.035928 142.274531 181.035928 
+L 36 181.035928 
+Q 33.48 181.035928 33.48 183.555928 
+L 33.48 192.556631 
+Q 33.48 195.076631 36 195.076631 
+z
+" style="fill: #ffffff; opacity: 0.9"/>
+    </g>
     <text style="font-size: 9px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; fill: #334155" x="89.137266" y="190.394521" transform="rotate(-0 89.137266 190.394521)">Generating Hypotheses</text>
    </g>
    <g id="text_5">
+    <g id="patch_16">
+     <path d="M 121.319645 47.520703 
+L 218.206052 47.520703 
+Q 220.726052 47.520703 220.726052 45.000703 
+L 220.726052 36 
+Q 220.726052 33.48 218.206052 33.48 
+L 121.319645 33.48 
+Q 118.799645 33.48 118.799645 36 
+L 118.799645 45.000703 
+Q 118.799645 47.520703 121.319645 47.520703 
+z
+" style="fill: #ffffff; opacity: 0.9"/>
+    </g>
     <text style="font-size: 9px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; fill: #334155" x="169.762848" y="42.838594" transform="rotate(-0 169.762848 42.838594)">Concluding Diagnosis</text>
    </g>
    <g id="text_6">
-    <text style="font-size: 1px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="307.831427" y="56.202974" transform="rotate(-331.05112 307.831427 56.202974)">Gathering Clinical Data</text>
+    <text style="font-size: 1px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; opacity: 0" x="307.831427" y="56.202974" transform="rotate(-331.05112 307.831427 56.202974)">Gathering Clinical Data</text>
    </g>
    <g id="text_7">
-    <text style="font-size: 1px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="376.086231" y="202.68409" transform="rotate(-78.619184 376.086231 202.68409)">Structuring Reasoning</text>
+    <text style="font-size: 1px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; opacity: 0" x="376.086231" y="202.68409" transform="rotate(-78.619184 376.086231 202.68409)">Structuring Reasoning</text>
    </g>
    <g id="text_8">
-    <text style="font-size: 1px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="232.609823" y="312.358665" transform="rotate(-356.170017 232.609823 312.358665)">Interpreting Clinical Findings</text>
+    <text style="font-size: 1px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; opacity: 0" x="232.609823" y="312.358665" transform="rotate(-356.170017 232.609823 312.358665)">Interpreting Clinical Findings</text>
    </g>
    <g id="text_9">
-    <text style="font-size: 1px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="105.194522" y="186.750668" transform="rotate(-274.648478 105.194522 186.750668)">Generating Hypotheses</text>
+    <text style="font-size: 1px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; opacity: 0" x="105.194522" y="186.750668" transform="rotate(-274.648478 105.194522 186.750668)">Generating Hypotheses</text>
    </g>
    <g id="text_10">
-    <text style="font-size: 1px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="177.582014" y="55.1773" transform="rotate(-28.046525 177.582014 55.1773)">Concluding Diagnosis</text>
+    <text style="font-size: 1px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; opacity: 0" x="177.582014" y="55.1773" transform="rotate(-28.046525 177.582014 55.1773)">Concluding Diagnosis</text>
    </g>
   </g>
  </g>

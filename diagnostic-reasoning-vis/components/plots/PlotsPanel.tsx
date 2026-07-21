@@ -164,12 +164,16 @@ export function PlotsPanel() {
           </div>
           <div className="rounded-lg border bg-background p-2">
             <div className="text-[11px] font-medium mb-1">All models</div>
-            <SankeyPlot
-              links={data.sankey[OVERALL] ?? []}
-              states={data.states}
-              colors={data.colors}
-              height={440}
-            />
+            {/* Narrower and centred: at full page width the links stretch into near-flat
+                bands that are hard to follow. */}
+            <div className="mx-auto w-full max-w-[820px]">
+              <SankeyPlot
+                links={data.sankey[OVERALL] ?? []}
+                states={data.states}
+                colors={data.colors}
+                height={440}
+              />
+            </div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
             {data.models.map((m) => (
@@ -199,6 +203,7 @@ export function PlotsPanel() {
           <div className="rounded-lg border p-3 bg-background">
             <div className="text-[11px] font-medium mb-2">All models</div>
             <TransitionMatrix
+              center
               matrix={all.overall.matrix}
               states={data.states}
               colors={data.colors}
@@ -256,6 +261,7 @@ export function PlotsPanel() {
           <div className="rounded-lg border p-3 bg-background">
             <div className="text-[11px] font-medium mb-2">All models</div>
             <TransitionMatrix
+              center
               matrix={diff(
                 data.subsets.correct.overall.matrix,
                 data.subsets.incorrect.overall.matrix

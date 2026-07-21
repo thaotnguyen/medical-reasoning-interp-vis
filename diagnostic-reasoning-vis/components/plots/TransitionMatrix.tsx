@@ -32,6 +32,7 @@ export function TransitionMatrix({
   scheme = "blues",
   scale,
   compact = false,
+  center = false,
 }: {
   matrix: number[][];
   states: string[];
@@ -40,6 +41,8 @@ export function TransitionMatrix({
   /** Max absolute value for the diff scheme; defaults to the matrix's own max. */
   scale?: number;
   compact?: boolean;
+  /** Centre the table in its container (used by the pooled "All models" blocks). */
+  center?: boolean;
 }) {
   const maxAbs =
     scale ??
@@ -69,7 +72,7 @@ export function TransitionMatrix({
 
   return (
     <div className="overflow-x-auto">
-      <table className="border-separate border-spacing-0.5">
+      <table className={`border-separate border-spacing-0.5${center ? " mx-auto" : ""}`}>
         <thead>
           <tr>
             <th className="w-px" />

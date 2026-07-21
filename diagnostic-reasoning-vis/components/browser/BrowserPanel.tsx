@@ -93,15 +93,22 @@ export function BrowserPanel({ taxonomy }: BrowserPanelProps) {
                   title="Open this sentence in the Explorer"
                 >
                   <p className="text-sm leading-relaxed text-foreground/90">{ex.s}</p>
-                  <span className="mt-1 inline-flex items-center gap-1.5 text-[11px] text-muted-foreground group-hover:text-foreground/70">
+                  {/* One truncated row on phones: model · dataset · dx. The
+                      "open in Explorer" hint is desktop-only (there is no hover on touch). */}
+                  <span className="mt-1 flex items-center gap-1.5 text-[11px] text-muted-foreground group-hover:text-foreground/70 min-w-0">
                     <span
-                      className="w-2 h-2 rounded-full"
+                      className="w-2 h-2 rounded-full shrink-0"
                       style={{ backgroundColor: current?.color }}
                     />
-                    {modelName(ex.model)}
-                    {ex.dataset ? ` · ${datasetName(ex.dataset)}` : ""}
-                    {ex.dx ? ` · ${ex.dx}` : ""}
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity">
+                    {/* Radix's ScrollArea viewport is display:table, so it shrink-wraps to
+                        its widest non-wrapping child. Bounding the truncation to the
+                        viewport keeps the table at 100% and lets the sentence wrap. */}
+                    <span className="truncate min-w-0 max-w-[calc(100vw-5rem)] md:max-w-none">
+                      {modelName(ex.model)}
+                      {ex.dataset ? ` · ${datasetName(ex.dataset)}` : ""}
+                      {ex.dx ? ` · ${ex.dx}` : ""}
+                    </span>
+                    <span className="hidden md:inline opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                       → open in Explorer
                     </span>
                   </span>
