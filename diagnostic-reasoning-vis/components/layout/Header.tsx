@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Select,
@@ -14,6 +15,16 @@ import { useAppState } from "@/hooks/useAppState";
 import { usePipelineTaxonomy } from "@/hooks/usePipelineTaxonomy";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PIPELINES } from "@/lib/constants";
+import type { Pipeline } from "@/lib/types";
+
+/** Solid black (currentColor) home glyph shown instead of the title on phones. */
+function HomeIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M12 3.172 2.25 11.03a.75.75 0 0 0 .94 1.17l1.06-.85V20a1 1 0 0 0 1 1h4.5a.75.75 0 0 0 .75-.75V15.5h3.5v4.75a.75.75 0 0 0 .75.75h4.5a1 1 0 0 0 1-1v-8.65l1.06.85a.75.75 0 1 0 .94-1.17L12 3.172Z" />
+    </svg>
+  );
+}
 
 export function Header() {
   const { metadata, isLoading } = useMetadata();
@@ -65,42 +76,51 @@ export function Header() {
   }
 
   return (
-    <div className="flex items-center gap-2 md:gap-4 px-3 md:px-6 py-2 md:py-3 border-b bg-background flex-wrap">
-      <h1 className="text-sm font-semibold tracking-tight mr-1 md:mr-4">
-        Diagnostic Reasoning Visualization
-      </h1>
+    // nowrap so the whole bar stays on one row on phones; each control shrinks instead.
+    <div className="flex items-center gap-2 md:gap-4 px-3 md:px-6 py-2 md:py-3 border-b bg-background flex-nowrap">
+      {/* Title doubles as the home link. Phones get just the icon so the row fits. */}
+      <Link
+        href="/"
+        aria-label="Diagnostic Reasoning Visualization — home"
+        className="shrink-0 mr-0 md:mr-4 flex items-center text-foreground hover:opacity-70 transition-opacity"
+      >
+        <HomeIcon className="w-5 h-5 md:hidden" />
+        <span className="hidden md:inline text-sm font-semibold tracking-tight">
+          Diagnostic Reasoning Visualization
+        </span>
+      </Link>
 
       {showPipelineToggle && (
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground">Taxonomy</span>
-          <div className="inline-flex rounded-md border p-0.5 bg-muted/40">
-            {PIPELINES.map((p) => {
-              const active = p.id === selectedPipeline;
-              return (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => setPipeline(p.id)}
-                  aria-pressed={active}
-                  className={
-                    "px-2.5 py-1 text-xs rounded-[5px] transition-colors " +
-                    (active
-                      ? "bg-background shadow-sm font-medium"
-                      : "text-muted-foreground hover:text-foreground")
-                  }
-                >
-                  {p.short}
-                </button>
-              );
-            })}
-          </div>
+        <div className="flex items-center gap-2 min-w-0 shrink">
+          <span className="hidden md:inline text-xs text-muted-foreground shrink-0">
+            Taxonomy
+          </span>
+          <Select
+            value={selectedPipeline}
+            onValueChange={(v) => setPipeline(v as Pipeline)}
+          >
+            <SelectTrigger className="h-8 text-xs w-[104px] md:w-[132px] min-w-0">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {PIPELINES.map((p) => (
+                <SelectItem key={p.id} value={p.id} className="text-xs">
+                  {p.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       )}
 
-      <div className="flex items-center gap-2">
-        <span className="text-xs text-muted-foreground">Model</span>
+      <div className="flex items-center gap-2 min-w-0 flex-1 md:flex-none">
+        <span className="hidden md:inline text-xs text-muted-foreground shrink-0">
+          Model
+        </span>
         <Select value={selectedModel} onValueChange={setModel}>
-          <SelectTrigger className="w-[200px] h-8 text-xs">
+          {/* min-w-0 lets the trigger shrink; the value line-clamps to one line with an
+              ellipsis, so a long name never pushes the row to a second line. */}
+          <SelectTrigger className="h-8 text-xs w-full md:w-[200px] min-w-0">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

@@ -40,14 +40,33 @@ export function BrowserPanel({ taxonomy }: BrowserPanelProps) {
   return (
     <div className="flex flex-col md:flex-row h-full min-h-0">
       {/* Left: the universal taxonomy categories */}
-      <div className="w-full md:w-[360px] shrink-0 border-b md:border-b-0 md:border-r flex flex-col min-h-0 max-h-[45vh] md:max-h-none">
-        <div className="px-5 py-4 border-b shrink-0">
+      <div className="w-full md:w-[360px] shrink-0 border-b md:border-b-0 md:border-r flex flex-col min-h-0 md:max-h-none">
+        {/* Heading is desktop-only; on a phone it just eats vertical space. */}
+        <div className="hidden md:block px-5 py-4 border-b shrink-0">
           <h2 className="text-sm font-semibold">Universal Taxonomy</h2>
           <p className="text-xs text-muted-foreground mt-0.5">
             {taxonomy.length} reasoning categories
           </p>
         </div>
-        <ScrollArea className="flex-1 min-h-0">
+
+        {/* Phones: one horizontally-scrolling row. Cards are narrow enough to stay
+            taller than they are wide, wide enough that the title does not truncate,
+            and `items-stretch` makes them all match the tallest one. */}
+        <div className="md:hidden overflow-x-auto overscroll-x-contain">
+          <div className="flex items-stretch gap-2 p-3 w-max">
+            {taxonomy.map((item, i) => (
+              <TaxonomyCard
+                key={i}
+                item={item}
+                selected={i === selected}
+                onSelect={() => setSelected(i)}
+                className="w-[172px] shrink-0"
+              />
+            ))}
+          </div>
+        </div>
+
+        <ScrollArea className="hidden md:block flex-1 min-h-0">
           <div className="grid gap-2 p-4">
             {taxonomy.map((item, i) => (
               <TaxonomyCard

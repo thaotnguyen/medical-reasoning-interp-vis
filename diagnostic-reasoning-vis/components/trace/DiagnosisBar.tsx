@@ -10,7 +10,9 @@ interface DiagnosisBarProps {
 
 export function DiagnosisBar({ predictedDx, trueDx, isCorrect }: DiagnosisBarProps) {
   return (
-    <div className="flex flex-col gap-1.5 px-4 py-2 border-b text-xs">
+    // Hidden on phones: the predicted/gold pair costs a lot of vertical space and the
+    // trace itself is the point on a small screen.
+    <div className="hidden md:flex flex-col gap-1.5 px-4 py-2 border-b text-xs">
       <div className="flex items-center gap-2">
         <span className="text-muted-foreground w-20 shrink-0">Predicted:</span>
         <span className="font-medium truncate">{predictedDx}</span>

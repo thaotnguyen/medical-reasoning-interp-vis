@@ -1,7 +1,6 @@
 "use client";
 
 import { DiagnosisBar } from "./DiagnosisBar";
-import { TraceStats } from "./TraceStats";
 import { TaxonomyDistribution } from "./TaxonomyDistribution";
 import { SentenceList } from "./SentenceList";
 import type { Case, TaxonomyItem } from "@/lib/types";
@@ -26,7 +25,6 @@ export function TracePanel({
         trueDx={currentCase.true_dx}
         isCorrect={currentCase.correct}
       />
-      <TraceStats sentenceCount={currentCase.sentences.length} />
       <TaxonomyDistribution
         sentences={currentCase.sentences}
         taxonomy={taxonomy}

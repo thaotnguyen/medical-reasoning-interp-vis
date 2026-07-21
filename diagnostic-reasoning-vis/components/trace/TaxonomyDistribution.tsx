@@ -41,21 +41,6 @@ export function TaxonomyDistribution({ sentences, taxonomy }: TaxonomyDistributi
           );
         })}
       </div>
-      {/* Legend */}
-      <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-1.5">
-        {distribution.map((count, i) => {
-          if (count === 0) return null;
-          return (
-            <div key={i} className="flex items-center gap-1 text-[10px] text-muted-foreground">
-              <div
-                className="w-2 h-2 rounded-full shrink-0"
-                style={{ backgroundColor: taxonomy[i].color }}
-              />
-              <span>{taxonomy[i].short_name} ({count})</span>
-            </div>
-          );
-        })}
-      </div>
     </div>
   );
 }

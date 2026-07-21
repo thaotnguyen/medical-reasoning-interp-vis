@@ -7,19 +7,37 @@ interface TSNELegendProps {
   colorMode: "taxonomy" | "cluster";
   taxonomy: TaxonomyItem[];
   clusters: Record<string, ClusterInfo>;
+  /**
+   * "wrap"   – horizontal strip under the plot (desktop).
+   * "column" – one entry per line, for the narrow column beside the plot on phones.
+   */
+  layout?: "wrap" | "column";
 }
 
-export function TSNELegend({ colorMode, taxonomy, clusters }: TSNELegendProps) {
+export function TSNELegend({
+  colorMode,
+  taxonomy,
+  clusters,
+  layout = "wrap",
+}: TSNELegendProps) {
+  const column = layout === "column";
+  const wrapCls = column
+    ? "flex flex-col gap-1.5 px-2 py-2 overflow-y-auto h-full"
+    : "flex flex-wrap gap-x-3 gap-y-1 px-3 py-2";
+  const labelCls = column
+    ? "text-muted-foreground leading-tight break-words"
+    : "text-muted-foreground";
+
   if (colorMode === "taxonomy") {
     return (
-      <div className="flex flex-wrap gap-x-3 gap-y-1 px-3 py-2">
+      <div className={wrapCls}>
         {taxonomy.map((t, i) => (
-          <div key={i} className="flex items-center gap-1.5 text-[10px]">
+          <div key={i} className="flex items-start gap-1.5 text-[10px]">
             <div
-              className="w-2.5 h-2.5 rounded-full shrink-0"
+              className="w-2.5 h-2.5 rounded-full shrink-0 mt-[3px]"
               style={{ backgroundColor: t.color }}
             />
-            <span className="text-muted-foreground">{t.short_name}</span>
+            <span className={labelCls}>{t.short_name}</span>
           </div>
         ))}
       </div>
@@ -32,14 +50,18 @@ export function TSNELegend({ colorMode, taxonomy, clusters }: TSNELegendProps) {
     .sort((a, b) => a - b);
 
   return (
-    <div className="flex flex-wrap gap-x-3 gap-y-1 px-3 py-2">
+    <div className={wrapCls}>
       {clusterIds.map((id, i) => (
-        <div key={id} className="flex items-center gap-1.5 text-[10px]">
+        <div key={id} className="flex items-start gap-1.5 text-[10px]">
           <div
-            className="w-2.5 h-2.5 rounded-full shrink-0"
+            className="w-2.5 h-2.5 rounded-full shrink-0 mt-[3px]"
             style={{ backgroundColor: schemeTableau10[i % 10] }}
           />
-          <span className="text-muted-foreground truncate max-w-[120px]">
+          <span
+            className={
+              column ? labelCls : "text-muted-foreground truncate max-w-[120px]"
+            }
+          >
             {clusters[String(id)].title}
           </span>
         </div>

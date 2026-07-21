@@ -93,9 +93,14 @@ export function TSNEPanel({
     activeCaseIdx !== null ? cases?.[activeCaseIdx] : undefined;
 
   return (
-    <div className="flex flex-col h-full" onMouseMove={handleMouseMove}>
+    // Phones: two columns — a roughly square plot on the left, the legend stacked on the
+    // right. Desktop keeps the plot filling the panel with the legend as a strip beneath.
+    <div
+      className="flex flex-row md:flex-col h-full min-h-0"
+      onMouseMove={handleMouseMove}
+    >
       {/* Canvas + trajectory overlay */}
-      <div className="flex-1 relative overflow-hidden">
+      <div className="relative overflow-hidden aspect-square w-auto h-full shrink-0 md:aspect-auto md:w-auto md:h-auto md:flex-1">
         <TSNECanvas
           points={points}
           taxonomy={taxonomy}
@@ -136,8 +141,18 @@ export function TSNEPanel({
         )}
       </div>
 
-      {/* Legend */}
-      <div className="border-t shrink-0">
+      {/* Legend: right-hand column on phones, strip underneath on desktop. Two instances
+          rather than one, because the stacked-vs-wrapped arrangement is a different DOM
+          shape, not something a responsive utility class can toggle. */}
+      <div className="flex-1 min-w-0 border-l overflow-hidden md:hidden">
+        <TSNELegend
+          colorMode={colorMode}
+          taxonomy={taxonomy}
+          clusters={clusters}
+          layout="column"
+        />
+      </div>
+      <div className="hidden md:block border-t shrink-0">
         <TSNELegend
           colorMode={colorMode}
           taxonomy={taxonomy}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useMetadata } from "@/hooks/useMetadata";
 import { usePipelineCases } from "@/hooks/usePipelineCases";
 import { usePipelinePoints } from "@/hooks/usePipelinePoints";
@@ -12,6 +12,7 @@ import { TracePanel } from "@/components/trace/TracePanel";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ExplorerPage() {
+  const [caseOpen, setCaseOpen] = useState(true);
   const { metadata, isLoading: metaLoading } = useMetadata();
   const {
     selectedPipeline,
@@ -75,7 +76,11 @@ export default function ExplorerPage() {
     <div className="flex flex-col md:flex-row h-full min-h-0">
       {/* Left: t-SNE panel */}
       {hasTSNE && (
-        <div className="flex-[3] border-b md:border-b-0 md:border-r overflow-hidden min-h-0">
+        <div
+          /* Phones: compact fixed-height strip (square plot + legend beside it).
+             Desktop: the plot stays the dominant pane. */
+          className="h-[190px] shrink-0 md:h-auto md:flex-[3] border-b md:border-b-0 md:border-r overflow-hidden min-h-0"
+        >
           <TSNEPanel
             points={points}
             isLoading={tsneLoading}
@@ -109,11 +114,17 @@ export default function ExplorerPage() {
           </div>
         ) : (
           <>
-            <div className="h-[35%] border-b overflow-hidden">
+            {/* Collapsing the prompt has to release the reserved height too, so the
+                open state lives here rather than inside CasePanel. */}
+            <div
+              className={`${caseOpen ? "h-[35%]" : "shrink-0"} border-b overflow-hidden`}
+            >
               <CasePanel
                 cases={cases}
                 selectedIndex={selectedCaseIndex}
                 onSelect={navigateToCase}
+                open={caseOpen}
+                onOpenChange={setCaseOpen}
               />
             </div>
             <div className="flex-1 overflow-hidden">

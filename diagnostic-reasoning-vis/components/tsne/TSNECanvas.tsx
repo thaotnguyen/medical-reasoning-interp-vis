@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useCallback, useMemo } from "react";
+import { useRef, useEffect, useCallback, useMemo, useState } from "react";
 import { scaleLinear, type ScaleLinear } from "d3-scale";
 import { zoom, zoomIdentity, type ZoomTransform } from "d3-zoom";
 import { select } from "d3-selection";
@@ -47,6 +47,10 @@ export function TSNECanvas({
   const baseRafRef = useRef<number>(0);
   const overlayRafRef = useRef<number>(0);
   const sizeRef = useRef({ width: 0, height: 0 });
+  // Mirrored into state so the scales recompute when the container resizes. sizeRef alone is
+  // not enough: the scale memo would keep the size it happened to see on first render (0, so
+  // it fell back to a hard-coded 600px range) and the plot would be drawn for the wrong box.
+  const [size, setSize] = useState({ width: 0, height: 0 });
   const lastHoverRef = useRef<number | null>(null);
   // Stable indirection so the resize/zoom subscriptions never depend on the hover-changing
   // schedule callbacks (re-subscribing a ResizeObserver resets canvas.width, which clears the
@@ -103,8 +107,9 @@ export function TSNECanvas({
     const pad = 0.05;
     const xRange = xMax - xMin || 1;
     const yRange = yMax - yMin || 1;
-    const { width, height } = sizeRef.current;
-    const margin = 20;
+    const { width, height } = size;
+    // Keep the margin proportionate so a small (mobile) plot is not mostly padding.
+    const margin = Math.min(20, Math.max(4, Math.min(width, height) * 0.06));
 
     return {
       scaleX: scaleLinear()
@@ -114,7 +119,7 @@ export function TSNECanvas({
         .domain([yMin - yRange * pad, yMax + yRange * pad])
         .range([margin, (height || 600) - margin]),
     };
-  }, [points]);
+  }, [points, size]);
 
   // Report initial scales to parent
   useEffect(() => {
@@ -195,6 +200,11 @@ export function TSNECanvas({
     const ro = new ResizeObserver((entries) => {
       const { width, height } = entries[0].contentRect;
       sizeRef.current = { width, height };
+      // Guarded so an unchanged measurement cannot loop through the render that this
+      // triggers (the observer stays subscribed; only the scales are recomputed).
+      setSize((prev) =>
+        prev.width === width && prev.height === height ? prev : { width, height }
+      );
       const dpr = window.devicePixelRatio || 1;
       for (const canvas of [base, overlay]) {
         canvas.width = width * dpr;

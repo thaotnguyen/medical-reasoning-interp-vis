@@ -6,14 +6,21 @@ interface TaxonomyCardProps {
   item: TaxonomyItem;
   selected: boolean;
   onSelect: () => void;
+  /** Extra sizing classes; the mobile strip uses this to fix the card width. */
+  className?: string;
 }
 
-export function TaxonomyCard({ item, selected, onSelect }: TaxonomyCardProps) {
+export function TaxonomyCard({
+  item,
+  selected,
+  onSelect,
+  className = "w-full",
+}: TaxonomyCardProps) {
   return (
     <button
       type="button"
       onClick={onSelect}
-      className={`w-full text-left rounded-lg border p-3 transition-colors ${
+      className={`${className} text-left rounded-lg border p-3 transition-colors ${
         selected ? "border-foreground/25 bg-accent" : "hover:bg-accent/50"
       }`}
     >

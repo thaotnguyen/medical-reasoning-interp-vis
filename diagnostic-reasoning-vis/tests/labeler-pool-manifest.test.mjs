@@ -17,10 +17,26 @@ const metadataPath = path.join(
   "data",
   "metadata.json"
 );
+const dedupTaxonomyPath = path.join(
+  import.meta.dirname,
+  "..",
+  "public",
+  "data",
+  "pipelines",
+  "dedup",
+  "taxonomy.json"
+);
 
 test("labeler-pool manifest contains pinned training cases and 100 ranked unique test cases", () => {
   const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
   const metadata = JSON.parse(fs.readFileSync(metadataPath, "utf8"));
+  const labelerModels = JSON.parse(
+    fs.readFileSync(dedupTaxonomyPath, "utf8")
+  ).models;
+  assert.ok(
+    Array.isArray(labelerModels) && labelerModels.length > 0,
+    "dedup taxonomy must declare the models the labeler pool covers"
+  );
 
   assert.ok(Array.isArray(manifest.training));
   assert.ok(Array.isArray(manifest.test));
@@ -59,7 +75,10 @@ test("labeler-pool manifest contains pinned training cases and 100 ranked unique
       (pairCounts[`${item.model}__${item.dataset}`] ?? 0) + 1;
   }
 
-  for (const model of metadata.model_order) {
+  // Coverage is over the models the labeler actually draws from — the dedup pipeline's
+  // six — not metadata.model_order, which orders the *dropdown* and also lists the models
+  // that only appear in the 10-model taxonomy.
+  for (const model of labelerModels) {
     for (const dataset of metadata.dataset_order) {
       assert.ok(
         (pairCounts[`${model}__${dataset}`] ?? 0) >= 1,
