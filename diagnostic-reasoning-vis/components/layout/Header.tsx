@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
   Select,
@@ -30,8 +31,14 @@ export function Header() {
   const { selectedModel, setModel, selectedPipeline, setPipeline } =
     useAppState();
   const { raw: taxonomy } = usePipelineTaxonomy(selectedPipeline);
-  // Every remaining view (explorer / plots / browser) has data for both taxonomies.
-  const showPipelineToggle = PIPELINES.length > 1;
+  const pathname = usePathname();
+  // Explorer / Plots / Browser have data for both taxonomies. The human-rating tools are
+  // pinned to the 6-model data (only dedup has a labeler pool), so the toggle is hidden
+  // there and the selection snaps back if we arrive with the 10-model taxonomy active.
+  const showPipelineToggle =
+    PIPELINES.length > 1 &&
+    !pathname.startsWith("/labeler") &&
+    !pathname.startsWith("/agreement");
 
   // The dropdown shows exactly the models that contribute to the selected pipeline.
   // Order = metadata.model_order first (keeps the 6-model view stable), then any extras.
@@ -50,6 +57,12 @@ export function Header() {
       setModel(models[0]);
     }
   }, [models, selectedModel, setModel]);
+
+  useEffect(() => {
+    if (!showPipelineToggle && selectedPipeline === "tenmodel") {
+      setPipeline("dedup");
+    }
+  }, [showPipelineToggle, selectedPipeline, setPipeline]);
 
   if (isLoading || !metadata) {
     return (
