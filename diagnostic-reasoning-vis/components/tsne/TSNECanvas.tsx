@@ -26,6 +26,12 @@ interface TSNECanvasProps {
   onHoverPoint: (index: number | null) => void;
   onClickPoint: (caseIdx: number, sentIdx: number) => void;
   onScalesChange?: (scales: TSNEScales) => void;
+  /**
+   * Fit the plot into a square anchored at the left of the canvas instead of stretching to
+   * the full width. Used on phones, where the canvas spans the whole panel (so zoomed
+   * points can travel under the floating legend) but should still open as a left-hand square.
+   */
+  fitSquare?: boolean;
 }
 
 export function TSNECanvas({
@@ -39,6 +45,7 @@ export function TSNECanvas({
   onHoverPoint,
   onClickPoint,
   onScalesChange,
+  fitSquare = false,
 }: TSNECanvasProps) {
   const baseCanvasRef = useRef<HTMLCanvasElement>(null);
   const overlayCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -110,16 +117,20 @@ export function TSNECanvas({
     const { width, height } = size;
     // Keep the margin proportionate so a small (mobile) plot is not mostly padding.
     const margin = Math.min(20, Math.max(4, Math.min(width, height) * 0.06));
+    const w = width || 600;
+    const h = height || 600;
+    // fitSquare anchors the fit to a left-hand square; the canvas itself stays full width.
+    const xEnd = fitSquare ? Math.min(w, h) - margin : w - margin;
 
     return {
       scaleX: scaleLinear()
         .domain([xMin - xRange * pad, xMax + xRange * pad])
-        .range([margin, (width || 600) - margin]),
+        .range([margin, xEnd]),
       scaleY: scaleLinear()
         .domain([yMin - yRange * pad, yMax + yRange * pad])
-        .range([margin, (height || 600) - margin]),
+        .range([margin, h - margin]),
     };
-  }, [points, size]);
+  }, [points, size, fitSquare]);
 
   // Report initial scales to parent
   useEffect(() => {

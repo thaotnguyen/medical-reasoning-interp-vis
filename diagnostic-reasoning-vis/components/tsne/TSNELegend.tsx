@@ -12,6 +12,11 @@ interface TSNELegendProps {
    * "column" – one entry per line, for the narrow column beside the plot on phones.
    */
   layout?: "wrap" | "column";
+  /**
+   * Render text in solid black rather than the muted colour. Used by the floating card on
+   * phones, whose 0.9-alpha background would otherwise leave muted text hard to read.
+   */
+  opaque?: boolean;
 }
 
 export function TSNELegend({
@@ -19,14 +24,16 @@ export function TSNELegend({
   taxonomy,
   clusters,
   layout = "wrap",
+  opaque = false,
 }: TSNELegendProps) {
   const column = layout === "column";
   const wrapCls = column
-    ? "flex flex-col gap-1.5 px-2 py-2 overflow-y-auto h-full"
+    ? "flex flex-col gap-1.5 px-2 py-2"
     : "flex flex-wrap gap-x-3 gap-y-1 px-3 py-2";
+  const textCls = opaque ? "text-black" : "text-muted-foreground";
   const labelCls = column
-    ? "text-muted-foreground leading-tight break-words"
-    : "text-muted-foreground";
+    ? `${textCls} leading-tight break-words`
+    : textCls;
 
   if (colorMode === "taxonomy") {
     return (
@@ -59,7 +66,7 @@ export function TSNELegend({
           />
           <span
             className={
-              column ? labelCls : "text-muted-foreground truncate max-w-[120px]"
+              column ? labelCls : `${textCls} truncate max-w-[120px]`
             }
           >
             {clusters[String(id)].title}

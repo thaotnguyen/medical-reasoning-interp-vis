@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { zoomIdentity } from "d3-zoom";
 import { scaleLinear } from "d3-scale";
 import { TSNECanvas, type TSNEScales } from "./TSNECanvas";
@@ -53,6 +53,15 @@ export function TSNEPanel({
 }: TSNEPanelProps) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [scales, setScales] = useState<TSNEScales>(defaultScales);
+  // Matches Tailwind's `md` breakpoint, which is where the layout switches.
+  const [isNarrow, setIsNarrow] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const sync = () => setIsNarrow(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   const handleHoverPoint = useCallback(
     (index: number | null) => {
@@ -93,14 +102,15 @@ export function TSNEPanel({
     activeCaseIdx !== null ? cases?.[activeCaseIdx] : undefined;
 
   return (
-    // Phones: two columns — a roughly square plot on the left, the legend stacked on the
-    // right. Desktop keeps the plot filling the panel with the legend as a strip beneath.
+    // Phones: the canvas spans the whole panel and the legend floats over its right side,
+    // so zoomed points can travel underneath it. The plot still *opens* as a left-hand
+    // square (fitSquare). Desktop keeps the plot above a full-width legend strip.
     <div
-      className="flex flex-row md:flex-col h-full min-h-0"
+      className="relative flex flex-col h-full min-h-0"
       onMouseMove={handleMouseMove}
     >
       {/* Canvas + trajectory overlay */}
-      <div className="relative overflow-hidden aspect-square w-auto h-full shrink-0 md:aspect-auto md:w-auto md:h-auto md:flex-1">
+      <div className="relative overflow-hidden flex-1 min-h-0">
         <TSNECanvas
           points={points}
           taxonomy={taxonomy}
@@ -112,6 +122,7 @@ export function TSNEPanel({
           onHoverPoint={handleHoverPoint}
           onClickPoint={onClickPoint}
           onScalesChange={handleScalesChange}
+          fitSquare={isNarrow}
         />
 
         {/* Trajectory overlay */}
@@ -141,15 +152,18 @@ export function TSNEPanel({
         )}
       </div>
 
-      {/* Legend: right-hand column on phones, strip underneath on desktop. Two instances
-          rather than one, because the stacked-vs-wrapped arrangement is a different DOM
-          shape, not something a responsive utility class can toggle. */}
-      <div className="flex-1 min-w-0 border-l overflow-hidden md:hidden">
+      {/* Legend: floating card over the plot on phones, strip underneath on desktop. Two
+          instances rather than one, because the stacked-vs-wrapped arrangement is a
+          different DOM shape, not something a responsive utility class can toggle.
+          The 0.9 alpha sits on the card background only, so the swatches and text on top
+          of it stay fully opaque. pointer-events-none keeps the plot draggable underneath. */}
+      <div className="md:hidden absolute top-1.5 right-1.5 z-10 max-w-[52%] max-h-[calc(100%-0.75rem)] overflow-y-auto rounded-md border border-black/10 bg-white/90 shadow-sm pointer-events-none">
         <TSNELegend
           colorMode={colorMode}
           taxonomy={taxonomy}
           clusters={clusters}
           layout="column"
+          opaque
         />
       </div>
       <div className="hidden md:block border-t shrink-0">
