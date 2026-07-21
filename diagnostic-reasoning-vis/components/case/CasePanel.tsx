@@ -73,7 +73,8 @@ export function CasePanel({
           id="case-prompt"
           className="flex-1 min-h-0 overflow-y-auto px-4 py-3"
         >
-          <p className="text-sm leading-relaxed whitespace-pre-wrap">
+          {/* text-xs to match the annotated sentences in the trace panel below */}
+          <p className="text-xs leading-relaxed whitespace-pre-wrap">
             {caseText(currentCase.prompt)}
           </p>
         </div>
