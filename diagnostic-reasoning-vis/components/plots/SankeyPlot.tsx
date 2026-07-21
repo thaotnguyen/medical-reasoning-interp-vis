@@ -53,10 +53,19 @@ export function SankeyPlot({
       const data = [
         {
           type: "sankey" as const,
-          arrangement: "snap" as const,
+          // "fixed" (not "snap") so the explicit x/y below are honoured: Plotly would
+          // otherwise reorder nodes vertically to minimise crossings, leaving the two
+          // columns in different orders. Both columns stay in taxonomy order 1..K, which is
+          // the order the legend, matrices and everything else on the site uses.
+          arrangement: "fixed" as const,
           node: {
             label: [...states, ...states],
             color: [...colors, ...colors],
+            x: [...states.map(() => 0.001), ...states.map(() => 0.999)],
+            y: [
+              ...states.map((_, i) => (i + 0.5) / K),
+              ...states.map((_, i) => (i + 0.5) / K),
+            ],
             pad: compact ? 8 : 14,
             thickness: compact ? 9 : 12,
             line: { width: 0 },
