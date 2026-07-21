@@ -79,7 +79,7 @@ export function TransitionMatrix({
             {states.map((s, j) => (
               <th key={j} className={`${th} font-medium text-muted-foreground px-1 align-bottom`} title={s}>
                 <span className="inline-flex items-center gap-1">
-                  <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ backgroundColor: colors[j] }} />
+                  <span className="inline-block w-1.5 h-1.5 shrink-0 rounded-full" style={{ backgroundColor: colors[j] }} />
                   {label(s)}
                 </span>
               </th>
@@ -91,7 +91,7 @@ export function TransitionMatrix({
             <tr key={i}>
               <th className={`${th} font-medium text-muted-foreground pr-1 text-right whitespace-nowrap`} title={states[i]}>
                 <span className="inline-flex items-center gap-1">
-                  <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ backgroundColor: colors[i] }} />
+                  <span className="inline-block w-1.5 h-1.5 shrink-0 rounded-full" style={{ backgroundColor: colors[i] }} />
                   {label(states[i])}
                 </span>
               </th>

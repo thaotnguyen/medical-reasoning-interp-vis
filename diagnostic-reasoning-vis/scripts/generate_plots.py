@@ -117,7 +117,8 @@ def chord_svg(P: np.ndarray, states, colors, dest: Path) -> None:
         # Circos.text(adjust_rotation=False), which is the only way to get text that stays
         # horizontal on screen regardless of where the sector sits on the circle.
         label_kws=dict(size=0, alpha=0),
-        link_kws=dict(direction=1, ec="white", lw=0.2, alpha=0.72),
+        # 0.4 to match the Sankey link opacity in components/plots/SankeyPlot.tsx.
+        link_kws=dict(direction=1, ec="white", lw=0.2, alpha=0.4),
     )
     for sector in circos.sectors:
         lo, hi = sector.deg_lim

@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-07-21T13:34:32.873084</dc:date>
+    <dc:date>2026-07-21T14:56:16.130632</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -1300,7 +1300,7 @@ L 148.550968 287.72901
 L 148.550968 287.72901 
 Q 229.840579 185.141862 93.989366 162.176443 
 z
-" style="fill: #2ca02c; fill-opacity: 0.72; stroke: #ffffff; stroke-opacity: 0.72; stroke-width: 0.2"/>
+" style="fill: #2ca02c; fill-opacity: 0.4; stroke: #ffffff; stroke-opacity: 0.4; stroke-width: 0.2"/>
     <path d="M 109.820115 117.480567 
 L 109.820115 117.480567 
 L 110.502717 116.283765 
@@ -1361,7 +1361,7 @@ L 318.241556 281.668495
 L 318.241556 281.668495 
 Q 229.840579 185.141862 109.820115 117.480567 
 z
-" style="fill: #2ca02c; fill-opacity: 0.72; stroke: #ffffff; stroke-opacity: 0.72; stroke-width: 0.2"/>
+" style="fill: #2ca02c; fill-opacity: 0.4; stroke: #ffffff; stroke-opacity: 0.4; stroke-width: 0.2"/>
     <path d="M 153.941093 70.153903 
 L 153.941093 70.153903 
 L 155.094749 69.40067 
@@ -1386,7 +1386,7 @@ L 244.468778 55.072113
 L 244.468778 55.072113 
 Q 229.840579 185.141862 153.941093 70.153903 
 z
-" style="fill: #2ca02c; fill-opacity: 0.72; stroke: #ffffff; stroke-opacity: 0.72; stroke-width: 0.2"/>
+" style="fill: #2ca02c; fill-opacity: 0.4; stroke: #ffffff; stroke-opacity: 0.4; stroke-width: 0.2"/>
     <path d="M 144.272567 293.128333 
 L 144.272567 293.128333 
 L 143.196999 292.267268 
@@ -1427,7 +1427,7 @@ L 204.889468 56.652307
 L 204.889468 56.652307 
 Q 229.840579 185.141862 144.272567 293.128333 
 z
-" style="fill: #e377c2; fill-opacity: 0.72; stroke: #ffffff; stroke-opacity: 0.72; stroke-width: 0.2"/>
+" style="fill: #e377c2; fill-opacity: 0.4; stroke: #ffffff; stroke-opacity: 0.4; stroke-width: 0.2"/>
     <path d="M 117.792476 265.317826 
 L 117.792476 265.317826 
 L 116.996332 264.193355 
@@ -1465,7 +1465,7 @@ L 291.641751 300.522704
 L 291.641751 300.522704 
 Q 229.840579 185.141862 117.792476 265.317826 
 z
-" style="fill: #e377c2; fill-opacity: 0.72; stroke: #ffffff; stroke-opacity: 0.72; stroke-width: 0.2"/>
+" style="fill: #e377c2; fill-opacity: 0.4; stroke: #ffffff; stroke-opacity: 0.4; stroke-width: 0.2"/>
     <path d="M 101.45268 235.136963 
 L 101.45268 235.136963 
 L 100.959157 233.850605 
@@ -1490,7 +1490,7 @@ L 259.912093 57.75337
 L 259.912093 57.75337 
 Q 229.840579 185.141862 101.45268 235.136963 
 z
-" style="fill: #e377c2; fill-opacity: 0.72; stroke: #ffffff; stroke-opacity: 0.72; stroke-width: 0.2"/>
+" style="fill: #e377c2; fill-opacity: 0.4; stroke: #ffffff; stroke-opacity: 0.4; stroke-width: 0.2"/>
     <path d="M 294.894445 306.59538 
 L 294.894445 306.59538 
 L 293.676677 307.239835 
@@ -1516,7 +1516,7 @@ L 220.710172 54.570964
 L 220.710172 54.570964 
 Q 229.840579 185.141862 294.894445 306.59538 
 z
-" style="fill: #1f77b4; fill-opacity: 0.72; stroke: #ffffff; stroke-opacity: 0.72; stroke-width: 0.2"/>
+" style="fill: #1f77b4; fill-opacity: 0.4; stroke: #ffffff; stroke-opacity: 0.4; stroke-width: 0.2"/>
     <path d="M 279.631908 313.608924 
 L 279.631908 313.608924 
 L 278.344769 314.100406 
@@ -1553,7 +1553,7 @@ L 98.975707 187.693172
 L 98.975707 187.693172 
 Q 229.840579 185.141862 279.631908 313.608924 
 z
-" style="fill: #1f77b4; fill-opacity: 0.72; stroke: #ffffff; stroke-opacity: 0.72; stroke-width: 0.2"/>
+" style="fill: #1f77b4; fill-opacity: 0.4; stroke: #ffffff; stroke-opacity: 0.4; stroke-width: 0.2"/>
     <path d="M 248.756977 321.615788 
 L 248.756977 321.615788 
 L 247.391315 321.798125 
@@ -1582,7 +1582,7 @@ L 278.675116 63.703352
 L 278.675116 63.703352 
 Q 229.840579 185.141862 248.756977 321.615788 
 z
-" style="fill: #1f77b4; fill-opacity: 0.72; stroke: #ffffff; stroke-opacity: 0.72; stroke-width: 0.2"/>
+" style="fill: #1f77b4; fill-opacity: 0.4; stroke: #ffffff; stroke-opacity: 0.4; stroke-width: 0.2"/>
     <path d="M 363.76088 152.764162 
 L 363.76088 152.764162 
 L 364.077956 154.104962 
@@ -1648,7 +1648,7 @@ L 332.776861 104.294811
 L 332.776861 104.294811 
 Q 229.840579 185.141862 363.76088 152.764162 
 z
-" style="fill: #ff7f0e; fill-opacity: 0.72; stroke: #ffffff; stroke-opacity: 0.72; stroke-width: 0.2"/>
+" style="fill: #ff7f0e; fill-opacity: 0.4; stroke: #ffffff; stroke-opacity: 0.4; stroke-width: 0.2"/>
     <path d="M 338.19456 100.039703 
 L 338.19456 100.039703 
 L 339.040149 101.12748 
@@ -1673,7 +1673,7 @@ L 99.574419 172.380536
 L 99.574419 172.380536 
 Q 229.840579 185.141862 338.19456 100.039703 
 z
-" style="fill: #9467bd; fill-opacity: 0.72; stroke: #ffffff; stroke-opacity: 0.72; stroke-width: 0.2"/>
+" style="fill: #9467bd; fill-opacity: 0.4; stroke: #ffffff; stroke-opacity: 0.4; stroke-width: 0.2"/>
     <path d="M 347.398461 113.287099 
 L 347.398461 113.287099 
 L 348.111119 114.466251 
@@ -1711,7 +1711,7 @@ L 196.900011 311.818785
 L 196.900011 311.818785 
 Q 229.840579 185.141862 347.398461 113.287099 
 z
-" style="fill: #9467bd; fill-opacity: 0.72; stroke: #ffffff; stroke-opacity: 0.72; stroke-width: 0.2"/>
+" style="fill: #9467bd; fill-opacity: 0.4; stroke: #ffffff; stroke-opacity: 0.4; stroke-width: 0.2"/>
    </g>
    <g id="patch_7">
     <path d="M 229.840579 47.363189 
