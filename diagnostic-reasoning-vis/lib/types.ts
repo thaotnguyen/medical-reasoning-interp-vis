@@ -74,8 +74,11 @@ export interface Sentence {
 // [x, y, taxonomy_idx, cluster_id, case_idx, sent_idx]
 export type TSNEPoint = [number, number, number, number, number, number];
 
-/** Pipeline identifier: the shipped 6-model taxonomy ("dedup") and the 10-model taxonomy ("tenmodel"). */
-export type Pipeline = "dedup" | "pipeline" | "tenmodel";
+/**
+ * Pipeline identifier. Thao's two taxonomies ("dedup" = 6 models, "tenmodel" = 10) and Matt's
+ * two K-means ones ("matt5" = 5 clusters, "matt7" = 7), which cover the same 6 models.
+ */
+export type Pipeline = "dedup" | "pipeline" | "tenmodel" | "matt5" | "matt7";
 
 /** Per-pipeline taxonomy descriptor (mirrors metadata.taxonomy shape). */
 export interface PipelineTaxonomy {

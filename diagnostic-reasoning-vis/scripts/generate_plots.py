@@ -43,7 +43,7 @@ OUT = ROOT / "public" / "data" / "plots"
 # text overflows.
 SITE_FONT = "ui-sans-serif, system-ui, sans-serif"
 
-PIPELINES = ["dedup", "tenmodel"]
+PIPELINES = ["dedup", "tenmodel", "matt5", "matt7"]
 MIN_P = 0.1          # chord/Sankey legibility threshold; matrices are complete
 OVERALL = "__all__"
 

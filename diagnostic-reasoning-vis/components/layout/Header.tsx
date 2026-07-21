@@ -58,8 +58,10 @@ export function Header() {
     }
   }, [models, selectedModel, setModel]);
 
+  // Snap back to the 6-model taxonomy on the rating tools. Checking != "dedup" rather than
+  // naming one pipeline matters now that there are four: only dedup has a labeler pool.
   useEffect(() => {
-    if (!showPipelineToggle && selectedPipeline === "tenmodel") {
+    if (!showPipelineToggle && selectedPipeline !== "dedup") {
       setPipeline("dedup");
     }
   }, [showPipelineToggle, selectedPipeline, setPipeline]);
