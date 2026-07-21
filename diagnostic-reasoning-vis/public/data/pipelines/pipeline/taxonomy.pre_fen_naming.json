@@ -1,0 +1,44 @@
+{
+  "pipeline": "pipeline",
+  "states": [
+    {
+      "label": "Information Organization",
+      "short_name": "Information Organization",
+      "description": "Structuring and categorizing patient data for effective analysis.",
+      "color": "#9467bd"
+    },
+    {
+      "label": "Diagnostic Determination",
+      "short_name": "Diagnostic Determination",
+      "description": "Identifying and clarifying potential diagnoses based on patient information.",
+      "color": "#ff7f0e"
+    },
+    {
+      "label": "Evidence Evaluation",
+      "short_name": "Evidence Evaluation",
+      "description": "Assessing and interpreting symptoms and data to formulate hypotheses.",
+      "color": "#1f77b4"
+    },
+    {
+      "label": "Conclusion Synthesis",
+      "short_name": "Conclusion Synthesis",
+      "description": "Integrating gathered information and evidence to make informed diagnoses.",
+      "color": "#e377c2"
+    },
+    {
+      "label": "Alternative Consideration",
+      "short_name": "Alternative Consideration",
+      "description": "Exploring various possibilities and implications related to patient conditions.",
+      "color": "#2ca02c"
+    }
+  ],
+  "models": [
+    "deepseek-r1-distill-llama-8b",
+    "deepseek-r1-distill-qwen-14b",
+    "gpt-oss-20b",
+    "huatuogpt-o1-8b",
+    "ministral-3-14b-reasoning-2512",
+    "qwen3.6-27b",
+    "qwq-32b"
+  ]
+}

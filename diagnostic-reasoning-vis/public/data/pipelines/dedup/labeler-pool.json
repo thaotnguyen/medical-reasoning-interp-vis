@@ -1,0 +1,1002 @@
+[
+  {
+    "index": 0,
+    "model": "qwq-32b",
+    "caseIndex": 986,
+    "caseId": "qwq-32b::22cb93643759b10416454268c10826f6",
+    "sentenceCount": 33,
+    "isTraining": true
+  },
+  {
+    "index": 1,
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 959,
+    "caseId": "deepseek-r1-distill-llama-8b::6beec29d9e382aca8508e673f55d7b88",
+    "sentenceCount": 30,
+    "isTraining": true
+  },
+  {
+    "index": 2,
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 502,
+    "caseId": "huatuogpt-o1-8b::11f0b667230fe11324c8875f3eb98afd",
+    "sentenceCount": 39,
+    "isTraining": true
+  },
+  {
+    "index": 3,
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 281,
+    "caseId": "deepseek-r1-distill-qwen-14b::b1d706fce61c4e7ed3f61a99b6d7620a",
+    "sentenceCount": 113,
+    "isTraining": true
+  },
+  {
+    "index": 4,
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 1932,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::d9c0833f508de89fabda242d8629cd25",
+    "sentenceCount": 12,
+    "isTraining": true
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 1366,
+    "caseId": "qwq-32b::4004ffdf2159fe7bb7f5e3796fbfae86",
+    "sentenceCount": 27,
+    "isTraining": false,
+    "index": 5
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 2036,
+    "caseId": "deepseek-r1-distill-llama-8b::33a4f3e27df8402a4d4be8ade2f0ae60",
+    "sentenceCount": 17,
+    "isTraining": false,
+    "index": 6
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 1289,
+    "caseId": "deepseek-r1-distill-qwen-14b::b5cb86e6628c90b69ac2a7859e5fb09b",
+    "sentenceCount": 32,
+    "isTraining": false,
+    "index": 7
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 429,
+    "caseId": "qwq-32b::c4cc0661592b267f70d6ffbe1dccd4b9",
+    "sentenceCount": 33,
+    "isTraining": false,
+    "index": 8
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 177,
+    "caseId": "deepseek-r1-distill-llama-8b::b2359c6e4748c68f16252e7229ef5a3b",
+    "sentenceCount": 25,
+    "isTraining": false,
+    "index": 9
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 737,
+    "caseId": "gpt-oss-20b::baac11a81db71e90587c4bbcc7fd3d8c",
+    "sentenceCount": 33,
+    "isTraining": false,
+    "index": 10
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 721,
+    "caseId": "deepseek-r1-distill-llama-8b::92f2fda31cf4773c92dd1914db4771ad",
+    "sentenceCount": 36,
+    "isTraining": false,
+    "index": 11
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 1886,
+    "caseId": "deepseek-r1-distill-llama-8b::da6d2ad8aaa3395ef241c084c435062b",
+    "sentenceCount": 17,
+    "isTraining": false,
+    "index": 12
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 1743,
+    "caseId": "deepseek-r1-distill-qwen-14b::dc88ad407df7dd88d9083443bbba506b",
+    "sentenceCount": 24,
+    "isTraining": false,
+    "index": 13
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 1008,
+    "caseId": "deepseek-r1-distill-qwen-14b::ceaecc671f0826ada5cd35a6252fd20c",
+    "sentenceCount": 24,
+    "isTraining": false,
+    "index": 14
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 922,
+    "caseId": "deepseek-r1-distill-qwen-14b::635a7359561be7dd3b1598b151608cd9",
+    "sentenceCount": 36,
+    "isTraining": false,
+    "index": 15
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 71,
+    "caseId": "deepseek-r1-distill-llama-8b::6a46090f5cac336a4403013a4ae5ed92",
+    "sentenceCount": 17,
+    "isTraining": false,
+    "index": 16
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 726,
+    "caseId": "deepseek-r1-distill-qwen-14b::757dcd19ee4ddc508b148b737a485f26",
+    "sentenceCount": 88,
+    "isTraining": false,
+    "index": 17
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 1305,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::91ef9a4ee431aab705a741d0c0cccae7",
+    "sentenceCount": 15,
+    "isTraining": false,
+    "index": 18
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 150,
+    "caseId": "deepseek-r1-distill-qwen-14b::e93671195254a089725b20120c9631df",
+    "sentenceCount": 53,
+    "isTraining": false,
+    "index": 19
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 1210,
+    "caseId": "deepseek-r1-distill-qwen-14b::3353520d956e8c8c5e61cb9be871d363",
+    "sentenceCount": 36,
+    "isTraining": false,
+    "index": 20
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 539,
+    "caseId": "qwq-32b::ab944ef1e6f39bfd785f38954f9458c1",
+    "sentenceCount": 67,
+    "isTraining": false,
+    "index": 21
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 213,
+    "caseId": "deepseek-r1-distill-qwen-14b::2fdbafca21ac58d23cc897327c03f01a",
+    "sentenceCount": 45,
+    "isTraining": false,
+    "index": 22
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 143,
+    "caseId": "qwq-32b::1da2e49381de935607c5ef3177dca22a",
+    "sentenceCount": 40,
+    "isTraining": false,
+    "index": 23
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 402,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::32f29b0e2ccc37fcab2aef0c459b0d0c",
+    "sentenceCount": 20,
+    "isTraining": false,
+    "index": 24
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 1153,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::d94e1cc04a570efa834fc813cddfe4a5",
+    "sentenceCount": 22,
+    "isTraining": false,
+    "index": 25
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 1234,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::53e5c9882f49bb32168612b567f3306e",
+    "sentenceCount": 14,
+    "isTraining": false,
+    "index": 26
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 156,
+    "caseId": "gpt-oss-20b::1c20b426596a527e435854543eef5c12",
+    "sentenceCount": 200,
+    "isTraining": false,
+    "index": 27
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 1095,
+    "caseId": "huatuogpt-o1-8b::016c7ee2817dd36699b2bc271092f1a7",
+    "sentenceCount": 50,
+    "isTraining": false,
+    "index": 28
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 1580,
+    "caseId": "gpt-oss-20b::192b1cdcd2503d647ef382047f728d3a",
+    "sentenceCount": 50,
+    "isTraining": false,
+    "index": 29
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 447,
+    "caseId": "qwq-32b::0eb8bc1e4f604e73cec7b51161c4c7eb",
+    "sentenceCount": 28,
+    "isTraining": false,
+    "index": 30
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 1992,
+    "caseId": "huatuogpt-o1-8b::4ac69654711e8b95f09faca42e95c605",
+    "sentenceCount": 38,
+    "isTraining": false,
+    "index": 31
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 1213,
+    "caseId": "qwq-32b::940097eca44c0777d2c67134957d6f1f",
+    "sentenceCount": 26,
+    "isTraining": false,
+    "index": 32
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 1915,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::9000b3f8c62e4a8d1b5eb7cfe276981e",
+    "sentenceCount": 14,
+    "isTraining": false,
+    "index": 33
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 1010,
+    "caseId": "deepseek-r1-distill-llama-8b::9000b3f8c62e4a8d1b5eb7cfe276981e",
+    "sentenceCount": 18,
+    "isTraining": false,
+    "index": 34
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 34,
+    "caseId": "deepseek-r1-distill-llama-8b::3b530364c94ea33dbe45e3052526bdb6",
+    "sentenceCount": 25,
+    "isTraining": false,
+    "index": 35
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 1763,
+    "caseId": "qwq-32b::6c0ca1135715cb73ee2e53f0bef3a59b",
+    "sentenceCount": 43,
+    "isTraining": false,
+    "index": 36
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 693,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::68aa32db9fdc7a5fb0bdcad402d3c699",
+    "sentenceCount": 10,
+    "isTraining": false,
+    "index": 37
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 69,
+    "caseId": "deepseek-r1-distill-llama-8b::3f9e08a4baad74452d4c6eb6717bebd6",
+    "sentenceCount": 23,
+    "isTraining": false,
+    "index": 38
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 589,
+    "caseId": "gpt-oss-20b::f60ca0a862c9044b78b3db1779c64bfe",
+    "sentenceCount": 80,
+    "isTraining": false,
+    "index": 39
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 796,
+    "caseId": "deepseek-r1-distill-llama-8b::8ea220669ee63630af213890366e8370",
+    "sentenceCount": 24,
+    "isTraining": false,
+    "index": 40
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 1220,
+    "caseId": "qwq-32b::fdd81489b8d54a836217ce8460c17081",
+    "sentenceCount": 115,
+    "isTraining": false,
+    "index": 41
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 323,
+    "caseId": "qwq-32b::0ecd9652e796eef934c70a9669eaa666",
+    "sentenceCount": 40,
+    "isTraining": false,
+    "index": 42
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 817,
+    "caseId": "deepseek-r1-distill-qwen-14b::bc3fc29523e791e96a531a9cb003fa7c",
+    "sentenceCount": 21,
+    "isTraining": false,
+    "index": 43
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 351,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::e9d3ebf7d72d218df39ddab00491e9c1",
+    "sentenceCount": 13,
+    "isTraining": false,
+    "index": 44
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 263,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::1eb96855ac4b1b8fca00ac110f110ff3",
+    "sentenceCount": 20,
+    "isTraining": false,
+    "index": 45
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 882,
+    "caseId": "gpt-oss-20b::7d75815cb2310bdcf17826679b94cee2",
+    "sentenceCount": 166,
+    "isTraining": false,
+    "index": 46
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 1515,
+    "caseId": "qwq-32b::4c78b795106c05f8f0bd2fd1f2cc65b7",
+    "sentenceCount": 236,
+    "isTraining": false,
+    "index": 47
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 793,
+    "caseId": "huatuogpt-o1-8b::757afdefdf28a3c1b9a79497260194f1",
+    "sentenceCount": 26,
+    "isTraining": false,
+    "index": 48
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 661,
+    "caseId": "deepseek-r1-distill-llama-8b::57c4be4889b5527bdabbc9cd07809681",
+    "sentenceCount": 26,
+    "isTraining": false,
+    "index": 49
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 1786,
+    "caseId": "deepseek-r1-distill-qwen-14b::d8fafec4918f8bd2cd2db8fe40dc1c5b",
+    "sentenceCount": 28,
+    "isTraining": false,
+    "index": 50
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 865,
+    "caseId": "gpt-oss-20b::0504eb370eb4b00f5afb1cf8a4209c6f",
+    "sentenceCount": 28,
+    "isTraining": false,
+    "index": 51
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 668,
+    "caseId": "gpt-oss-20b::0bcad94e871919363f39505262140cdf",
+    "sentenceCount": 166,
+    "isTraining": false,
+    "index": 52
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 758,
+    "caseId": "huatuogpt-o1-8b::961d81e097af7915492d882f62dbb589",
+    "sentenceCount": 22,
+    "isTraining": false,
+    "index": 53
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 378,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::490fb7b7d6308234b46a02ed08966b22",
+    "sentenceCount": 15,
+    "isTraining": false,
+    "index": 54
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 564,
+    "caseId": "huatuogpt-o1-8b::a9de7734e1cb7a50dbe6d08128426e40",
+    "sentenceCount": 31,
+    "isTraining": false,
+    "index": 55
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 1364,
+    "caseId": "huatuogpt-o1-8b::29183b1a951f5b513520ecfa9483c2f7",
+    "sentenceCount": 50,
+    "isTraining": false,
+    "index": 56
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 1618,
+    "caseId": "deepseek-r1-distill-llama-8b::c4cc0661592b267f70d6ffbe1dccd4b9",
+    "sentenceCount": 16,
+    "isTraining": false,
+    "index": 57
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 563,
+    "caseId": "gpt-oss-20b::e1c3856426c482a6d2c8661d729cc393",
+    "sentenceCount": 19,
+    "isTraining": false,
+    "index": 58
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 1610,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::4fae37a47f2f2d5b3d8eca968348c3f1",
+    "sentenceCount": 12,
+    "isTraining": false,
+    "index": 59
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 1624,
+    "caseId": "huatuogpt-o1-8b::fc65764c53758510298b56bf4609ab4b",
+    "sentenceCount": 21,
+    "isTraining": false,
+    "index": 60
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 1304,
+    "caseId": "deepseek-r1-distill-qwen-14b::ac2f5a4e8406f6fb216c815605f43d7e",
+    "sentenceCount": 18,
+    "isTraining": false,
+    "index": 61
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 1813,
+    "caseId": "qwq-32b::d2962957a5f834cdb05369360dafdde7",
+    "sentenceCount": 34,
+    "isTraining": false,
+    "index": 62
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 446,
+    "caseId": "gpt-oss-20b::32354efcffe3e6bcae69e7077fcc7d13",
+    "sentenceCount": 12,
+    "isTraining": false,
+    "index": 63
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 178,
+    "caseId": "qwq-32b::8f05ddce76e8271d83e96c5e0c1ed814",
+    "sentenceCount": 126,
+    "isTraining": false,
+    "index": 64
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 839,
+    "caseId": "qwq-32b::8a973240e164237977a99c5b9af45487",
+    "sentenceCount": 135,
+    "isTraining": false,
+    "index": 65
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 1436,
+    "caseId": "qwq-32b::e0bbb205bc66d4977f866508ee3e3d8b",
+    "sentenceCount": 77,
+    "isTraining": false,
+    "index": 66
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 654,
+    "caseId": "huatuogpt-o1-8b::9ddaa88297e6b39ac0170e7bcb414819",
+    "sentenceCount": 38,
+    "isTraining": false,
+    "index": 67
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 1689,
+    "caseId": "deepseek-r1-distill-llama-8b::04d03bbe56d688f76e28bd162851bd5f",
+    "sentenceCount": 39,
+    "isTraining": false,
+    "index": 68
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 1260,
+    "caseId": "gpt-oss-20b::04805ecd4cddaf82c87fc1a6e8837f2c",
+    "sentenceCount": 127,
+    "isTraining": false,
+    "index": 69
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 1454,
+    "caseId": "gpt-oss-20b::d669a332340f43991e9dc16856b39fa8",
+    "sentenceCount": 67,
+    "isTraining": false,
+    "index": 70
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 86,
+    "caseId": "deepseek-r1-distill-llama-8b::1e44d1a94e4dc1cb079d3e679dd25292",
+    "sentenceCount": 61,
+    "isTraining": false,
+    "index": 71
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 1054,
+    "caseId": "gpt-oss-20b::bda31b675c3f48071377826e841609a2",
+    "sentenceCount": 51,
+    "isTraining": false,
+    "index": 72
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 776,
+    "caseId": "deepseek-r1-distill-llama-8b::8a4c70331962eea8fb74c817f97a8c00",
+    "sentenceCount": 13,
+    "isTraining": false,
+    "index": 73
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 364,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::fa8eafa47ff67dd1986f674dfdbc143c",
+    "sentenceCount": 12,
+    "isTraining": false,
+    "index": 74
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 261,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::60f0a40220ba451288770b54271cb711",
+    "sentenceCount": 13,
+    "isTraining": false,
+    "index": 75
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 722,
+    "caseId": "deepseek-r1-distill-qwen-14b::1c71ac91a1e9fe4ffc8d8f1663f28e0a",
+    "sentenceCount": 22,
+    "isTraining": false,
+    "index": 76
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 1105,
+    "caseId": "qwq-32b::a5df844c8acb538d3636ae5b4c6cc209",
+    "sentenceCount": 36,
+    "isTraining": false,
+    "index": 77
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 915,
+    "caseId": "deepseek-r1-distill-llama-8b::bf6d7ca66b56fe67192bb72fe43358f2",
+    "sentenceCount": 19,
+    "isTraining": false,
+    "index": 78
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 715,
+    "caseId": "gpt-oss-20b::ab637e265a01af45c896140367845313",
+    "sentenceCount": 130,
+    "isTraining": false,
+    "index": 79
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 1662,
+    "caseId": "deepseek-r1-distill-qwen-14b::bf95c56baf5991b6025fbd77b43b1e02",
+    "sentenceCount": 76,
+    "isTraining": false,
+    "index": 80
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 383,
+    "caseId": "huatuogpt-o1-8b::f490fa946953684bfee72adf95d9acb0",
+    "sentenceCount": 38,
+    "isTraining": false,
+    "index": 81
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 321,
+    "caseId": "qwq-32b::11f39b7819ad881d4008f0b7046d86fe",
+    "sentenceCount": 20,
+    "isTraining": false,
+    "index": 82
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 614,
+    "caseId": "gpt-oss-20b::33a4f3e27df8402a4d4be8ade2f0ae60",
+    "sentenceCount": 45,
+    "isTraining": false,
+    "index": 83
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 370,
+    "caseId": "huatuogpt-o1-8b::b3b51147596762c07b3dc65593d1c408",
+    "sentenceCount": 39,
+    "isTraining": false,
+    "index": 84
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 1969,
+    "caseId": "deepseek-r1-distill-qwen-14b::f7fb4d3baa66c3be57ffe862bffb4d3f",
+    "sentenceCount": 18,
+    "isTraining": false,
+    "index": 85
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 574,
+    "caseId": "deepseek-r1-distill-llama-8b::6a0ac21b635b07324de6a98e3798262e",
+    "sentenceCount": 32,
+    "isTraining": false,
+    "index": 86
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 2001,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::eb52b858dbdba2e480c35ab77ee5637a",
+    "sentenceCount": 17,
+    "isTraining": false,
+    "index": 87
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 631,
+    "caseId": "gpt-oss-20b::1c8d0c3f4fcf021bba154210c5957013",
+    "sentenceCount": 200,
+    "isTraining": false,
+    "index": 88
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 1943,
+    "caseId": "huatuogpt-o1-8b::97a090ead4b56096eef2a1b187eb8c02",
+    "sentenceCount": 40,
+    "isTraining": false,
+    "index": 89
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 1655,
+    "caseId": "huatuogpt-o1-8b::23be2dc68b5adac9d358bc02c811f173",
+    "sentenceCount": 33,
+    "isTraining": false,
+    "index": 90
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 1270,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::6e45595290f44a136874d828df81ba8a",
+    "sentenceCount": 20,
+    "isTraining": false,
+    "index": 91
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 894,
+    "caseId": "huatuogpt-o1-8b::2ea3e2b22187de7118bf68b51214a132",
+    "sentenceCount": 25,
+    "isTraining": false,
+    "index": 92
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 1956,
+    "caseId": "deepseek-r1-distill-llama-8b::b4b68b847ae6106535474e13a0a10f61",
+    "sentenceCount": 27,
+    "isTraining": false,
+    "index": 93
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 762,
+    "caseId": "huatuogpt-o1-8b::5eadb41ac9d710fb32207b4e59a4eb84",
+    "sentenceCount": 23,
+    "isTraining": false,
+    "index": 94
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 557,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::36fdee27b8a26cbc4f73c26e97390043",
+    "sentenceCount": 23,
+    "isTraining": false,
+    "index": 95
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 1393,
+    "caseId": "gpt-oss-20b::c9dd67886e092dd8018286ddba3c9813",
+    "sentenceCount": 63,
+    "isTraining": false,
+    "index": 96
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 839,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::11f39b7819ad881d4008f0b7046d86fe",
+    "sentenceCount": 20,
+    "isTraining": false,
+    "index": 97
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 1570,
+    "caseId": "huatuogpt-o1-8b::a6f1db071caff4623f6c249d8764f432",
+    "sentenceCount": 42,
+    "isTraining": false,
+    "index": 98
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 780,
+    "caseId": "qwq-32b::49c2dda7101918e6f8dba2dbfd76dc7b",
+    "sentenceCount": 28,
+    "isTraining": false,
+    "index": 99
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 163,
+    "caseId": "deepseek-r1-distill-llama-8b::3deb2a45f15d543130127247bc0170d2",
+    "sentenceCount": 17,
+    "isTraining": false,
+    "index": 100
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 1582,
+    "caseId": "deepseek-r1-distill-qwen-14b::c8d5c6bee806143bbd9c207c20dd41c8",
+    "sentenceCount": 28,
+    "isTraining": false,
+    "index": 101
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 1724,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::9d2d4165a69e323d3d7f2ac9ae6603a7",
+    "sentenceCount": 18,
+    "isTraining": false,
+    "index": 102
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 295,
+    "caseId": "deepseek-r1-distill-qwen-14b::667d0d6b0c7b2ea24efb8b7107568eeb",
+    "sentenceCount": 23,
+    "isTraining": false,
+    "index": 103
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 405,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::c136bca28d0f3656653f43e539bad88b",
+    "sentenceCount": 24,
+    "isTraining": false,
+    "index": 104
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 1245,
+    "caseId": "qwq-32b::1dfee2b7aceec2d5be9766d1119d1ab4",
+    "sentenceCount": 23,
+    "isTraining": false,
+    "index": 105
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 1283,
+    "caseId": "deepseek-r1-distill-qwen-14b::e055010afacf30490439450fa2dde61a",
+    "sentenceCount": 27,
+    "isTraining": false,
+    "index": 106
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 94,
+    "caseId": "huatuogpt-o1-8b::82704b200b710ecc4c40057332038241",
+    "sentenceCount": 25,
+    "isTraining": false,
+    "index": 107
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 781,
+    "caseId": "huatuogpt-o1-8b::fa8b4b898142efde8998db82c7ce8acf",
+    "sentenceCount": 39,
+    "isTraining": false,
+    "index": 108
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 142,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::46f5a66a841fae109fc92ccdb9448abe",
+    "sentenceCount": 21,
+    "isTraining": false,
+    "index": 109
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 877,
+    "caseId": "huatuogpt-o1-8b::8f9eb93497ecffcf1d875bbda56d2d8c",
+    "sentenceCount": 29,
+    "isTraining": false,
+    "index": 110
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 2055,
+    "caseId": "gpt-oss-20b::5bea2805f40e1c4cb88d074fd97558e4",
+    "sentenceCount": 15,
+    "isTraining": false,
+    "index": 111
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 1709,
+    "caseId": "qwq-32b::e951bd7995fec5236e47d8c50d01dc01",
+    "sentenceCount": 68,
+    "isTraining": false,
+    "index": 112
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 1499,
+    "caseId": "deepseek-r1-distill-llama-8b::2fdbafca21ac58d23cc897327c03f01a",
+    "sentenceCount": 31,
+    "isTraining": false,
+    "index": 113
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 1729,
+    "caseId": "huatuogpt-o1-8b::6558b53a2f68a70572cae9031fd81f87",
+    "sentenceCount": 23,
+    "isTraining": false,
+    "index": 114
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 235,
+    "caseId": "huatuogpt-o1-8b::5d8ed6a7c3c5b31731fe579270e67bfa",
+    "sentenceCount": 24,
+    "isTraining": false,
+    "index": 115
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 1306,
+    "caseId": "deepseek-r1-distill-llama-8b::2394cef169fdabffed1b9736b6abea13",
+    "sentenceCount": 22,
+    "isTraining": false,
+    "index": 116
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 498,
+    "caseId": "qwq-32b::d36517de81876b5c8b3ea4f9ff4cf5c8",
+    "sentenceCount": 51,
+    "isTraining": false,
+    "index": 117
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 1844,
+    "caseId": "gpt-oss-20b::e164e0dfaf19ae9c99592397832125d8",
+    "sentenceCount": 11,
+    "isTraining": false,
+    "index": 118
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 1183,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::51dbef424b08619f7a44a7486be40029",
+    "sentenceCount": 17,
+    "isTraining": false,
+    "index": 119
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 257,
+    "caseId": "gpt-oss-20b::a6f26261da76d9075c4088f1ef0775c3",
+    "sentenceCount": 28,
+    "isTraining": false,
+    "index": 120
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 1223,
+    "caseId": "deepseek-r1-distill-qwen-14b::80d01378665d34711df18d19633b4d85",
+    "sentenceCount": 20,
+    "isTraining": false,
+    "index": 121
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 1946,
+    "caseId": "gpt-oss-20b::87bfeb2f83082fbee0c8e61004c9a74f",
+    "sentenceCount": 173,
+    "isTraining": false,
+    "index": 122
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 686,
+    "caseId": "deepseek-r1-distill-qwen-14b::14ef3c010405cc0a6bc6c48805d5609e",
+    "sentenceCount": 33,
+    "isTraining": false,
+    "index": 123
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 250,
+    "caseId": "deepseek-r1-distill-qwen-14b::6dc61ad18ee67bd3cadee2ffbf4e2179",
+    "sentenceCount": 18,
+    "isTraining": false,
+    "index": 124
+  }
+]

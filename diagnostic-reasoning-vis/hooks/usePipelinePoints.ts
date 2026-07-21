@@ -8,14 +8,13 @@ const fetcher = (url: string) => fetch(url).then((r) => r.json());
  *  Path: /data/pipelines/geometric/points/{model}.json
  */
 export function usePipelinePoints(
-  _pipeline: Pipeline,
+  pipeline: Pipeline,
   model: string | null,
   enabled = true
 ) {
-  void _pipeline;
   const url =
     enabled && model
-      ? `/data/pipelines/geometric/points/${model}.json`
+      ? `/data/pipelines/${pipeline}/points/${model}.json`
       : null;
 
   const { data, error, isLoading } = useSWR<TSNEPoint[]>(url, fetcher, {

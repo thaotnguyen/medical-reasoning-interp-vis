@@ -92,12 +92,10 @@ const GEOMETRIC_REFERENCES: TaxonomyReference[] = [
   },
 ];
 
-export const TAXONOMY_REFERENCES_BY_PIPELINE: Record<
+export const TAXONOMY_REFERENCES_BY_PIPELINE: Partial<Record<
   Pipeline,
   TaxonomyReference[]
-> = {
-  geometric: GEOMETRIC_REFERENCES,
-};
+>> = {};
 
 /** Back-compat shim: the geometric references. */
 export const TAXONOMY_REFERENCES: TaxonomyReference[] = GEOMETRIC_REFERENCES;

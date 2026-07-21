@@ -730,12 +730,12 @@
     }
   ],
   "model_order": [
-    "deepseek-r1-distill-llama-8b",
-    "deepseek-r1-distill-qwen-1.5b",
-    "deepseek-r1-distill-qwen-14b",
+    "qwq-32b",
     "gpt-oss-20b",
+    "deepseek-r1-distill-qwen-14b",
+    "deepseek-r1-distill-llama-8b",
     "huatuogpt-o1-8b",
-    "qwq-32b"
+    "deepseek-r1-distill-qwen-1.5b"
   ],
   "dataset_order": [
     "medqa",

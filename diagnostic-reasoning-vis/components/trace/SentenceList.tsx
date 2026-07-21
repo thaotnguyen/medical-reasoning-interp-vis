@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { SentenceItem } from "./SentenceItem";
 import type { Sentence, TaxonomyItem } from "@/lib/types";
 
@@ -30,20 +29,18 @@ export function SentenceList({
   }, [hoveredSentenceIndex]);
 
   return (
-    <ScrollArea className="flex-1 min-h-0">
-      <div ref={containerRef} className="py-1">
-        {sentences.map((sent, idx) => (
-          <SentenceItem
-            key={idx}
-            text={sent.s}
-            taxonomyIndex={sent.t}
-            taxonomy={taxonomy}
-            sentenceIndex={idx}
-            isHovered={hoveredSentenceIndex === idx}
-            onHover={onHoverSentence}
-          />
-        ))}
-      </div>
-    </ScrollArea>
+    <div ref={containerRef} className="flex-1 min-h-0 overflow-y-auto py-1">
+      {sentences.map((sent, idx) => (
+        <SentenceItem
+          key={idx}
+          text={sent.s}
+          taxonomyIndex={sent.t}
+          taxonomy={taxonomy}
+          sentenceIndex={idx}
+          isHovered={hoveredSentenceIndex === idx}
+          onHover={onHoverSentence}
+        />
+      ))}
+    </div>
   );
 }

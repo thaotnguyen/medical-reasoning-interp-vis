@@ -1,0 +1,44 @@
+{
+  "pipeline": "dedup",
+  "states": [
+    {
+      "label": "Clarifying Uncertainty",
+      "short_name": "Clarifying Uncertainty",
+      "description": "Identifying gaps in information to enhance understanding of the patient's case.",
+      "color": "#9467bd"
+    },
+    {
+      "label": "Evaluating Symptoms",
+      "short_name": "Evaluating Symptoms",
+      "description": "Analyzing patient-reported symptoms to determine their significance in the diagnosis process.",
+      "color": "#ff7f0e"
+    },
+    {
+      "label": "Exploring Differential Diagnoses",
+      "short_name": "Exploring Differential Diagn",
+      "description": "Generating and considering multiple potential diagnoses based on available evidence.",
+      "color": "#1f77b4"
+    },
+    {
+      "label": "Formulating Diagnosis",
+      "short_name": "Formulating Diagnosis",
+      "description": "Consolidating findings to reach a definitive diagnosis for the patient.",
+      "color": "#e377c2"
+    },
+    {
+      "label": "Assessing Clinical Presentation",
+      "short_name": "Assessing Clinical Presentat",
+      "description": "Reviewing and interpreting patient data and clinical features to construct the diagnostic context.",
+      "color": "#2ca02c"
+    }
+  ],
+  "models": [
+    "deepseek-r1-distill-llama-8b",
+    "deepseek-r1-distill-qwen-14b",
+    "gpt-oss-20b",
+    "huatuogpt-o1-8b",
+    "ministral-3-14b-reasoning-2512",
+    "qwen3.6-27b",
+    "qwq-32b"
+  ]
+}

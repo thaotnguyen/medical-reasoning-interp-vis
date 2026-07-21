@@ -1,0 +1,44 @@
+{
+  "pipeline": "pipeline",
+  "states": [
+    {
+      "label": "Focused Symptom Correlation and Diagnostic Clarity",
+      "short_name": "Focused Symptom Correlation ",
+      "description": "Correlates presenting symptoms with potential diagnoses through rigorous analysis, emphasizing clarity and coherence to avoid diagnostic ambiguity and oversight.",
+      "color": "#9467bd"
+    },
+    {
+      "label": "Holistic Clinical Synthesis",
+      "short_name": "Holistic Clinical Synthesis",
+      "description": "Integrates patient history, symptoms, and diagnostic findings into a cohesive clinical picture to construct a comprehensive understanding of the patient's health status.",
+      "color": "#ff7f0e"
+    },
+    {
+      "label": "Structured Exploration of Differential Diagnoses by Clinical Context",
+      "short_name": "Structured Exploration of Di",
+      "description": "Systematically explores differential diagnoses by carefully considering the clinical context, patient-specific factors, and available evidence to articulate a refined list of possibilities.",
+      "color": "#1f77b4"
+    },
+    {
+      "label": "Causal Interpretation of Clinical Symptoms",
+      "short_name": "Causal Interpretation of Cli",
+      "description": "Interprets clinical symptoms by reasoning about underlying causal mechanisms, distinguishing strong associations from coincidental correlations to enhance diagnostic accuracy.",
+      "color": "#e377c2"
+    },
+    {
+      "label": "Holistic Clinical Interpretation",
+      "short_name": "Holistic Clinical Interpreta",
+      "description": "Discerns meaningful connections among diverse clinical data points—including symptoms, history, and test results—to form a coherent diagnostic interpretation that explains the patient's condition.",
+      "color": "#2ca02c"
+    }
+  ],
+  "models": [
+    "deepseek-r1-distill-llama-8b",
+    "deepseek-r1-distill-qwen-14b",
+    "gpt-oss-20b",
+    "huatuogpt-o1-8b",
+    "ministral-3-14b-reasoning-2512",
+    "qwen3.6-27b",
+    "qwq-32b"
+  ]
+}

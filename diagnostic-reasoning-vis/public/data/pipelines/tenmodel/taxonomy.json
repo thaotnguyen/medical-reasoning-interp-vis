@@ -1,0 +1,4058 @@
+{
+  "pipeline": "tenmodel",
+  "states": [
+    {
+      "label": "Gathering Clinical Data",
+      "short_name": "Gathering Clinical Data",
+      "description": "Collecting and presenting patient information, symptoms, signs, and test results without interpretation.",
+      "color": "#9467bd",
+      "examples": [
+        {
+          "s": "*   \"Cough for past 3 weeks\" means it's a subacute process.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1099,
+          "sentIdx": 182,
+          "dataset": "medqa",
+          "dx": "Empyema"
+        },
+        {
+          "s": "*   **Chief Complaint:** Progressive foot and leg weakness (4 weeks duration).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 883,
+          "sentIdx": 2,
+          "dataset": "medqa",
+          "dx": "Guillain-Barre syndrome"
+        },
+        {
+          "s": "*   **Physical Measurements:**",
+          "model": "glm-4.7-flash",
+          "caseIdx": 62,
+          "sentIdx": 3,
+          "dataset": "medqa",
+          "dx": "Complete androgen insensitivity syndrome"
+        },
+        {
+          "s": "*   **Symptoms:** Early onset of dyspnea (difficulty breathing), chest retractions, expiratory grunting, cyanosis.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1150,
+          "sentIdx": 4,
+          "dataset": "medqa",
+          "dx": "Transient tachypnea of the newborn"
+        },
+        {
+          "s": "*   *Age/Gender:* Adolescents/Females are most commonly affected.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 30,
+          "sentIdx": 26,
+          "dataset": "medqa",
+          "dx": "Sarcoidosis."
+        },
+        {
+          "s": "*   *Internal Reasoning:* Identify the triad of fever, rash, and hypotension.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1756,
+          "sentIdx": 49,
+          "dataset": "medqa",
+          "dx": "S aureus toxic shock syndrome (TSS)"
+        },
+        {
+          "s": "*   *Symptoms:* Fatigue (common in 3rd trimester, or could be early diabetes), urinary urgency (physiological in pregnancy or UTI, but not specific).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 480,
+          "sentIdx": 16,
+          "dataset": "medqa",
+          "dx": "Rubella infection"
+        },
+        {
+          "s": "*   BP: 127/68 mmHg.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 12,
+          "sentIdx": 7,
+          "dataset": "medqa",
+          "dx": "Steven-Johnson syndrome"
+        },
+        {
+          "s": "*   DIC (already dismissed).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1302,
+          "sentIdx": 134,
+          "dataset": "medqa",
+          "dx": "Beta-thalassemia (major)"
+        },
+        {
+          "s": "*   Day -23: Finds engorged tick on leg. (This is the critical exposure).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 460,
+          "sentIdx": 6,
+          "dataset": "medqa",
+          "dx": "Rickettsiosis of the spotted fever group."
+        },
+        {
+          "s": "*   Former heavy drinker (quit 6 years ago).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 2027,
+          "sentIdx": 15,
+          "dataset": "medqa",
+          "dx": "Campylobacter bacteremia in a patient with presumed autoimmune hepatitis."
+        },
+        {
+          "s": "*   HBsAg positive: Confirms Chronic Hepatitis B infection.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 755,
+          "sentIdx": 20,
+          "dataset": "medqa",
+          "dx": "HBV precore mutant"
+        },
+        {
+          "s": "*   Immature Teratoma: Usually produces AFP.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1714,
+          "sentIdx": 220,
+          "dataset": "medqa",
+          "dx": "Choriocarcinoma"
+        },
+        {
+          "s": "*   Intense anger.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 198,
+          "sentIdx": 21,
+          "dataset": "medqa",
+          "dx": "Borderline personality disorder"
+        },
+        {
+          "s": "*   Leukopenia (WBC 3250/mm³).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1471,
+          "sentIdx": 23,
+          "dataset": "medqa",
+          "dx": "Human herpesvirus 6–related meningoencephalitis. Human herpesvirus 6–related myocarditis and interstitial nephritis."
+        },
+        {
+          "s": "*   Macules, papules.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 240,
+          "sentIdx": 17,
+          "dataset": "medqa",
+          "dx": "Chickenpox"
+        },
+        {
+          "s": "*   Motility: 60% (Normal)",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1204,
+          "sentIdx": 27,
+          "dataset": "medqa",
+          "dx": "Oligospermia"
+        },
+        {
+          "s": "*   Na+ 149 mEq/L (high normal).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 655,
+          "sentIdx": 37,
+          "dataset": "medqa",
+          "dx": "Conn syndrome"
+        },
+        {
+          "s": "*   Nonscarring alopecia.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 97,
+          "sentIdx": 15,
+          "dataset": "medqa",
+          "dx": "Severe vitamin A, C, and D deficiencies."
+        },
+        {
+          "s": "*   Presenting symptoms: Confusion, abdominal pain, diarrhea, fatigue, vomiting.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1825,
+          "sentIdx": 1,
+          "dataset": "medqa",
+          "dx": "Dumping syndrome"
+        },
+        {
+          "s": "*   Prison (yes)",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1237,
+          "sentIdx": 167,
+          "dataset": "medqa",
+          "dx": "Encephalitis due to Behçet’s disease."
+        },
+        {
+          "s": "*   Setting: Party with alcohol.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1595,
+          "sentIdx": 2,
+          "dataset": "medqa",
+          "dx": "Overdose of heroin"
+        },
+        {
+          "s": "*   The age and gender of the patient (46y woman) are common for sarcoidosis.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 916,
+          "sentIdx": 19,
+          "dataset": "medqa",
+          "dx": "Sarcoidosis"
+        },
+        {
+          "s": "*   The case describes a woman with psoriasis (silvery scales), arthritis of the fingers, nail changes, and chronic back pain.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 641,
+          "sentIdx": 32,
+          "dataset": "medqa",
+          "dx": "Psoriatic arthritis\n\""
+        },
+        {
+          "s": "*   The cyclical nature of the pain (occurring every month) indicates that menstruation is happening internally.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1113,
+          "sentIdx": 17,
+          "dataset": "medqa",
+          "dx": "Imperforate hymen"
+        },
+        {
+          "s": "*   Wait, the case I found says the diagnosis is *Lyme disease* and the neurological event was a *stroke* caused by *Lyme-induced vasculitis* or *Lyme-induced TTP*.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 637,
+          "sentIdx": 399,
+          "dataset": "medqa",
+          "dx": "Combined inherited and acquired thrombotic thrombocytopenic purpura."
+        },
+        {
+          "s": "*   Wait, the patient's oxygen saturation did *not* improve much with supplemental oxygen (93% with 6L O2).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1443,
+          "sentIdx": 75,
+          "dataset": "medqa",
+          "dx": "Dapsone-induced methemoglobinemia."
+        },
+        {
+          "s": "- **Chronic Disease Anemia**: Usually normocytic or slightly microcytic, and HbA2 is not elevated.\n\n**",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 787,
+          "sentIdx": 26,
+          "dataset": "medqa",
+          "dx": "Heterozygous b-thalassemia"
+        },
+        {
+          "s": "- *Nortriptyline*",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 439,
+          "sentIdx": 277,
+          "dataset": "medqa",
+          "dx": "Clomipramine"
+        },
+        {
+          "s": "- Fever for 2 days, then rash.",
+          "model": "qwq-32b",
+          "caseIdx": 289,
+          "sentIdx": 100,
+          "dataset": "medmcqa-filtered",
+          "dx": "Chickenpox"
+        },
+        {
+          "s": "- Numbness? (Possible).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1253,
+          "sentIdx": 118,
+          "dataset": "medqa",
+          "dx": "Polyaeritis nodosa"
+        },
+        {
+          "s": "- Other findings like mild hyponatremia and hyperkalemia can also be associated.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1615,
+          "sentIdx": 73,
+          "dataset": "medqa",
+          "dx": "Digoxin toxicity."
+        },
+        {
+          "s": "- Platelets: 160,000/mm³ (normal)",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1279,
+          "sentIdx": 16,
+          "dataset": "medqa",
+          "dx": "Adverse effect of anesthetic"
+        },
+        {
+          "s": "- Testing for toxoplasma and rubella showed positive IgG and negative IgM (suggestive of past infection)",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 2045,
+          "sentIdx": 16,
+          "dataset": "medqa",
+          "dx": "Severe methylenetetrahydrofolate reductase deficiency."
+        },
+        {
+          "s": "- Underwent near-total thyroidectomy in the second trimester due to uncontrolled symptoms with antithyroid drugs.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 824,
+          "sentIdx": 9,
+          "dataset": "medqa",
+          "dx": "Transplacental passage of TSH receptor antibodies"
+        },
+        {
+          "s": "1.  **Fever:** Yes.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 2035,
+          "sentIdx": 67,
+          "dataset": "medqa",
+          "dx": "Babesiosis."
+        },
+        {
+          "s": "1. Patient has prominent eosinophilia, diarrhea, fatigue, weight loss, splenomegaly, lymphadenopathy, and a rash.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 900,
+          "sentIdx": 72,
+          "dataset": "medqa",
+          "dx": "Idiopathic hypereosinophilic syndrome."
+        },
+        {
+          "s": "10 weeks:",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1444,
+          "sentIdx": 68,
+          "dataset": "medqa",
+          "dx": "Missed abortion"
+        },
+        {
+          "s": "5. **Behavioral clues**: She has a habit of picking at her skin since adolescence, which she says has a calming effect.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 370,
+          "sentIdx": 11,
+          "dataset": "medqa",
+          "dx": "Amphetamine-induced psychosis, with delusional parasitosis and neurotic excoriations."
+        },
+        {
+          "s": "All set.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 182,
+          "sentIdx": 30,
+          "dataset": "medqa",
+          "dx": "Multi-infarct dementia"
+        },
+        {
+          "s": "And she's not feeling hungry much either.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 192,
+          "sentIdx": 12,
+          "dataset": "medqa",
+          "dx": "Major depressive disorder"
+        },
+        {
+          "s": "Another clue is the patient's occupation in healthcare administration and her pet exposure history (cat and dog, backyard with deer).",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 2035,
+          "sentIdx": 82,
+          "dataset": "medqa",
+          "dx": "Babesiosis."
+        },
+        {
+          "s": "Both are slightly elevated but not extremely high.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 1354,
+          "sentIdx": 22,
+          "dataset": "medqa",
+          "dx": "Biliary atresia"
+        },
+        {
+          "s": "But Lupus vulgaris fits the \"annular, indurated, scarring\" pattern best.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1129,
+          "sentIdx": 98,
+          "dataset": "medqa",
+          "dx": "Lupus vulgaris"
+        },
+        {
+          "s": "But he's 179 cm (about 5'10\"), not tall high.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 208,
+          "sentIdx": 94,
+          "dataset": "nejm-cpc",
+          "dx": "Intracranial germ-cell tumor (germinoma)."
+        },
+        {
+          "s": "Chicken salad can go bad if not stored properly, especially if it's made with mayonnaise which needs refrigeration.",
+          "model": "qwq-32b",
+          "caseIdx": 448,
+          "sentIdx": 5,
+          "dataset": "medmcqa-filtered",
+          "dx": "Salmonella enteritis poisoning"
+        },
+        {
+          "s": "First, the patient is a 79-year-old retired opera singer.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1854,
+          "sentIdx": 1,
+          "dataset": "medqa",
+          "dx": "Zenker's (pharyngoesophageal) diverticulum"
+        },
+        {
+          "s": "First, the patient is an alcoholic, and they stopped drinking three days ago.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 334,
+          "sentIdx": 2,
+          "dataset": "medmcqa-filtered",
+          "dx": "Delirium tremens"
+        },
+        {
+          "s": "First, the patient's symptoms include scrotal pain and swelling.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 1467,
+          "sentIdx": 3,
+          "dataset": "medmcqa-filtered",
+          "dx": "Right hydrocele"
+        },
+        {
+          "s": "First, the timeline: three weeks before presentation, he had a sore throat, cough, rhinorrhea, chills, and nasal crusting/bleeding.",
+          "model": "qwq-32b",
+          "caseIdx": 1225,
+          "sentIdx": 4,
+          "dataset": "nejm-cpc",
+          "dx": "IgA vasculitis. This case is dedicated to the memory of Massachusetts General Hospital medical residents Lauren Zeitels, M.D., Ph.D., and Victor Fedorov, M.D., Ph.D., who died in an avalanche in March 2017."
+        },
+        {
+          "s": "He also had a history of iritis, which is more commonly seen in ankylosing spondylitis than in other conditions.",
+          "model": "qwq-32b",
+          "caseIdx": 569,
+          "sentIdx": 20,
+          "dataset": "nejm-cpc",
+          "dx": "Ankylosing spondylitis (HLA-B27–negative)."
+        },
+        {
+          "s": "He has a history of non-cancerous bowel issues with cramping and exercise tolerance decreasing, which suggests a gastrointestinal condition.",
+          "model": "deepseek-r1-distill-qwen-1.5b",
+          "caseIdx": 2029,
+          "sentIdx": 3,
+          "dataset": "nejm-cpc",
+          "dx": "Idiopathic hypereosinophilic syndrome."
+        },
+        {
+          "s": "He's a 45-year-old man who's experiencing weakness and these little muscle twitches, called fasciculations, in his arms and legs.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 1341,
+          "sentIdx": 1,
+          "dataset": "medmcqa-filtered",
+          "dx": "amyotrophic lateral sclerosis (ALS)"
+        },
+        {
+          "s": "He's got abdominal distension, which is when the abdomen looks swollen, and he's also experiencing swelling in his legs.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 800,
+          "sentIdx": 2,
+          "dataset": "medmcqa-filtered",
+          "dx": "Constrictive pericarditis"
+        },
+        {
+          "s": "He's got sickle cell disease, which is a big clue.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 689,
+          "sentIdx": 3,
+          "dataset": "medqa",
+          "dx": "Salmonella enterica"
+        },
+        {
+          "s": "He's recently been diagnosed with stage 3 embryonal carcinoma of the testicle, which is a type of testicular cancer.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 1748,
+          "sentIdx": 3,
+          "dataset": "medqa",
+          "dx": "Bleomycin"
+        },
+        {
+          "s": "Her serum bilirubin is 4.4 mg/dL, which is elevated (normal is up to 1.2 mg/dL for women).",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 79,
+          "sentIdx": 14,
+          "dataset": "medqa",
+          "dx": "Anti-HEV IgM"
+        },
+        {
+          "s": "However, paroxysmal AF is possible and could have been missed without prolonged monitoring.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1599,
+          "sentIdx": 79,
+          "dataset": "medqa",
+          "dx": "Paraneoplastic vasculitis of the central nervous system."
+        },
+        {
+          "s": "If we assume it's 8.4 mg/dL, this would be consistent with moderate hyperbilirubinemia, possibly due to hemolysis or liver dysfunction.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1943,
+          "sentIdx": 25,
+          "dataset": "medqa",
+          "dx": "Sickle cell disease"
+        },
+        {
+          "s": "Imaging revealed significant progression of his lung cancer.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 709,
+          "sentIdx": 21,
+          "dataset": "nejm-cpc",
+          "dx": "Cushing’s syndrome due to ectopic secretion of adrenocorticotropic hormone from small-cell lung cancer."
+        },
+        {
+          "s": "In appendicitis, the pain usually starts near the belly button and moves to the lower right, but here it's cyclical and in the lower abdomen with a specific bulge.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 1356,
+          "sentIdx": 19,
+          "dataset": "medmcqa-filtered",
+          "dx": "Imperforate hymen"
+        },
+        {
+          "s": "Is it \"neonatal polycythemia\"?",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1059,
+          "sentIdx": 166,
+          "dataset": "medqa",
+          "dx": "Intrauterine hypoxia\n\""
+        },
+        {
+          "s": "It gets worse in the rainy season and better in winter.",
+          "model": "qwq-32b",
+          "caseIdx": 1041,
+          "sentIdx": 7,
+          "dataset": "medmcqa-filtered",
+          "dx": "Insect bite hypersensitivity"
+        },
+        {
+          "s": "Labs show (implied from context, though Table 1 is missing, I can infer from the treatment) severe metabolic acidosis (bicarbonate was infused, CVVH with bicarbonate begun), hyperkalemia (sodium polystyrene sulfonate given), renal failure (oliguria, CKD history, increased echogenicity on US), and possibly salicylate toxicity.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1940,
+          "sentIdx": 7,
+          "dataset": "medqa",
+          "dx": "Toxic effects of metformin."
+        },
+        {
+          "s": "Less in South American.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 1427,
+          "sentIdx": 260,
+          "dataset": "nejm-cpc",
+          "dx": "Acute human immunodeficiency virus type 1 infection."
+        },
+        {
+          "s": "Let me search for \"secondary pneumonia influenza S. aureus S. pneumoniae\".",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 820,
+          "sentIdx": 116,
+          "dataset": "medqa",
+          "dx": "Streptococcus pneumoniae"
+        },
+        {
+          "s": "Let's recall: The d-xylose test measures absorption of a monosaccharide that requires mucosal enzymes for absorption; in intestinal mucosal disease, absorption reduction because mucosal brush border not functional.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 1602,
+          "sentIdx": 26,
+          "dataset": "medqa",
+          "dx": "Hypersensitivity to gliadin\n\""
+        },
+        {
+          "s": "Looking at his history, he's bisexual and from Brazil, but he says he's never had an STI.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 1066,
+          "sentIdx": 10,
+          "dataset": "nejm-cpc",
+          "dx": "Syphilitic proctitis."
+        },
+        {
+          "s": "Looking back at the lab data in Table 1 (though we don't have it), maybe the blood counts showed leukopenia or thrombocytopenia.",
+          "model": "qwq-32b",
+          "caseIdx": 1818,
+          "sentIdx": 97,
+          "dataset": "nejm-cpc",
+          "dx": "West Nile virus encephalitis."
+        },
+        {
+          "s": "No bony destruction (intact tegmen).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1696,
+          "sentIdx": 18,
+          "dataset": "medqa",
+          "dx": "Acute infectious mononucleosis due to Epstein–Barr virus infection, complicated by acute otitis media and postinfectious cerebellitis."
+        },
+        {
+          "s": "Ok let's analyze: The pattern: 9 days before admission: MCP of right thumb painful, then 6 days before: both ankles swelling and pain.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 961,
+          "sentIdx": 44,
+          "dataset": "nejm-cpc",
+          "dx": "Septic arthritis due to disseminated infection withNeisseria gonorrhoeae."
+        },
+        {
+          "s": "Or just \"Acute Pancreatitis\".",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1310,
+          "sentIdx": 175,
+          "dataset": "medqa",
+          "dx": "Acute pancreatitis"
+        },
+        {
+          "s": "She might need transfusion.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 2023,
+          "sentIdx": 41,
+          "dataset": "medmcqa-filtered",
+          "dx": "Beta-thalassemia (major)"
+        },
+        {
+          "s": "She's been experiencing these since she was 24, so it's been going on for quite a while.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 784,
+          "sentIdx": 2,
+          "dataset": "nejm-cpc",
+          "dx": "Oligoastrocytoma, WHO grade II of IV, associated with temporal-lobe seizures and ictal asystole (arrhythmogenic epilepsy)."
+        },
+        {
+          "s": "She's not working anymore, which is a big change.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 192,
+          "sentIdx": 3,
+          "dataset": "medqa",
+          "dx": "Major depressive disorder"
+        },
+        {
+          "s": "So no hemolysis.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 852,
+          "sentIdx": 275,
+          "dataset": "nejm-cpc",
+          "dx": "Dr. Hasan Bazari:In a complex case such as this, one can either use pattern recognition as a paradigm for clinical problem solving or use deductive reasoning that is based on analysis of the details of this case. Pertinent Clinical DetailsThis 61-year-old woman presented with a 4-week history of epigastric pain, diarrhea, and vomiting. Arthralgias, fever, anemia, and acute kidney injury developed. The stool was guaiac-positive and positive forH. pyloriantigen, and an esophagogastroduodenoscopy was normal. In the past, she had had hyperlipidemia and gastroesophageal reflux disease. On examination, she had mild abdominal tenderness. Pertinent laboratory values include progressive anemia, an absence of leukocytosis, progressive renal failure, elevated blood levels of aminotransferase and alkaline phosphatase, serum immune electrophoresis with no monoclonal protein detected, and a high serum free light-chain ratio (kappa:lambda ratio, 3.1; normal range, 0.3 to 1.7). Urinalysis was pathognomonic for an acute glomerulonephritis, with proteinuria and red-cell casts. The rheumatoid factor was weakly positive. Testing for ANA was negative, and blood levels of complement were low (C4, very low; and C3, slightly decreased). Evaluation for anemia was consistent with anemia of chronic disease. A bone marrow–biopsy specimen showed 3% monoclonal B cells, which were CD5− CD10− kappa+. Rapidly Progressive GlomerulonephritisThis patient has abdominal pain, diarrhea, and vomiting, and rapidly progressive glomerulonephritis has developed, which is defined as a decrease in the glomerular filtration rate by more than 50% in a 3-month period.1The diagnosis must thus be associated with the causes of rapidly progressive glomerulonephritis (Table 2), which consist of the following three large groups of diseases: anti–glomerular basement membrane (GBM) disease (Goodpasture's syndrome),2pauci-immune or antineutrophil cytoplasmic antibody (ANCA)–mediated crescentic glomerulonephritis,3and the immune-complex–mediated glomerulonephritides.Causes of Rapidly Progressive Glomerulonephritis.The first question that I ask when I see a patient with rapidly progressive glomerulonephritis is whether the pretest probability of the disease is so high and the pace of the disease so rapid that the benefit of empirical therapy outweighs the risk of harm. I agree with the use of high doses of methylprednisolone in cases such as this one (boluses of 500 to 1000 mg daily for 3 days). Anti–Glomerular Basement Membrane DiseaseI would have considered and dismissed anti-GBM disease fairly quickly on the basis of the patient's abdominal symptoms on clinical presentation. I would have ordered testing for anti-GBM antibodies and expected a negative result. ANCA-Associated VasculitidesThe most common causes of rapidly progressive glomerulonephritis are the ANCA-associated vasculitides. These include granulomatosis with polyangiitis (formerly Wegener's granulomatosis), microscopic polyangiitis, eosinophilic granulomatosis with polyangiitis (Churg–Strauss syndrome), and pauci-immune crescentic glomerulonephritis.3ANCA-associated vasculitis typically involves the kidneys and upper and lower respiratory tracts but can involve other organs, including the skin, nerves, sinuses, central nervous system, and heart, and the gastrointestinal tract.4Isolated gastrointestinal involvement with vasculitis and ulcers is less common.5I would have requested ANCA testing, and if the results were positive, I would have avoided a renal biopsy. Immune-Complex–Mediated GlomerulonephritisThe immune-complex glomerulonephritides are divided into normocomplementemic and hypocomplementemic glomerulonephritis (Table 2).Diseases that are associated with normal serum complement levels include IgA nephropathy and Henoch–Schönlein purpura, which are both IgA-mediated, and fibrillary and immunotactoid glomerulonephritis. IgA nephropathy is the most common cause of glomerulonephritis and ranges from asymptomatic hematuria and proteinuria to the nephrotic syndrome or rapidly progressive glomerulonephritis.6This patient could have classic Henoch–Schönlein purpura with abdominal pain and rapidly progressive glomerulonephritis, but the purpuric rash that characteristically appears on the extensor surfaces of the arms and legs is absent; occasionally, the rash appears after the gastrointestinal and renal manifestations.7These two diseases are nonspecifically associated with elevated polyclonal IgA levels, which this patient did not have. A definitive diagnosis can be made by cutaneous, gastrointestinal, or renal biopsy to look for IgA deposition in small vessels.Fibrillary glomerulonephritis and immunotactoid glomerulonephritis are both immunoglobulin deposition diseases. Fibrillary glomerulonephritis is polyclonal, and immunotactoid glomerulonephritis is often clonal, often with an associated monoclonal gammopathy.8Fibrillary glomerulonephritis occasionally causes low C3 levels.9Diseases with low complement levels include many diseases that activate the alternative complement pathway, which causes very low C3 and normal C4 levels, and very few diseases that activate the classic complement pathway, which causes a very low C4 level and a normal or mildly depressed C3 level.10The classic diseases associated with low complement levels are systemic lupus erythematosus (SLE), membranoproliferative glomerulonephritis, poststreptococcal glomerulonephritis, shunt nephritis, bacterial endocarditis, visceral abscess, other infections, and C3 glomerulonephritis.11There are no features in this case to suggest a poststreptococcal glomerulonephritis, endocarditis, or other infections. This patient could have SLE with serositis and anemia. However, testing for ANA and anti–double-stranded DNA antibody was negative.Membranoproliferative GlomerulonephritisMembranoproliferative glomerulonephritis is a pathologic entity that can have a variety of causes (Figure 1).12,13The bone marrow–biopsy specimen in this case rules out myeloma, but the abnormal serum free light-chain ratio is suggestive of a monoclonal gammopathy.Causes of Membranoproliferative Glomerulonephritis.Membranoproliferative glomerulonephritis can be related to monoclonal gammopathies, infections, collagen vascular diseases, or genetic disorders involving the complement pathway. In all these disorders except the genetic disorders, cryoglobulinemia (Cryo) can lead to membranoproliferative glomerulonephritis. HBV denotes hepatitis B virus, HCV hepatitis C virus, and HIV human immunodeficiency virus.CryoglobulinemiaThis patient has a very low C4 level and a slightly low C3 level, features consistent with activation of the classic complement pathway. The very low C4 level can be explained by cryoglobulinemia, SLE, congenital C4 deficiency, or C1 esterase inhibitor deficiency associated with hereditary angioedema. She had no history of angioedema, and it would be unusual for a patient at the age of this one to present with congenital C4 disease. SLE is very unlikely in a patient with a negative ANA test.Cryoglobulinemia is an immune-complex glomerulonephritis that activates the classic complement pathway. There are three types of cryoglobulinemia,14with different underlying causes. Type I cryoglobulinemia is characterized by an IgM or IgG M component that forms a cryoprecipitate by itself; the underlying disease is typically an immunoglobulin-secreting B-cell neoplasm such as Waldenström's macroglobulinemia (lymphoplasmacytic lymphoma) or plasma-cell myeloma. Type II cryoglobulinemia is characterized by an IgM or IgG M component that has rheumatoid-factor activity against polyclonal IgG. Type II cryoglobulinemia is also associated with lymphoplasmacytic lymphoma or myeloma, hepatitis C virus (HCV) infection, and rheumatologic disorders. Type III cryoglobulinemia is characterized by a polyclonal IgM or IgG rheumatoid factor that binds polyclonal IgG; it tends to be associated with infections such as HCV, hepatitis B virus, and the human immunodeficiency virus and, less commonly, with endocarditis, SLE, and other rheumatologic diseases.15–19A number of lymphomas in addition to myeloma and lymphoplasmacytic lymphoma are associated with cryoglobulinemia.20–24In this patient, testing a warm specimen of blood for cryoglobulins should be considered.Could cryoglobulinemia explain this patient's clinical presentation?In addition to hypocomplementemia, patients with cryoglobulinemia frequently have renal disease, cutaneous involvement with necrotizing vasculitis, joint involvement, and neuropathy. In this patient, the low C4 level and rapidly progressive glomerulonephritis would be consistent with cryoglobulinemia, but gastrointestinal involvement is uncommon."
+        },
+        {
+          "s": "So, she's an 84-year-old woman with a bunch of symptoms—chest pain, dyspnea, and a rash.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 2026,
+          "sentIdx": 1,
+          "dataset": "nejm-cpc",
+          "dx": "Systemic amyloidosis."
+        },
+        {
+          "s": "That makes me think about visual field issues because ignoring things on the sides could mean he's missing peripheral vision.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 1579,
+          "sentIdx": 2,
+          "dataset": "medmcqa-filtered",
+          "dx": "Craniopharyngioma"
+        },
+        {
+          "s": "That's confusing because in a diabetic emergency like hypoglycemia, you'd expect the body to release more insulin, which would mean higher C-peptide levels.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 1589,
+          "sentIdx": 13,
+          "dataset": "medqa",
+          "dx": "Factitious disorder"
+        },
+        {
+          "s": "That's not great, and it's been going on for a long time.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 980,
+          "sentIdx": 2,
+          "dataset": "medmcqa-filtered",
+          "dx": "Carcinoma of the gallbladder"
+        },
+        {
+          "s": "The case mentions that fibrinogen was normal, so maybe not.",
+          "model": "qwq-32b",
+          "caseIdx": 363,
+          "sentIdx": 60,
+          "dataset": "nejm-cpc",
+          "dx": "Fulminant hepatic failure due to Wilson’s disease."
+        },
+        {
+          "s": "The case: 33yo male, femur fracture.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 425,
+          "sentIdx": 109,
+          "dataset": "medqa",
+          "dx": "Fat embolism"
+        },
+        {
+          "s": "The fact that she's allergic to sulfa drugs, which can cause rashes, is important.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 1227,
+          "sentIdx": 13,
+          "dataset": "nejm-cpc",
+          "dx": "Systemic amyloidosis."
+        },
+        {
+          "s": "The initial presentation showed tachycardia and hypotension (shock), but he was discharged without \"significant fractures or injuries.\"",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 386,
+          "sentIdx": 41,
+          "dataset": "medqa",
+          "dx": "Syringomyelia"
+        },
+        {
+          "s": "The low phosphorus and slightly elevated calcium could indicate a metabolic bone disease.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 577,
+          "sentIdx": 20,
+          "dataset": "medmcqa-filtered",
+          "dx": "Hyperparathyroidism"
+        },
+        {
+          "s": "The patient also presented with a rash that he thought was from oxycodone, but he's now ruling out skin cancer.",
+          "model": "deepseek-r1-distill-qwen-1.5b",
+          "caseIdx": 166,
+          "sentIdx": 13,
+          "dataset": "nejm-cpc",
+          "dx": "Adult T-cell leukemia–lymphoma."
+        },
+        {
+          "s": "The patient is a 45-year-old male with hypertension, which is a common condition.",
+          "model": "deepseek-r1-distill-qwen-1.5b",
+          "caseIdx": 372,
+          "sentIdx": 2,
+          "dataset": "medmcqa-filtered",
+          "dx": "Aneurysmal subarachnoid haemorrhage"
+        },
+        {
+          "s": "The patient reports a \"tendency to bruise.\"",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1067,
+          "sentIdx": 15,
+          "dataset": "medqa",
+          "dx": "Vascular Ehlers–Danlos syndrome."
+        },
+        {
+          "s": "The patient's smoking history is significant, especially at 50 packs a year, which can increase the risk of chronic kidney disease or other conditions like electrolyte imbalances.",
+          "model": "deepseek-r1-distill-qwen-1.5b",
+          "caseIdx": 1257,
+          "sentIdx": 18,
+          "dataset": "medmcqa-filtered",
+          "dx": "Inappropriate secretion of antidiuretic hormone"
+        },
+        {
+          "s": "The precipitating event, her husband's death, could have been a stressor that triggered it.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 457,
+          "sentIdx": 21,
+          "dataset": "medmcqa-filtered",
+          "dx": "Acute manic excitement"
+        },
+        {
+          "s": "The pupil is actually large, not small.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 324,
+          "sentIdx": 12,
+          "dataset": "medmcqa-filtered",
+          "dx": "tonic pupils (Holmes-Adie syndrome)"
+        },
+        {
+          "s": "These features—obsessions (repetitive thoughts of contamination), compulsions (cleaning), insight into the irrationality of the thoughts, and impairment in functioning—are characteristic of Obsessive-Compulsive Disorder (OCD).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 818,
+          "sentIdx": 26,
+          "dataset": "medqa",
+          "dx": "Obsessive compulsive disorder"
+        },
+        {
+          "s": "They say negative for IgM anti-c.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 473,
+          "sentIdx": 33,
+          "dataset": "medmcqa-filtered",
+          "dx": "Superinfection of hepatitis E virus with chronic hepatitis B infection"
+        },
+        {
+          "s": "This is classic for IV drug abuse.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 90,
+          "sentIdx": 18,
+          "dataset": "medqa",
+          "dx": "Factitious disorder"
+        },
+        {
+          "s": "This patient's symptoms have lasted two months.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 131,
+          "sentIdx": 15,
+          "dataset": "medqa",
+          "dx": "Persistent delusion disorder"
+        },
+        {
+          "s": "Travel to Thailand/Morocco/Jordan.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 2065,
+          "sentIdx": 368,
+          "dataset": "medqa",
+          "dx": "Takayasu’s arteritis."
+        },
+        {
+          "s": "Vital signs show mild fever (38.2°C).",
+          "model": "qwen3.6-27b",
+          "caseIdx": 177,
+          "sentIdx": 3,
+          "dataset": "medqa",
+          "dx": "Zika virus disease"
+        },
+        {
+          "s": "Wait, checking reference ranges: normal alpha1-antitrypsin levels are around 80-200 mg/dL. If the reference here says <54, that's conflicting.",
+          "model": "qwq-32b",
+          "caseIdx": 624,
+          "sentIdx": 77,
+          "dataset": "nejm-cpc",
+          "dx": "High-grade B-cell lymphoma, not otherwise specified."
+        },
+        {
+          "s": "Wait, let's search for \"mucus in stools\" and \"incomplete evacuation\" in the context of *Ulcerative Colitis*.\n    Tenesmus and mucus are very common in UC.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1609,
+          "sentIdx": 165,
+          "dataset": "medqa",
+          "dx": "Diveicular disease of colon"
+        },
+        {
+          "s": "Wait, she also had a history of recurrent UTIs, which might indicate a possible immunodeficiency, but her serologies were normal, including IgE, so that's less likely.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 1654,
+          "sentIdx": 29,
+          "dataset": "nejm-cpc",
+          "dx": "Obliterative bronchiolitis with fibrosis."
+        }
+      ]
+    },
+    {
+      "label": "Interpreting Clinical Findings",
+      "short_name": "Interpreting Clinical Findi…",
+      "description": "Analyzing and connecting clinical data to medical knowledge to infer patterns, mechanisms, and possible diagnoses.",
+      "color": "#ff7f0e",
+      "examples": [
+        {
+          "s": "*   *Recurrent pneumonia*: Patients with multiple myeloma are prone to infections because the monoclonal protein can interfere with normal immunoglobulin production (hypogammaglobulinemia of non-monoclonal antibodies).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 414,
+          "sentIdx": 13,
+          "dataset": "medqa",
+          "dx": "Multiple myeloma"
+        },
+        {
+          "s": "*   Anti-HAV IgG positive, Anti-HAV IgM negative (immune to Hepatitis A, no current infection).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1279,
+          "sentIdx": 16,
+          "dataset": "medqa",
+          "dx": "Adverse effect of anesthetic"
+        },
+        {
+          "s": "*   Chief Complaint: Severe lower abdominal pain, worse during menstruation (dysmenorrhea).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 841,
+          "sentIdx": 1,
+          "dataset": "medqa",
+          "dx": "Endometriosis"
+        },
+        {
+          "s": "*   Clinical hallmarks: Progressive limb and gait ataxia, loss of deep tendon reflexes (due to degeneration of the large myelinated fibers of the peripheral nerves and dorsal root ganglia), and an extensor plantar response (due to degeneration of the corticospinal tracts).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 477,
+          "sentIdx": 47,
+          "dataset": "medqa",
+          "dx": "Friedreich's Ataxia"
+        },
+        {
+          "s": "*   Diplopia on lateral gaze (suggests limitation of abduction, likely involvement of the 6th cranial nerve or restriction of the medial rectus muscle).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1040,
+          "sentIdx": 6,
+          "dataset": "medqa",
+          "dx": "Cavernous sinus thrombosis"
+        },
+        {
+          "s": "*   Fungal infections (e.g., Cryptococcus, Histoplasma)",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 717,
+          "sentIdx": 11,
+          "dataset": "medqa",
+          "dx": "Posttransplant lymphomatoid disorder (PTLD)"
+        },
+        {
+          "s": "*   Gastric Outlet Obstruction (GOO) is the general term for any blockage at the outlet of the stomach.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1870,
+          "sentIdx": 21,
+          "dataset": "medqa",
+          "dx": "Pyloric obstruction due to cicatricial stenosis of the lumen of the duodenum"
+        },
+        {
+          "s": "*   Hallucinations: 3rd person auditory hallucinations (characteristic of schizophrenia).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 151,
+          "sentIdx": 5,
+          "dataset": "medqa",
+          "dx": "Acute Psychosis"
+        },
+        {
+          "s": "*   Impetigo: Localized usually, though can be widespread (bullous impetigo), but doesn't explain the systemic symptoms (fever, headache, myalgia).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 240,
+          "sentIdx": 20,
+          "dataset": "medqa",
+          "dx": "Chickenpox"
+        },
+        {
+          "s": "*   Interpretation: Linitis plastica is the result of a diffuse-type gastric adenocarcinoma that infiltrates the stomach wall, causing it to thicken and harden. The microscopic presence of signet ring cells (cells with a large mucin vacuole that displaces the nucleus to the periphery) is characteristic of signet ring cell carcinoma (a subset of diffuse gastric adenocarcinoma).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1349,
+          "sentIdx": 78,
+          "dataset": "medqa",
+          "dx": "Linitis plastica"
+        },
+        {
+          "s": "*   Mechanism: Vasodilation of veins and arteries.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1940,
+          "sentIdx": 61,
+          "dataset": "medqa",
+          "dx": "Toxic effects of metformin."
+        },
+        {
+          "s": "*   Mention the physical finding: \"Os admits one finger\" (dilated).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 164,
+          "sentIdx": 89,
+          "dataset": "medqa",
+          "dx": "Inevitable aboion"
+        },
+        {
+          "s": "*   Neurological/Vascular: Weakness, numbness, and tingling in the left arm; inability to obtain blood pressure in either arm; non-palpable radial pulses.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 2065,
+          "sentIdx": 332,
+          "dataset": "medqa",
+          "dx": "Takayasu’s arteritis."
+        },
+        {
+          "s": "*   Renal: Rapid progressive glomerulonephritis.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 227,
+          "sentIdx": 29,
+          "dataset": "medqa",
+          "dx": "Polyarteritis nodosa"
+        },
+        {
+          "s": "*   The patient's smoking history and the constellation of symptoms (progressive dyspnea) and physical signs (barrel chest, hyperresonance, flattened diaphragm on X-ray) are classic for Chronic Obstructive Pulmonary Disease (COPD).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 175,
+          "sentIdx": 59,
+          "dataset": "medqa",
+          "dx": "Emphysema"
+        },
+        {
+          "s": "*   The presentation (fever, skin sloughing, mucosal involvement) is classic for the SJS/TEN spectrum.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1121,
+          "sentIdx": 21,
+          "dataset": "medqa",
+          "dx": "Stevens-Johnson syndrome"
+        },
+        {
+          "s": "*   Transverse vaginal septum: Similar to imperforate hymen.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 411,
+          "sentIdx": 50,
+          "dataset": "medqa",
+          "dx": "Vaginal septum"
+        },
+        {
+          "s": "- \"Paresthesia in feet... spread to legs/hands.\" (Dorsal column/spinal cord involvement).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 279,
+          "sentIdx": 222,
+          "dataset": "medqa",
+          "dx": "Copper deficiency myelopathy."
+        },
+        {
+          "s": "- **Actinic prurigo**: A subtype of PLE that can present with pruritic papules on sun-exposed areas, often with a chronic course if exposure continues.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1885,
+          "sentIdx": 102,
+          "dataset": "medqa",
+          "dx": "Insect bite hypersensitivity"
+        },
+        {
+          "s": "- **Meningitis/Encephalitis**: These conditions can cause severe headaches but usually present with a more gradual onset and other signs like fever or altered mental status, which are not mentioned here.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1208,
+          "sentIdx": 22,
+          "dataset": "medqa",
+          "dx": "Aneurysmal SAH"
+        },
+        {
+          "s": "- Bohn nodules: white/yellow.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 396,
+          "sentIdx": 13,
+          "dataset": "medqa",
+          "dx": "Eruption cyst"
+        },
+        {
+          "s": "- Claudication in lower extremities is due to reduced blood flow distal to the coarctation.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 206,
+          "sentIdx": 10,
+          "dataset": "medqa",
+          "dx": "Coarctation of the aorta"
+        },
+        {
+          "s": "- Confusion and encephalopathy can occur in advanced stages.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1789,
+          "sentIdx": 71,
+          "dataset": "medqa",
+          "dx": "Ebola virus"
+        },
+        {
+          "s": "- Gianotti-Crosti syndrome: Papular acrodermatitis of childhood, usually children, not palms/soles primarily, spares face usually.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 777,
+          "sentIdx": 75,
+          "dataset": "medqa",
+          "dx": "Chronic arsenic poisoning"
+        },
+        {
+          "s": "- History of small-vessel disease or strokes.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1909,
+          "sentIdx": 148,
+          "dataset": "medqa",
+          "dx": "Normal pressure hydrocephalus."
+        },
+        {
+          "s": "- Marked global left ventricular dysfunction initially, but later showed biventricular dysfunction with normal left ventricular size but impaired function.\n\n**",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1224,
+          "sentIdx": 28,
+          "dataset": "medqa",
+          "dx": "Pseudohyperaldosteronism suggestive of excessive licorice consumption complicated by cardiac arrest associated with ventricular fibrillation."
+        },
+        {
+          "s": "1. Joint stiffness and pain in multiple joints, especially fingers - fits psoriatic arthritis, which can involve distal interphalangeal joints (DIP), which is typical.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 641,
+          "sentIdx": 82,
+          "dataset": "medqa",
+          "dx": "Psoriatic arthritis\n\""
+        },
+        {
+          "s": "2.  *Peripheral Arthritis (Seronegative Spondyloarthropathy):* Asymmetric, oligoarticular (affects small joints of hands/feet/knees), usually non-erosive.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 764,
+          "sentIdx": 31,
+          "dataset": "medqa",
+          "dx": "ulcerative colitis"
+        },
+        {
+          "s": "3.  Specific laboratory clues: Rouleaux formation is strongly associated with monoclonal gammopathies (Multiple Myeloma).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1547,
+          "sentIdx": 29,
+          "dataset": "medqa",
+          "dx": "Multiple myeloma"
+        },
+        {
+          "s": "3. These symptoms do not fit well with Todd's paralysis (which is usually transient and sensory-motor without aphasia or visual field loss) or status epilepticus (which causes continuous seizure activity).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 849,
+          "sentIdx": 147,
+          "dataset": "medqa",
+          "dx": "Cortical laminar necrosis"
+        },
+        {
+          "s": "4. **Pathological findings**: The lumpectomy specimen shows invasive tumor with ductal carcinoma in situ (DCIS) components, lymphatic vessel invasion, and features consistent with a primary breast carcinoma.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 269,
+          "sentIdx": 10,
+          "dataset": "medqa",
+          "dx": "Bipolar I disorder with mixed features; invasive ductal carcinoma of the breast; lung cancer."
+        },
+        {
+          "s": "A cardiac tumor might show high density if calcified?",
+          "model": "gpt-oss-20b",
+          "caseIdx": 1686,
+          "sentIdx": 31,
+          "dataset": "medmcqa-filtered",
+          "dx": "Rheumatic heart disease"
+        },
+        {
+          "s": "Actinomycosis comes to mind because it's a chronic bacterial infection that can affect the face and neck area.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 159,
+          "sentIdx": 17,
+          "dataset": "medmcqa-filtered",
+          "dx": "Blastomycosis"
+        },
+        {
+          "s": "Actually, PCL attaches to the posterior intercondylar area.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 569,
+          "sentIdx": 78,
+          "dataset": "medqa",
+          "dx": "Posterior cruciate ligament injury"
+        },
+        {
+          "s": "Actually, a VSD murmur is best heard at the left sternal border (usually upper) or apex.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1371,
+          "sentIdx": 27,
+          "dataset": "medqa",
+          "dx": "Interventricular septum rupture"
+        },
+        {
+          "s": "Adenomatous polyps usually show glands lined by cells with nuclear atypia (dysplasia) arranged in a specific pattern (tubular, villous, etc.).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 16,
+          "sentIdx": 15,
+          "dataset": "medqa",
+          "dx": "Juvenile polyp"
+        },
+        {
+          "s": "After such a surgery, complications can include wound infections, bile leaks, or intra-abdominal abscesses.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1978,
+          "sentIdx": 12,
+          "dataset": "medqa",
+          "dx": "Wound infection"
+        },
+        {
+          "s": "Also, she has these flattened, broad-based plaques in the anogenital area.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 1070,
+          "sentIdx": 5,
+          "dataset": "medmcqa-filtered",
+          "dx": "Condyloma lata"
+        },
+        {
+          "s": "Another condition to consider is military tuberculosis, but that usually presents with more diffuse infiltrates, not just apex.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 344,
+          "sentIdx": 60,
+          "dataset": "medqa",
+          "dx": "histoplasmosis"
+        },
+        {
+          "s": "Autoinfection can lead to chronic infection, and disseminated disease can occur, especially in immunocompromised individuals.",
+          "model": "qwq-32b",
+          "caseIdx": 1586,
+          "sentIdx": 183,
+          "dataset": "nejm-cpc",
+          "dx": "Bartonella henselaeinfection (cat scratch disease)."
+        },
+        {
+          "s": "But Squamous Cell is usually associated with squamous cell changes, not specific paraneoplastic myasthenia (LEMS is exclusively SCLC or thymoma).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1684,
+          "sentIdx": 315,
+          "dataset": "medqa",
+          "dx": "The milk alkali syndrome."
+        },
+        {
+          "s": "But TB classically has upper lobe infiltrates, cavity, weight loss, hemoptysis.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 1841,
+          "sentIdx": 60,
+          "dataset": "medqa",
+          "dx": "Adenocarcinoma of the lung"
+        },
+        {
+          "s": "But also the presence of autonomic reflexes.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 601,
+          "sentIdx": 305,
+          "dataset": "nejm-cpc",
+          "dx": "Aceruloplasminemia, hereditary."
+        },
+        {
+          "s": "But muscle tone skyrockets, but spine.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 1295,
+          "sentIdx": 71,
+          "dataset": "nejm-cpc",
+          "dx": "Tay–Sachs disease (GM2gangliosidosis)."
+        },
+        {
+          "s": "But this is watery, not greasy?",
+          "model": "gpt-oss-20b",
+          "caseIdx": 1593,
+          "sentIdx": 10,
+          "dataset": "medmcqa-filtered",
+          "dx": "secretory diarrhea"
+        },
+        {
+          "s": "Condyloma lata are often found in the anogenital area and are infectious.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 265,
+          "sentIdx": 13,
+          "dataset": "medqa",
+          "dx": "Condyloma lata"
+        },
+        {
+          "s": "Consolidation in the lung periphery often points to a bacterial infection, like pneumonia.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 543,
+          "sentIdx": 7,
+          "dataset": "medmcqa-filtered",
+          "dx": "Tuberculosis"
+        },
+        {
+          "s": "Could it be Extrahepatic Portal Vein Obstruction (EHPVO)?",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 236,
+          "sentIdx": 26,
+          "dataset": "medqa",
+          "dx": "Non-cirrhotic poal fibrosis"
+        },
+        {
+          "s": "Could it be Hemolytic Uremic Syndrome? HUS presents with microangiopathic hemolytic anemia, thrombocytopenia, and AKI.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1734,
+          "sentIdx": 89,
+          "dataset": "medqa",
+          "dx": "PSGN"
+        },
+        {
+          "s": "DNETs usually present in childhood, but cases in the 20s are certainly reported.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1190,
+          "sentIdx": 233,
+          "dataset": "medqa",
+          "dx": "Oligoastrocytoma, WHO grade II of IV, associated with temporal-lobe seizures and ictal asystole (arrhythmogenic epilepsy)."
+        },
+        {
+          "s": "Death within a year (early infantile form).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 788,
+          "sentIdx": 148,
+          "dataset": "medqa",
+          "dx": "Tay-Sachs disease"
+        },
+        {
+          "s": "HSP typically presents with the classic tetrad: palpable purpura (usually lower extremities), arthritis, abdominal pain, and renal involvement.",
+          "model": "qwq-32b",
+          "caseIdx": 1379,
+          "sentIdx": 9,
+          "dataset": "medmcqa-filtered",
+          "dx": "Henoch-Schonlein purpura"
+        },
+        {
+          "s": "He had a biopsy of a left inguinal lymph node, but the results showed necrotic tissue with fibrosis and lymphohistiocytic inflammation.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 244,
+          "sentIdx": 5,
+          "dataset": "nejm-cpc",
+          "dx": "Necrotizing granulomatous lymphadenitis due toMycobacterium tuberculosiscomplex."
+        },
+        {
+          "s": "He had recurrent fevers, unresponsive to antibiotics, empiric anti-bacterial treatments didn't help.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 1818,
+          "sentIdx": 5,
+          "dataset": "nejm-cpc",
+          "dx": "West Nile virus encephalitis."
+        },
+        {
+          "s": "His medical history includes massive hematemesis and a previous diagnosis of Extrahepatic Portal Vein Obstruction (EHPVO).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 621,
+          "sentIdx": 546,
+          "dataset": "medqa",
+          "dx": "Splenic infarction"
+        },
+        {
+          "s": "However, the \"stories\" and \"flamboyance\" lean more toward HPD.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1078,
+          "sentIdx": 41,
+          "dataset": "medqa",
+          "dx": "Histrionic personality disorder"
+        },
+        {
+          "s": "However, while it can cause pancytopenia, it's often more aggressive early on, though presentation varies.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 457,
+          "sentIdx": 25,
+          "dataset": "medqa",
+          "dx": "Aplastic anemia"
+        },
+        {
+          "s": "If the biopsies were taken from areas without dysplasia, the diagnosis might be missed.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 1088,
+          "sentIdx": 30,
+          "dataset": "medmcqa-filtered",
+          "dx": "Verrucous carcinoma"
+        },
+        {
+          "s": "In simple nutritional rickets, teeth are typically chalky or malformed, but the specific \"notching of molars and incisors\" (often described as \"pearls\") is a hallmark of **Celiac Disease (CD)**, specifically the presence of *pearls* or notch formation on teeth.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1858,
+          "sentIdx": 21,
+          "dataset": "medqa",
+          "dx": "Congenital Syphilis"
+        },
+        {
+          "s": "Infectious agent likely osteomyelitis with cortical destruction.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 1849,
+          "sentIdx": 3,
+          "dataset": "medqa",
+          "dx": "Staphylococcus aureus"
+        },
+        {
+          "s": "Intranuclear inclusions are often seen in viral infections.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 212,
+          "sentIdx": 9,
+          "dataset": "medmcqa-filtered",
+          "dx": "CMV pneumonia"
+        },
+        {
+          "s": "It is *predominantly* metaphyseal (99%), but distal femur proximal tibia are common.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 731,
+          "sentIdx": 98,
+          "dataset": "medqa",
+          "dx": "Ewings sarcoma"
+        },
+        {
+          "s": "It often follows viral infections or vaccinations.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 865,
+          "sentIdx": 8,
+          "dataset": "medqa",
+          "dx": "Vit A toxicity"
+        },
+        {
+          "s": "It's a type of vasculitis that can cause these symptoms, especially with the digital infarcts and neuropathy.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 86,
+          "sentIdx": 24,
+          "dataset": "medmcqa-filtered",
+          "dx": "Polyarteritis nodosa"
+        },
+        {
+          "s": "Malignant cysts might require further investigation, but based on the symptoms and the nature of the cyst, it's more likely benign.",
+          "model": "deepseek-r1-distill-qwen-1.5b",
+          "caseIdx": 80,
+          "sentIdx": 15,
+          "dataset": "medmcqa-filtered",
+          "dx": "Dentigerous cyst"
+        },
+        {
+          "s": "Metastatic prostatic cancer usually causes lytic lesions.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1684,
+          "sentIdx": 75,
+          "dataset": "medqa",
+          "dx": "The milk alkali syndrome."
+        },
+        {
+          "s": "Miliary nodules are small, scattered nodules in the lungs that can be caused by infections or other conditions.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 213,
+          "sentIdx": 17,
+          "dataset": "nejm-cpc",
+          "dx": "DisseminatedMycobacterium tuberculosisinfection."
+        },
+        {
+          "s": "Ocular toxoplasmosis causes focal necrotizing retinochoroiditis.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1155,
+          "sentIdx": 30,
+          "dataset": "medqa",
+          "dx": "Nocardia asteroides infection"
+        },
+        {
+          "s": "One last check: \"cause of this patient's acute renal failure.\"\n    Is it \"prerenal azotemia\" or \"dehydration\"?\n    Usually, in these cases, the \"cause\" refers to the mechanism.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 536,
+          "sentIdx": 219,
+          "dataset": "medqa",
+          "dx": "Dehydration"
+        },
+        {
+          "s": "Persecution + Agitation + Self-Harm.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 198,
+          "sentIdx": 202,
+          "dataset": "medqa",
+          "dx": "Borderline personality disorder"
+        },
+        {
+          "s": "Putting it all together: HTLV-1 positivity, the skin findings (polygonal plaques with scale, collarettes on palms/soles, axillary pseudoinvolution), and the pruritic nature.",
+          "model": "qwq-32b",
+          "caseIdx": 1066,
+          "sentIdx": 41,
+          "dataset": "nejm-cpc",
+          "dx": "Adult T-cell leukemia–lymphoma."
+        },
+        {
+          "s": "RSV is a common cause of lower respiratory infection in infants and can lead to bronchiolitis, which presents with wheezing, cough, and retractions.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 568,
+          "sentIdx": 34,
+          "dataset": "medqa",
+          "dx": "Respiratory syncytial virus"
+        },
+        {
+          "s": "Scleroderma renal crisis causes malignant hypertension, but usually in established disease.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1561,
+          "sentIdx": 16,
+          "dataset": "medqa",
+          "dx": "Polyaeritis nodosa"
+        },
+        {
+          "s": "She also has a minimal splenomegaly, which can happen in mono too.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 300,
+          "sentIdx": 16,
+          "dataset": "medmcqa-filtered",
+          "dx": "infectious mononucleosis"
+        },
+        {
+          "s": "Skin lesions: sarcoid lesions, but histology would show non-caseating granulomas not interface dermatitis.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 606,
+          "sentIdx": 84,
+          "dataset": "nejm-cpc",
+          "dx": "Anti–melanoma differentiation–associated protein 5 (anti–MDA-5) dermatomyositis."
+        },
+        {
+          "s": "So when those muscles are weak, the opposing muscles (like the lateral rectus and superior oblique) would dominate, leading to an eye that's deviated down and out.",
+          "model": "qwq-32b",
+          "caseIdx": 773,
+          "sentIdx": 22,
+          "dataset": "medmcqa-filtered",
+          "dx": "third nerve palsy"
+        },
+        {
+          "s": "Sometimes in medical exams, you focus on the \"classic triad\" (Amenorrhea, Galactorrhea, Visual disturbances) or A+H. Here she has Amenorrhea and Headaches (visual is not explicitly stated, but sleep issues point to diaphragma sellae compression).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1718,
+          "sentIdx": 76,
+          "dataset": "medqa",
+          "dx": "Premature ovarian failure"
+        },
+        {
+          "s": "The \"tiny yeast within macrophages\" is much more characteristic of Histoplasma.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 735,
+          "sentIdx": 14,
+          "dataset": "medqa",
+          "dx": "Histoplasmosis"
+        },
+        {
+          "s": "The biopsy findings of neutrophils in the sinuses support an inflammatory process.",
+          "model": "qwq-32b",
+          "caseIdx": 1769,
+          "sentIdx": 21,
+          "dataset": "medmcqa-filtered",
+          "dx": "Suppurative lymphadenitis"
+        },
+        {
+          "s": "The current presentation is a large necrotic tumor along the sciatic nerve.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 248,
+          "sentIdx": 7,
+          "dataset": "medmcqa-filtered",
+          "dx": "Malignant peripheral nerve sheath tumor"
+        },
+        {
+          "s": "The differential for polycythemia is primary (PV) vs secondary (hypoxia, EPO tumor, etc).",
+          "model": "qwq-32b",
+          "caseIdx": 1004,
+          "sentIdx": 38,
+          "dataset": "medqa",
+          "dx": "Toxic exposure"
+        },
+        {
+          "s": "The exam findings include sluggish pupillary reflex.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 807,
+          "sentIdx": 6,
+          "dataset": "medmcqa-filtered",
+          "dx": "Normal Tension Glaucoma"
+        },
+        {
+          "s": "The family history of a father with a varus knee deformity (a skeletal manifestation of Albright hereditary osteodystrophy) is a classic genetic association with this disorder.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 47,
+          "sentIdx": 148,
+          "dataset": "medqa",
+          "dx": "Vitamin D deficiency."
+        },
+        {
+          "s": "The imaging showed mild distension in the abdomen but no evidence of opacities or other signs of obstruction.",
+          "model": "deepseek-r1-distill-qwen-1.5b",
+          "caseIdx": 47,
+          "sentIdx": 13,
+          "dataset": "nejm-cpc",
+          "dx": "Acutely inflamed endometriotic cyst with overlying acute peritonitis involving the ovarian surface as well as the fallopian tube and appendix."
+        },
+        {
+          "s": "The imaging shows involvement of the left sphenoid sinus, extending into the orbital apex and cavernous sinus.",
+          "model": "qwq-32b",
+          "caseIdx": 1780,
+          "sentIdx": 9,
+          "dataset": "nejm-cpc",
+          "dx": "Diffuse large B-cell lymphoma (not otherwise specified)."
+        },
+        {
+          "s": "The inguinal mass is on the left side, firm and nontender.",
+          "model": "qwq-32b",
+          "caseIdx": 787,
+          "sentIdx": 10,
+          "dataset": "medqa",
+          "dx": "Androgen insensitivity"
+        },
+        {
+          "s": "The nodular liver and spleen could be due to the body's reaction to the parasite.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 167,
+          "sentIdx": 27,
+          "dataset": "medmcqa-filtered",
+          "dx": "Wilson disease"
+        },
+        {
+          "s": "The patient had a mild restrictive pattern and improved over time with prednisone, which fits with her condition.",
+          "model": "deepseek-r1-distill-qwen-1.5b",
+          "caseIdx": 414,
+          "sentIdx": 16,
+          "dataset": "nejm-cpc",
+          "dx": "Pulmonary necrotizing granulomas, with features resembling granulomatosis with polyangiitis, in a patient with Crohn’s disease."
+        },
+        {
+          "s": "The patient presents with classic signs of hormonal insufficiency, specifically fatigue, weakness, and severe orthostatic hypotension (light-headedness upon standing), alongside sinus bradycardia (heart rate of 88 bpm).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 715,
+          "sentIdx": 38,
+          "dataset": "medqa",
+          "dx": "Adrenal insufficiency"
+        },
+        {
+          "s": "The patient presents with mild, isolated unconjugated hyperbilirubinemia in a young adult female.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1997,
+          "sentIdx": 44,
+          "dataset": "medqa",
+          "dx": "Gilbert syndrome"
+        },
+        {
+          "s": "The presence of fibronodular pulmonary infiltrates indicates a fibronectarous infection, which points towards a fungal infection, likely something like tuberculosis (TB) or another fungal disease.",
+          "model": "deepseek-r1-distill-qwen-1.5b",
+          "caseIdx": 377,
+          "sentIdx": 9,
+          "dataset": "medmcqa-filtered",
+          "dx": "histoplasmosis"
+        },
+        {
+          "s": "The presence of other anomalies: anterior ectopic anus (imperforate anus or anorectal malformation), harsh systolic murmur (likely congenital heart defect, e.g., VSD, common in VACTERL), and possibly others not fully detailed but implied by the constellation.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 747,
+          "sentIdx": 3,
+          "dataset": "medqa",
+          "dx": "Esophageal atresia with tracheoesophageal fistula to the distal esophageal segment"
+        },
+        {
+          "s": "The recent onset of swelling below and behind the angle of the mandible in the neck suggests cervical lymphadenopathy, which is commonly seen in metastatic spread, especially from head and neck malignancies.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1588,
+          "sentIdx": 42,
+          "dataset": "medqa",
+          "dx": "Bezold's abscess"
+        },
+        {
+          "s": "The thrill felt on the right side during left abdominal percussion makes me think of a possible abdominal aortic aneurysm, but that's less likely because he doesn't have other symptoms like abdominal pain.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 1386,
+          "sentIdx": 13,
+          "dataset": "medqa",
+          "dx": "Chronic viral hepatitis"
+        },
+        {
+          "s": "This could be due to excessive water intake (primary polydipsia) or the body compensating well, or it could be Central DI with adipsia?",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1818,
+          "sentIdx": 8,
+          "dataset": "medqa",
+          "dx": "Psychogenic polydipsia"
+        },
+        {
+          "s": "This is the classic presentation for Aortic Dissection in a patient with Marfan Syndrome.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 693,
+          "sentIdx": 193,
+          "dataset": "medqa",
+          "dx": "Cystic medial necrosis"
+        },
+        {
+          "s": "Wait, I just found another source: \"Severe hypomagnesemia can lead to decreased deep tendon reflexes and eventually respiratory failure.\"\n    But would it cause an ataxic gait and slurred speech?",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1984,
+          "sentIdx": 280,
+          "dataset": "medqa",
+          "dx": "Benzodiazepine intoxication\n\""
+        },
+        {
+          "s": "Wegener's granulomatosis affects the lungs and the kidneys.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 749,
+          "sentIdx": 8,
+          "dataset": "medmcqa-filtered",
+          "dx": "Wegener's granulomatosis"
+        },
+        {
+          "s": "While nonspecific, it can suggest a chronic inflammatory process, malignancy, or malabsorption.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 7,
+          "sentIdx": 8,
+          "dataset": "medqa",
+          "dx": "Gastric peptic ulcer"
+        },
+        {
+          "s": "Zollinger-Ellison causes multiple ulcers, often refractory to PPIs and can cause severe pain.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 1788,
+          "sentIdx": 30,
+          "dataset": "medmcqa-filtered",
+          "dx": "Duodenal ulcer"
+        }
+      ]
+    },
+    {
+      "label": "Structuring Reasoning",
+      "short_name": "Structuring Reasoning",
+      "description": "Organizing and planning the diagnostic reasoning process, including meta-cognitive steps and step-by-step breakdown.",
+      "color": "#1f77b4",
+      "examples": [
+        {
+          "s": "(Note: I'll make sure the reasoning is concise and directly addresses the clinical clues leading to botulism.)",
+          "model": "qwen3.6-27b",
+          "caseIdx": 613,
+          "sentIdx": 59,
+          "dataset": "medqa",
+          "dx": "Decreased acetylcholine release"
+        },
+        {
+          "s": "*   \"Tubal ring\" is a \"soft tender mass\".",
+          "model": "glm-4.7-flash",
+          "caseIdx": 91,
+          "sentIdx": 282,
+          "dataset": "medqa",
+          "dx": "Tubo - ovarian masses"
+        },
+        {
+          "s": "*   **Re-evaluating the \"Tick\" vs \"Hide\" vs \"Brain\" (Tanning):**",
+          "model": "glm-4.7-flash",
+          "caseIdx": 287,
+          "sentIdx": 73,
+          "dataset": "medqa",
+          "dx": "Erysipelothrix rhusiopathiaeinfection."
+        },
+        {
+          "s": "*   *Adjustment Disorder:* No precipitating event reported.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1927,
+          "sentIdx": 17,
+          "dataset": "medqa",
+          "dx": "GAD"
+        },
+        {
+          "s": "*   *Hematology:*",
+          "model": "glm-4.7-flash",
+          "caseIdx": 457,
+          "sentIdx": 17,
+          "dataset": "medqa",
+          "dx": "Aplastic anemia"
+        },
+        {
+          "s": "*   Let's look at the \"gradual\" aspect.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 520,
+          "sentIdx": 51,
+          "dataset": "medqa",
+          "dx": "Age-related macular degeneration\n\""
+        },
+        {
+          "s": "*   Let's look at the phrasing of the case.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1007,
+          "sentIdx": 73,
+          "dataset": "medqa",
+          "dx": "Transposition of great arteries"
+        },
+        {
+          "s": "*   Let's look at the reasoning step.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 2057,
+          "sentIdx": 38,
+          "dataset": "medqa",
+          "dx": "Staphylococcus aureus"
+        },
+        {
+          "s": "*   Let's look at the white matter lesions again.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 588,
+          "sentIdx": 56,
+          "dataset": "medqa",
+          "dx": "Dyskeratosis congenita (a telomere syndrome), with nodular regenerative hyperplasia of the liver, portal hypertension, hypersplenism, and immunodeficiency."
+        },
+        {
+          "s": "*   Let's re-examine the patient's origin: \"born and raised in a country in Eurasia.\" (Wait, that's very broad).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1024,
+          "sentIdx": 41,
+          "dataset": "medqa",
+          "dx": "Systemic primary amyloidosis."
+        },
+        {
+          "s": "*   Location: Texas.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 13,
+          "sentIdx": 8,
+          "dataset": "medqa",
+          "dx": "Brown recluse spider"
+        },
+        {
+          "s": "*   Pulse: 90/min (relatively normal).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 328,
+          "sentIdx": 6,
+          "dataset": "medqa",
+          "dx": "Molar pregnancy"
+        },
+        {
+          "s": "*   Review of systems: Recent weight loss.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1621,
+          "sentIdx": 5,
+          "dataset": "medqa",
+          "dx": "Squamous cell carcinoma"
+        },
+        {
+          "s": "*   The case states \"all peripheral pulses were palpable\".",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1028,
+          "sentIdx": 75,
+          "dataset": "medqa",
+          "dx": "Polyaeritis nodosa"
+        },
+        {
+          "s": "*   The lesion is \"fusiform\".",
+          "model": "glm-4.7-flash",
+          "caseIdx": 698,
+          "sentIdx": 397,
+          "dataset": "medqa",
+          "dx": "Meningioma, meningothelial type, World Health Organization grade 1."
+        },
+        {
+          "s": "*   Wait, let me look at the medication list again: \"calcium carbonate for dyspepsia.\"",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1684,
+          "sentIdx": 60,
+          "dataset": "medqa",
+          "dx": "The milk alkali syndrome."
+        },
+        {
+          "s": "*   Wait, let me re-read the proteinuria value: \"3 gm/L of protein\".",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1430,
+          "sentIdx": 34,
+          "dataset": "medqa",
+          "dx": "glomerulosclerosis with mesangial thickening"
+        },
+        {
+          "s": "*   Wait, let's re-examine the \"previous granulomatous disease\" (calcified nodules).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 721,
+          "sentIdx": 68,
+          "dataset": "medqa",
+          "dx": "Sarcoidosis involving the heart and thoracic and inguinal lymph nodes."
+        },
+        {
+          "s": "*Let's look at the phrase \"well-demarcated patch\".*",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1553,
+          "sentIdx": 103,
+          "dataset": "medqa",
+          "dx": "Tinea cruris"
+        },
+        {
+          "s": "- Cutaneous: acute or chronic cutaneous lupus - biopsy shows interface dermatitis, consistent with lupus rash (6 points or 2 points depending on type, biopsy confirmed)",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1552,
+          "sentIdx": 27,
+          "dataset": "medqa",
+          "dx": "Anti–melanoma differentiation–associated protein 5 (anti–MDA-5) dermatomyositis."
+        },
+        {
+          "s": "1. Good distance vision (6/5 unaided) with +1.0 D hyperopia suggests that his accommodation is compensating well for distance.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1314,
+          "sentIdx": 86,
+          "dataset": "medqa",
+          "dx": "Accommodative inertia"
+        },
+        {
+          "s": "3.  **Analyze the Post-Treatment Event:**",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1299,
+          "sentIdx": 11,
+          "dataset": "medqa",
+          "dx": "Cyclophosphamide"
+        },
+        {
+          "s": "3.  **Focusing on the Neurological Signs:**",
+          "model": "glm-4.7-flash",
+          "caseIdx": 166,
+          "sentIdx": 24,
+          "dataset": "medqa",
+          "dx": "Medulloblastoma"
+        },
+        {
+          "s": "6. Young patient.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 866,
+          "sentIdx": 7,
+          "dataset": "medqa",
+          "dx": "Heterochromic Iridocyclitis of Fuch's"
+        },
+        {
+          "s": "9. **Why not MS?**",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 279,
+          "sentIdx": 87,
+          "dataset": "medqa",
+          "dx": "Copper deficiency myelopathy."
+        },
+        {
+          "s": ">\nChronic kidney disease (CKD)\n</answer>",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 996,
+          "sentIdx": 101,
+          "dataset": "medqa",
+          "dx": "Nephronophthisis"
+        },
+        {
+          "s": "Additionally, the low urine sodium is less common in liver-related hyponatremia (which typically has higher urine sodium due to renal salt-wasting) and more typical of heart failure.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1774,
+          "sentIdx": 10,
+          "dataset": "medqa",
+          "dx": "congestive heart failure (CHF)"
+        },
+        {
+          "s": "Also dryness of mucous membranes not typical of serotonin syndrome.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 607,
+          "sentIdx": 108,
+          "dataset": "medqa",
+          "dx": "Neuroleptic malignant syndrome"
+        },
+        {
+          "s": "But given the exposure to asbestos, they might want to identify asbestos exposure causing pleural plaques and mesothelioma.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 566,
+          "sentIdx": 225,
+          "dataset": "medqa",
+          "dx": "Mesothelioma"
+        },
+        {
+          "s": "But he has anti-HBs positive, which could be from vaccination or past infection.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1797,
+          "sentIdx": 177,
+          "dataset": "medqa",
+          "dx": "Impaired hepatic storage of bilirubin"
+        },
+        {
+          "s": "But in typical ALS, the MRI usually doesn't show increased signal in the corticospinal tracts unless there's some superimposed pathology.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 936,
+          "sentIdx": 99,
+          "dataset": "medqa",
+          "dx": "Amyotrophic latetal sclerosis"
+        },
+        {
+          "s": "But let me see if there's a more specific name or if it's part of a larger classification.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 55,
+          "sentIdx": 165,
+          "dataset": "medqa",
+          "dx": "Galeazzi's fracture"
+        },
+        {
+          "s": "But the case mentions her complaints first, and then the workup confirms pregnancy.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 289,
+          "sentIdx": 166,
+          "dataset": "medqa",
+          "dx": "Intrauterine pregnancy"
+        },
+        {
+          "s": "But the main thing here is the fetal-maternal hemorrhage.",
+          "model": "qwq-32b",
+          "caseIdx": 148,
+          "sentIdx": 17,
+          "dataset": "nejm-cpc",
+          "dx": "Neonatal hemochromatosis (gestational alloimmune liver disease), with erythroblastosis of the placenta and siderosis of the minor salivary gland."
+        },
+        {
+          "s": "But they didn't state duration.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 494,
+          "sentIdx": 31,
+          "dataset": "medmcqa-filtered",
+          "dx": "Acute psychosis"
+        },
+        {
+          "s": "But typically, manic episodes last for at least a week, and her symptoms seem to have been present since the husband’s death, so that fits.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 179,
+          "sentIdx": 42,
+          "dataset": "medqa",
+          "dx": "Acute manic excitement"
+        },
+        {
+          "s": "But we're back to the \"increased appetite\" problem.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 703,
+          "sentIdx": 117,
+          "dataset": "medqa",
+          "dx": "Hyperthyroidism"
+        },
+        {
+          "s": "Final Consideration:**\nIs there a toxin or substance in candy that could cause this?",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1224,
+          "sentIdx": 117,
+          "dataset": "medqa",
+          "dx": "Pseudohyperaldosteronism suggestive of excessive licorice consumption complicated by cardiac arrest associated with ventricular fibrillation."
+        },
+        {
+          "s": "Given the high SGPT (1450 IU) and the acute presentation, Hepatitis E is more likely the cause.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 56,
+          "sentIdx": 46,
+          "dataset": "medqa",
+          "dx": "Super infection of hepatitis E virus with chronic hepatitis B infection"
+        },
+        {
+          "s": "Here, serum iron is normal (not low), TIBC is low (which is consistent), ferritin is high, EPO is low, and hepcidin is elevated.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1200,
+          "sentIdx": 83,
+          "dataset": "medqa",
+          "dx": "Anemia of chronic disease"
+        },
+        {
+          "s": "Here, specific gravity is 1.010 (isosthenuric, but not extremely low like 1.001-1.005, though could be related).",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1342,
+          "sentIdx": 11,
+          "dataset": "medqa",
+          "dx": "Interstitial cystitis"
+        },
+        {
+          "s": "Hmm, perhaps it's not viral.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1797,
+          "sentIdx": 75,
+          "dataset": "medqa",
+          "dx": "Impaired hepatic storage of bilirubin"
+        },
+        {
+          "s": "I don't see any other conditions that fit this profile as well.",
+          "model": "deepseek-r1-distill-qwen-1.5b",
+          "caseIdx": 1218,
+          "sentIdx": 25,
+          "dataset": "medmcqa-filtered",
+          "dx": "glomerulosclerosis with mesangial thickening"
+        },
+        {
+          "s": "I remember that 5-HIAA is a breakdown product of serotonin.",
+          "model": "qwq-32b",
+          "caseIdx": 1138,
+          "sentIdx": 4,
+          "dataset": "medmcqa-filtered",
+          "dx": "Malignant carcinoid syndrome"
+        },
+        {
+          "s": "I think the best answer is \"SSRIs\".",
+          "model": "gpt-oss-20b",
+          "caseIdx": 1121,
+          "sentIdx": 37,
+          "dataset": "medqa",
+          "dx": "Sertraline"
+        },
+        {
+          "s": "I will output \"Peutz-Jeghers syndrome\".\nAll steps verified.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1322,
+          "sentIdx": 32,
+          "dataset": "medqa",
+          "dx": "Peutz-Jeghers polyp"
+        },
+        {
+          "s": "I will stick with Minimal Change Disease.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 293,
+          "sentIdx": 73,
+          "dataset": "medqa",
+          "dx": "Minimal change glomerulonephnitis"
+        },
+        {
+          "s": "If I search for medical board questions with this pattern, \"Chronic Pancreatitis\" is often the answer when the enzymes are normal despite the presence of severe pain.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 905,
+          "sentIdx": 110,
+          "dataset": "medqa",
+          "dx": "Chronic pancreatitis"
+        },
+        {
+          "s": "If the case had mentioned specific symptoms that would make us think of a different diagnosis, we'd consider that, but here the symptoms are classic for anaphylaxis.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1969,
+          "sentIdx": 45,
+          "dataset": "medqa",
+          "dx": "Anaphylaxis"
+        },
+        {
+          "s": "It seems to be the most common answer).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1976,
+          "sentIdx": 289,
+          "dataset": "medqa",
+          "dx": "InvasiveNeisseria meningitidisinfection and primary C8 deficiency."
+        },
+        {
+          "s": "It's a classic vignette for Paraganglioma.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1584,
+          "sentIdx": 19,
+          "dataset": "medqa",
+          "dx": "Paraganglioma"
+        },
+        {
+          "s": "It's also important to consider her age.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 371,
+          "sentIdx": 15,
+          "dataset": "medqa",
+          "dx": "Carcinoma of cervix"
+        },
+        {
+          "s": "It's often referred to as **\"synthetic cathinone-related disorder\"** in DSM-5, but in clinical settings, \"intoxication\" is more common.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1591,
+          "sentIdx": 110,
+          "dataset": "medqa",
+          "dx": "Methcathinone (bath salts) intoxication."
+        },
+        {
+          "s": "Let me formalize this.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 305,
+          "sentIdx": 33,
+          "dataset": "medqa",
+          "dx": "Glomus tumor"
+        },
+        {
+          "s": "Let me re-examine the timeline:",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 534,
+          "sentIdx": 114,
+          "dataset": "medqa",
+          "dx": "Frontotemporal lobar degeneration with tau-positive inclusions (FTLD-tau) consistent with Pick’s disease."
+        },
+        {
+          "s": "Let me re-read: \"What is the most likely cause of this patient's condition?\"",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 977,
+          "sentIdx": 208,
+          "dataset": "medqa",
+          "dx": "Cerebellar degeneration"
+        },
+        {
+          "s": "Let me search for the common answer to this exact case if it exists.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1904,
+          "sentIdx": 144,
+          "dataset": "medqa",
+          "dx": "thalassemia minor"
+        },
+        {
+          "s": "Let's assume a standard clinical context.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 779,
+          "sentIdx": 190,
+          "dataset": "medqa",
+          "dx": "MODY"
+        },
+        {
+          "s": "Let's check if the case is from a specific publication.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1190,
+          "sentIdx": 33,
+          "dataset": "medqa",
+          "dx": "Oligoastrocytoma, WHO grade II of IV, associated with temporal-lobe seizures and ictal asystole (arrhythmogenic epilepsy)."
+        },
+        {
+          "s": "Let's double check other arthropods:",
+          "model": "qwen3.6-27b",
+          "caseIdx": 710,
+          "sentIdx": 29,
+          "dataset": "medqa",
+          "dx": "Black widow"
+        },
+        {
+          "s": "Let's look at the *classic* presentation.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1616,
+          "sentIdx": 18,
+          "dataset": "medqa",
+          "dx": "Paranoid schizophrenia"
+        },
+        {
+          "s": "Let's look at the exact values again.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1425,
+          "sentIdx": 353,
+          "dataset": "medqa",
+          "dx": "Mucormycosis."
+        },
+        {
+          "s": "Let's see if that pushes it toward FSGS. FSGS is more likely to have hypertension.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1916,
+          "sentIdx": 52,
+          "dataset": "medqa",
+          "dx": "minimal change disease"
+        },
+        {
+          "s": "Let's start by looking at the details provided.",
+          "model": "deepseek-r1-distill-qwen-1.5b",
+          "caseIdx": 450,
+          "sentIdx": 1,
+          "dataset": "medqa",
+          "dx": "Chickenpox"
+        },
+        {
+          "s": "Let's think about the \"most likely\" diagnosis.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 348,
+          "sentIdx": 215,
+          "dataset": "medqa",
+          "dx": "Schizotypal personality disorder"
+        },
+        {
+          "s": "Let's try to find the specific case in medical literature or databases.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 10,
+          "sentIdx": 243,
+          "dataset": "medqa",
+          "dx": "Neurosarcoidosis (focal sarcoid granulomatous encephalitis)."
+        },
+        {
+          "s": "Matches classic USMLE/board question presentation.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1692,
+          "sentIdx": 21,
+          "dataset": "medqa",
+          "dx": "Lymphogranuloma venereum"
+        },
+        {
+          "s": "Medical Knowledge Retrieval:**",
+          "model": "glm-4.7-flash",
+          "caseIdx": 61,
+          "sentIdx": 7,
+          "dataset": "medqa",
+          "dx": "Acute dystonia"
+        },
+        {
+          "s": "Microcytic anemia in pregnancy... common causes would be iron deficiency, which is the most frequent type of anemia in pregnancy.",
+          "model": "qwq-32b",
+          "caseIdx": 626,
+          "sentIdx": 12,
+          "dataset": "medqa",
+          "dx": "Increase in plasma volume"
+        },
+        {
+          "s": "No manic episodes allowed.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 216,
+          "sentIdx": 41,
+          "dataset": "medqa",
+          "dx": "Cyclothymia"
+        },
+        {
+          "s": "Normal urine Cr is 1.0-1.6 g/24 hr (or 1000-1600 mg).",
+          "model": "qwen3.6-27b",
+          "caseIdx": 536,
+          "sentIdx": 17,
+          "dataset": "medqa",
+          "dx": "Dehydration"
+        },
+        {
+          "s": "Okay, I'm given a case presentation and need to diagnose the most likely condition based on the information provided.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 975,
+          "sentIdx": 0,
+          "dataset": "medqa",
+          "dx": "DM type II"
+        },
+        {
+          "s": "Okay, let's piece this together.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 1594,
+          "sentIdx": 7,
+          "dataset": "medmcqa-filtered",
+          "dx": "Transposition of great aeries"
+        },
+        {
+          "s": "Okay, let's think about this.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 3,
+          "sentIdx": 0,
+          "dataset": "medmcqa-filtered",
+          "dx": "Post-op endophthalmitis"
+        },
+        {
+          "s": "Presbycusis** is typically seen in older adults, so age doesn't fit here.\n\n**",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1528,
+          "sentIdx": 81,
+          "dataset": "medqa",
+          "dx": "Otosclerosis"
+        },
+        {
+          "s": "Serum Na > 145.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1688,
+          "sentIdx": 28,
+          "dataset": "medqa",
+          "dx": "High output due to diuretics"
+        },
+        {
+          "s": "She has RA features and myopathy, and while her SLE features are minimal, MCTD is a strong consideration, especially given the positive U1-RNP antibodies and the lack of dsDNA positivity, which would favor SLE.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1896,
+          "sentIdx": 45,
+          "dataset": "medqa",
+          "dx": "Hypocalcemic myopathy due to hypoparathyroidism."
+        },
+        {
+          "s": "So, back to the drawing board.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 1687,
+          "sentIdx": 41,
+          "dataset": "medqa",
+          "dx": "Pseudocyesis"
+        },
+        {
+          "s": "So, let's go back to the psoas sign.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 1460,
+          "sentIdx": 29,
+          "dataset": "medqa",
+          "dx": "Psoas muscle abscess"
+        },
+        {
+          "s": "That's a red flag for memory issues.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 838,
+          "sentIdx": 9,
+          "dataset": "medqa",
+          "dx": "Huntington disease"
+        },
+        {
+          "s": "The dilation of the pancreatic duct aligns well with IPMN, particularly if it's involving the main duct.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 234,
+          "sentIdx": 20,
+          "dataset": "medqa",
+          "dx": "Intraductal papillary mucinous neoplasm (IPMN)"
+        },
+        {
+          "s": "The exam of posterior displacement indicates PCL tear.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 1276,
+          "sentIdx": 75,
+          "dataset": "medqa",
+          "dx": "Posterior cruciate ligament injury"
+        },
+        {
+          "s": "The fever is likely due to the abscess, which is a complication of the surgical site infection.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1978,
+          "sentIdx": 67,
+          "dataset": "medqa",
+          "dx": "Wound infection"
+        },
+        {
+          "s": "The high FeNO and improvement with steroids also point to an inflammatory process.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 356,
+          "sentIdx": 33,
+          "dataset": "medqa",
+          "dx": "Eosinophilic granulomatosis with polyangiitis."
+        },
+        {
+          "s": "The mediastinal mass with fat is characteristic of thymic tissue, but in this context, it's more likely to be a lymphoma involving the thymus (thymic lymphoma) rather than a primary thymoma.\n\n**",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1379,
+          "sentIdx": 254,
+          "dataset": "medqa",
+          "dx": "Idiopathic multicentric Castleman’s disease."
+        },
+        {
+          "s": "The most common mistake here might be missing the fungal infection.",
+          "model": "qwq-32b",
+          "caseIdx": 711,
+          "sentIdx": 328,
+          "dataset": "nejm-cpc",
+          "dx": "Varicella–zoster virus infection."
+        },
+        {
+          "s": "The normal consensual response suggests that the efferent pathway (oculomotor nerve) is intact.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1266,
+          "sentIdx": 13,
+          "dataset": "medqa",
+          "dx": "multiple sclerosis"
+        },
+        {
+          "s": "The prompt mentions \"Lysis ... with either sucrose or acidified serum\".",
+          "model": "glm-4.7-flash",
+          "caseIdx": 570,
+          "sentIdx": 313,
+          "dataset": "medqa",
+          "dx": "Paroxysmal nocturnal hemoglobinuria"
+        },
+        {
+          "s": "The prompt uses `",
+          "model": "qwen3.6-27b",
+          "caseIdx": 535,
+          "sentIdx": 79,
+          "dataset": "medqa",
+          "dx": "HOCM"
+        },
+        {
+          "s": "The question: \"What is the most likely underlying mechanism of this patient illness?\" They likely want \"APC gene mutation leading to familial adenomatous polyposis\" but due to numerous adenomas.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 662,
+          "sentIdx": 5,
+          "dataset": "medqa",
+          "dx": "Mutations of the APC gene"
+        },
+        {
+          "s": "These are squarely in the middle.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 411,
+          "sentIdx": 63,
+          "dataset": "medqa",
+          "dx": "Vaginal septum"
+        },
+        {
+          "s": "These beliefs are held with unwavering conviction despite attempts by friends to convince him otherwise.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 25,
+          "sentIdx": 2,
+          "dataset": "medqa",
+          "dx": "Persistent delusion disorder"
+        },
+        {
+          "s": "This is a classic step 1 question format where the answer is a pathogen or a virulence factor.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 184,
+          "sentIdx": 154,
+          "dataset": "medqa",
+          "dx": "Intentional contamination"
+        },
+        {
+          "s": "This phrase often appears in case reports about bezoars.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 749,
+          "sentIdx": 62,
+          "dataset": "medqa",
+          "dx": "Trichobezoar"
+        },
+        {
+          "s": "This suggests the pregnancy is implanted outside the uterus.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1291,
+          "sentIdx": 31,
+          "dataset": "medqa",
+          "dx": "Ectopic pregnancy"
+        },
+        {
+          "s": "Usually, in these CPCs, they want the underlying disease.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 242,
+          "sentIdx": 119,
+          "dataset": "medqa",
+          "dx": "Acute anaphylaxis due to a hepatic hydatid cyst caused byEchinococcus granulosus."
+        },
+        {
+          "s": "Wait, the prompt says \"What is the pathogenesis of this patientвЂ™s presentation?\" but the instruction says \"give the most likely diagnosis\" and \"output the final diagnosis (just the name of the disease/entity)\".",
+          "model": "qwen3.6-27b",
+          "caseIdx": 613,
+          "sentIdx": 9,
+          "dataset": "medqa",
+          "dx": "Decreased acetylcholine release"
+        },
+        {
+          "s": "Wait—Crohn’s disease itself can have pulmonary manifestations, but these usually don’t look like the nodules seen here.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 146,
+          "sentIdx": 29,
+          "dataset": "medqa",
+          "dx": "Pulmonary necrotizing granulomas, with features resembling granulomatosis with polyangiitis, in a patient with Crohn’s disease."
+        },
+        {
+          "s": "Why would the \"prominent suprapubic area\" be included?",
+          "model": "glm-4.7-flash",
+          "caseIdx": 384,
+          "sentIdx": 174,
+          "dataset": "medqa",
+          "dx": "Posterior urethral valves"
+        },
+        {
+          "s": "`...`\n    `...your internal reasoning for the diagnosis...`\n    `<answer>`\n    `...the name of the disease/entity...`\n    `</answer>`",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1412,
+          "sentIdx": 47,
+          "dataset": "medqa",
+          "dx": "Borderline personality disorder"
+        }
+      ]
+    },
+    {
+      "label": "Generating Hypotheses",
+      "short_name": "Generating Hypotheses",
+      "description": "Proposing and considering multiple possible diagnoses or explanations for the clinical findings.",
+      "color": "#e377c2",
+      "examples": [
+        {
+          "s": "\"Otherwise healthy\" might imply no known primary, but met is still top differential for ring-enhancing lesion in >50yo.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1344,
+          "sentIdx": 55,
+          "dataset": "medqa",
+          "dx": "Metastatic lesion"
+        },
+        {
+          "s": "*   **Jaundice:** Hepatomegaly can occur due to hemolysis (common in SCT due to intratumoral hemorrhage or other mechanisms), or liver dysfunction if the tumor is large.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1061,
+          "sentIdx": 41,
+          "dataset": "medqa",
+          "dx": "Neonatal hypoglycemia due to biologically active teratoma and the Sotos syndrome."
+        },
+        {
+          "s": "*   *Celiac Disease:* Causes malabsorption and diarrhea, but wouldn't typically explain recurrent pneumonia.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 668,
+          "sentIdx": 20,
+          "dataset": "medqa",
+          "dx": "Faulty transmembrane ion channel"
+        },
+        {
+          "s": "*   *Neurogenic Bladder / Bladder Outlet Obstruction:* Could lead to retention and infection (UTI).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1139,
+          "sentIdx": 15,
+          "dataset": "medqa",
+          "dx": "Posterior urethral valves"
+        },
+        {
+          "s": "*   *UTI:* Usually presents with dysuria, frequency, no specific discharge description like \"frothy.\"\n\n**5.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 322,
+          "sentIdx": 27,
+          "dataset": "medqa",
+          "dx": "Trichomoniasis"
+        },
+        {
+          "s": "*   Despite the hallucinations (odd behaviors) and fluctuation, the primary presentation here is behavioral/ executive.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1043,
+          "sentIdx": 165,
+          "dataset": "medqa",
+          "dx": "Delayed posthypoxic leukoencephalopathy."
+        },
+        {
+          "s": "*   Wait, what if the \"cold\" was actually *not* a cold?",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 815,
+          "sentIdx": 323,
+          "dataset": "medqa",
+          "dx": "Labyrinthitis"
+        },
+        {
+          "s": "*   What if it's **Secondary Intracranial Hypertension**?",
+          "model": "glm-4.7-flash",
+          "caseIdx": 220,
+          "sentIdx": 227,
+          "dataset": "medqa",
+          "dx": "Intracranial hypertension associated with systemic lupus erythematosus and glucocorticoid use."
+        },
+        {
+          "s": "- **Extreme exertion (skiing) could cause microangiopathy with hemolysis.**",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1530,
+          "sentIdx": 217,
+          "dataset": "medqa",
+          "dx": "Catecholamine-induced cardiotoxicity due to pheochromocytoma."
+        },
+        {
+          "s": "- **Left-to-Right Shunt or Intracardiac Shunt (e.g., atrial septal defect",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 44,
+          "sentIdx": 30,
+          "dataset": "medqa",
+          "dx": "Primary pulmonary hypeension"
+        },
+        {
+          "s": "- Jerky movements could be due to muscle spasms secondary to respiratory alkalosis.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 183,
+          "sentIdx": 33,
+          "dataset": "medqa",
+          "dx": "Vasovagal syncope"
+        },
+        {
+          "s": "- Other opportunistic infections like Nocardia, Mucor, etc.\n2. Inflammatory/autoimmune: GVHD-related lung involvement, but she had duodenal GVHD, not specified if lung involvement.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1131,
+          "sentIdx": 35,
+          "dataset": "medqa",
+          "dx": "Adenovirus infection, disseminated."
+        },
+        {
+          "s": "- The presence of eosinophils in the differential count could be non-specific or suggest a mild eosinophilic component, which is sometimes seen in SLE.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 84,
+          "sentIdx": 38,
+          "dataset": "medqa",
+          "dx": "Granulomatosis with polyangiitis."
+        },
+        {
+          "s": "2.  **Medulloblastoma:**",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1878,
+          "sentIdx": 23,
+          "dataset": "medqa",
+          "dx": "Ependymoma"
+        },
+        {
+          "s": "5. **No agglutination**: This rules out certain types of sperm antibodies or infections causing clumping.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1451,
+          "sentIdx": 13,
+          "dataset": "medqa",
+          "dx": "ab"
+        },
+        {
+          "s": "Also, malaria usually presents with chills and sweats, which aren't mentioned here.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 744,
+          "sentIdx": 38,
+          "dataset": "medqa",
+          "dx": "Dengue fever"
+        },
+        {
+          "s": "Also, the height and weight discrepancy is classic for Marfan—tall with low weight.",
+          "model": "qwq-32b",
+          "caseIdx": 756,
+          "sentIdx": 22,
+          "dataset": "medqa",
+          "dx": "Mutation in fibrillin-1 gene"
+        },
+        {
+          "s": "Also, the location of vessel involvement in Takayasu's (like the aortic arch branches) could explain the upper body symptoms and pulse issues.",
+          "model": "qwq-32b",
+          "caseIdx": 482,
+          "sentIdx": 18,
+          "dataset": "medmcqa-filtered",
+          "dx": "Takayasu's aeritis"
+        },
+        {
+          "s": "Also, with HIV you might expect more lymphadenopathy, which isn't present here.",
+          "model": "qwq-32b",
+          "caseIdx": 1739,
+          "sentIdx": 35,
+          "dataset": "medmcqa-filtered",
+          "dx": "Immune thrombocytopenic purpura"
+        },
+        {
+          "s": "Alternatively, could it be something like frontotemporal dementia?",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 1526,
+          "sentIdx": 28,
+          "dataset": "medqa",
+          "dx": "PickвЂ™s disease"
+        },
+        {
+          "s": "Alternatively, it's possible that the patient has both periodontal disease and oral lichen planus.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 1990,
+          "sentIdx": 55,
+          "dataset": "medmcqa-filtered",
+          "dx": "Oral lichen planus"
+        },
+        {
+          "s": "Alternatively, maybe acute tubular necrosis from hypoperfusion and cytokines.",
+          "model": "qwq-32b",
+          "caseIdx": 1673,
+          "sentIdx": 45,
+          "dataset": "nejm-cpc",
+          "dx": "Acute kidney injury in the context of severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) infection."
+        },
+        {
+          "s": "Alternatively, maybe the prior episodes included both phases?",
+          "model": "qwq-32b",
+          "caseIdx": 1565,
+          "sentIdx": 28,
+          "dataset": "medqa",
+          "dx": "Cyclothymic disorder\n\""
+        },
+        {
+          "s": "Another possibility is that the patient has a form of vasculitis that's been ongoing for years, causing both kidney and coronary artery damage.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 1440,
+          "sentIdx": 157,
+          "dataset": "nejm-cpc",
+          "dx": "IgG4-related disease, with tubulointerstitial nephritis, membranous nephropathy, and inflammatory pseudotumor involving the lacrimal gland."
+        },
+        {
+          "s": "Another thought: he's on chemotherapy, which can lower his immune system, making him more susceptible to infections, but the rash is more about an immediate reaction after sun exposure.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 1302,
+          "sentIdx": 30,
+          "dataset": "medqa",
+          "dx": "Use of demeclocycline"
+        },
+        {
+          "s": "Autoimmune hemolytic anemia is possible, but without a history of autoimmune disease or family history, it's less likely.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 748,
+          "sentIdx": 21,
+          "dataset": "medmcqa-filtered",
+          "dx": "Acute leukemia"
+        },
+        {
+          "s": "Birth asphyxia leading to cerebral palsy often presents with motor impairments.",
+          "model": "qwq-32b",
+          "caseIdx": 1973,
+          "sentIdx": 125,
+          "dataset": "medmcqa-filtered",
+          "dx": "Autistic Disorder"
+        },
+        {
+          "s": "But DMD is more common in this age group.",
+          "model": "qwq-32b",
+          "caseIdx": 1449,
+          "sentIdx": 31,
+          "dataset": "medmcqa-filtered",
+          "dx": "Duchenne Muscular dystrophy"
+        },
+        {
+          "s": "But abdominal distension due to urine retention?",
+          "model": "gpt-oss-20b",
+          "caseIdx": 1145,
+          "sentIdx": 138,
+          "dataset": "medqa",
+          "dx": "Bladder outlet obstruction"
+        },
+        {
+          "s": "But given the bronchoscopy finding, it's more likely a tumor or a cyst.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 361,
+          "sentIdx": 18,
+          "dataset": "medmcqa-filtered",
+          "dx": "Carcinoid"
+        },
+        {
+          "s": "But the metallic taste is the outlier.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1541,
+          "sentIdx": 109,
+          "dataset": "medqa",
+          "dx": "Pulmonary embolization of metallic paicles"
+        },
+        {
+          "s": "But, I should also think about other possibilities like an odontogenic keratocyst or an ameloblastoma.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 481,
+          "sentIdx": 18,
+          "dataset": "medmcqa-filtered",
+          "dx": "Incisive foramen moved by parallax over apex of the 11"
+        },
+        {
+          "s": "Celiac disease jumps to mind.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 139,
+          "sentIdx": 7,
+          "dataset": "medmcqa-filtered",
+          "dx": "Celiac sprue"
+        },
+        {
+          "s": "Common possibilities include electrolyte imbalances, especially low potassium or magnesium.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 1804,
+          "sentIdx": 7,
+          "dataset": "medmcqa-filtered",
+          "dx": "McArdle disease (glycogen storage disease)"
+        },
+        {
+          "s": "Could be 'immune-mediated bone resorption' like chronic inflammation causing bone loss.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 977,
+          "sentIdx": 34,
+          "dataset": "nejm-cpc",
+          "dx": "Multiple vitamin deficiencies, including vitamin C deficiency."
+        },
+        {
+          "s": "Could be due to chronic pancreatitis?",
+          "model": "gpt-oss-20b",
+          "caseIdx": 1474,
+          "sentIdx": 242,
+          "dataset": "nejm-cpc",
+          "dx": "Acute hepatitis C virus infection characterized by panlobular inflammation and hepatitis C virus antibody seroconversion."
+        },
+        {
+          "s": "Could it be **Acute Pancreatitis** causing DKA?",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1049,
+          "sentIdx": 676,
+          "dataset": "medqa",
+          "dx": "Acute mesenteric ischemia"
+        },
+        {
+          "s": "Could the \"spherocytes\" be a hint that she has hereditary spherocytosis?",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 855,
+          "sentIdx": 136,
+          "dataset": "medqa",
+          "dx": "Anemia due to parvovirus B19 infection and autoimmune hemolytic anemia."
+        },
+        {
+          "s": "Could the diagnosis be *Pneumocystis jirovecii pneumonia*?",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1443,
+          "sentIdx": 67,
+          "dataset": "medqa",
+          "dx": "Dapsone-induced methemoglobinemia."
+        },
+        {
+          "s": "Could this be \"acute thrombosis secondary to acute grafting\"? Hmm.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 2068,
+          "sentIdx": 18,
+          "dataset": "medmcqa-filtered",
+          "dx": "Thrmoboangitis obliterans"
+        },
+        {
+          "s": "Could this point towards something more systemic, like Yellow Fever?",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 687,
+          "sentIdx": 111,
+          "dataset": "medqa",
+          "dx": "Anti-HEV IgM"
+        },
+        {
+          "s": "Diastolic murmur could be not from MR but from Aortic insufficiency?",
+          "model": "gpt-oss-20b",
+          "caseIdx": 202,
+          "sentIdx": 41,
+          "dataset": "medqa",
+          "dx": "Valve degeneration"
+        },
+        {
+          "s": "Features: severe hypotonia, respiratory distress, poor suck, but usually *not* macrosomia.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1238,
+          "sentIdx": 278,
+          "dataset": "medqa",
+          "dx": "Primitive neuroectodermal tumor of the central nervous system, WHO grade IV of IV, with involvement of the thalamus, medial cerebral cortex, brain stem, cerebellar white matter, and spinal subarachnoid space. Meconium aspiration syndrome with associated persistent pulmonary hypertension."
+        },
+        {
+          "s": "Hmm, that doesn't align.",
+          "model": "qwq-32b",
+          "caseIdx": 730,
+          "sentIdx": 73,
+          "dataset": "medqa",
+          "dx": "Right anterior cerebral artery"
+        },
+        {
+          "s": "However, ALD typically affects older boys, but maybe a young child could present with this.",
+          "model": "qwq-32b",
+          "caseIdx": 1191,
+          "sentIdx": 171,
+          "dataset": "medqa",
+          "dx": "Varicella zoster infection"
+        },
+        {
+          "s": "I will output \"Ruptured hepatic adenoma\".",
+          "model": "qwen3.6-27b",
+          "caseIdx": 813,
+          "sentIdx": 86,
+          "dataset": "medqa",
+          "dx": "Vascular ectasia within the liver"
+        },
+        {
+          "s": "If the prompt meant bilateral, they would say \"Upper extremities\".",
+          "model": "glm-4.7-flash",
+          "caseIdx": 386,
+          "sentIdx": 159,
+          "dataset": "medqa",
+          "dx": "Syringomyelia"
+        },
+        {
+          "s": "It distinguishes itself from Alzheimer's (which affects memory/recognition first) and LBD (which affects motor/cognitive fluctuations more than pure frontal disinhibition, though LBD can have frontal signs).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 36,
+          "sentIdx": 45,
+          "dataset": "medqa",
+          "dx": "frontotemporal dementia"
+        },
+        {
+          "s": "It leads to hypoxemia and can predispose to pneumonia or contribute to sepsis via aspiration or hypoxemia-induced renal failure/lethargy.\n\n**",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1862,
+          "sentIdx": 18,
+          "dataset": "medqa",
+          "dx": "Bladder outlet obstruction"
+        },
+        {
+          "s": "It's like the lesion is reacting to the contrast, which often means there's some kind of blood vessel involvement.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 487,
+          "sentIdx": 9,
+          "dataset": "medmcqa-filtered",
+          "dx": "Metastatic lesion"
+        },
+        {
+          "s": "Let me think about the possibility of **Mitochondrial Encephalopathy, Lactic Acidosis, and Stroke-like Episodes (MELAS)**.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1238,
+          "sentIdx": 100,
+          "dataset": "medqa",
+          "dx": "Primitive neuroectodermal tumor of the central nervous system, WHO grade IV of IV, with involvement of the thalamus, medial cerebral cortex, brain stem, cerebellar white matter, and spinal subarachnoid space. Meconium aspiration syndrome with associated persistent pulmonary hypertension."
+        },
+        {
+          "s": "Like osteosarcoma?",
+          "model": "qwq-32b",
+          "caseIdx": 571,
+          "sentIdx": 23,
+          "dataset": "medmcqa-filtered",
+          "dx": "Metastatic carcinoma"
+        },
+        {
+          "s": "Low volume could be due to various reasons.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 1042,
+          "sentIdx": 10,
+          "dataset": "medmcqa-filtered",
+          "dx": "Congenital absence of the vas deferens"
+        },
+        {
+          "s": "Maybe something like atypical depression?",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 1499,
+          "sentIdx": 39,
+          "dataset": "medmcqa-filtered",
+          "dx": "Avoidant personality disorder"
+        },
+        {
+          "s": "Men at 20 are less likely unless genetic, but nothing in history screams malignancy other than weight loss/fatigue (which can be psychiatric/malnutrition).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 835,
+          "sentIdx": 64,
+          "dataset": "medqa",
+          "dx": "Systemic lupus erythematosus with membranous lupus nephritis."
+        },
+        {
+          "s": "Meningitis is another consideration, but without info on neurological exam findings like nuchal rigidity or stiff neck, it's less likely.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 432,
+          "sentIdx": 14,
+          "dataset": "medmcqa-filtered",
+          "dx": "Neurolept malignant syndrome"
+        },
+        {
+          "s": "NMO can cause optic neuritis, but not usually bilateral papilledema with TVOs.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 220,
+          "sentIdx": 80,
+          "dataset": "medqa",
+          "dx": "Intracranial hypertension associated with systemic lupus erythematosus and glucocorticoid use."
+        },
+        {
+          "s": "No fevers or chills, which sometimes are present in bacterial infections, but he does have night sweats, which can be a sign of chronic infection.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 360,
+          "sentIdx": 20,
+          "dataset": "nejm-cpc",
+          "dx": "Non-necrotizing granulomas compatible with sarcoidosis."
+        },
+        {
+          "s": "No, she doesn't have signs of toxicity (confusion, tremor, etc.), just polyuria/dipsia which is typical for NDI.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 801,
+          "sentIdx": 40,
+          "dataset": "medqa",
+          "dx": "Urethral hypermobility"
+        },
+        {
+          "s": "Ok think of \"Bacterial cholangitis\" but labs?",
+          "model": "gpt-oss-20b",
+          "caseIdx": 1474,
+          "sentIdx": 447,
+          "dataset": "nejm-cpc",
+          "dx": "Acute hepatitis C virus infection characterized by panlobular inflammation and hepatitis C virus antibody seroconversion."
+        },
+        {
+          "s": "Or \"Hypophosphatemic Metabolic Acidosis\"?",
+          "model": "glm-4.7-flash",
+          "caseIdx": 455,
+          "sentIdx": 127,
+          "dataset": "medqa",
+          "dx": "Dissection of the left vertebral artery and cerebellar infarction."
+        },
+        {
+          "s": "Or maybe just Posttraumatic Stress Disorder (PTSD) with comorbid Delusional Disorder?",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1506,
+          "sentIdx": 28,
+          "dataset": "medqa",
+          "dx": "Post-traumatic stress disorder and major depressive disorder in the context of culturally and religiously derived beliefs and behaviors."
+        },
+        {
+          "s": "Other possibilities for a red tongue in a child include strawberry tongue (scarlet fever, Kawasaki disease), but these are usually uniformly red and pebbly, not in \"distinct patterns,\" and would be accompanied by fever and other systemic symptoms, which are not mentioned here.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 233,
+          "sentIdx": 6,
+          "dataset": "medqa",
+          "dx": "Geographic tongue"
+        },
+        {
+          "s": "Palpitations can be caused by the fall/pain OR the AF.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 225,
+          "sentIdx": 157,
+          "dataset": "medqa",
+          "dx": "Blood loss"
+        },
+        {
+          "s": "Perfusion lung scans usually show mismatch.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 568,
+          "sentIdx": 28,
+          "dataset": "medqa",
+          "dx": "Primary pulmonary hypeension"
+        },
+        {
+          "s": "Physical causes (e.g., brain lesions, neurological disorders) are less likely without further neurological or physical exam findings or history.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1226,
+          "sentIdx": 15,
+          "dataset": "medqa",
+          "dx": "Obsessive compulsive disorder"
+        },
+        {
+          "s": "She didn't mention any such exposure.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 272,
+          "sentIdx": 43,
+          "dataset": "medqa",
+          "dx": "Sarcoidosis"
+        },
+        {
+          "s": "She has no dysmorphic features, which suggests no significant physical abnormalities.",
+          "model": "deepseek-r1-distill-qwen-1.5b",
+          "caseIdx": 720,
+          "sentIdx": 5,
+          "dataset": "medmcqa-filtered",
+          "dx": "Mongolian spot"
+        },
+        {
+          "s": "Significant intoxication usually requires higher levels.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1984,
+          "sentIdx": 24,
+          "dataset": "medqa",
+          "dx": "Benzodiazepine intoxication\n\""
+        },
+        {
+          "s": "So if underlying chronic disease or infection, iron deficiency may coexist (functional iron deficiency).",
+          "model": "gpt-oss-20b",
+          "caseIdx": 96,
+          "sentIdx": 26,
+          "dataset": "medmcqa-filtered",
+          "dx": "Anemia of chronic inflammation"
+        },
+        {
+          "s": "So maybe that's the case.",
+          "model": "qwq-32b",
+          "caseIdx": 1421,
+          "sentIdx": 98,
+          "dataset": "medmcqa-filtered",
+          "dx": "Duchenne muscular dystrophy"
+        },
+        {
+          "s": "So, fluid in the middle ear could definitely cause conductive hearing loss.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 688,
+          "sentIdx": 12,
+          "dataset": "medmcqa-filtered",
+          "dx": "Nasopharyngeal malignancy"
+        },
+        {
+          "s": "Stress can lead to hormonal changes that might affect blood glucose in susceptible individuals.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1440,
+          "sentIdx": 26,
+          "dataset": "medqa",
+          "dx": "Factitious disorder"
+        },
+        {
+          "s": "That could cause possible cardiogenic emboli to the brain?",
+          "model": "gpt-oss-20b",
+          "caseIdx": 541,
+          "sentIdx": 118,
+          "dataset": "nejm-cpc",
+          "dx": "Human herpesvirus 6–related meningoencephalitis. Human herpesvirus 6–related myocarditis and interstitial nephritis."
+        },
+        {
+          "s": "That might reflect underlying lung collapse or subtle; but flail chest usually still some breath sounds may be present?",
+          "model": "gpt-oss-20b",
+          "caseIdx": 284,
+          "sentIdx": 57,
+          "dataset": "medqa",
+          "dx": "Flail chest"
+        },
+        {
+          "s": "That would also cause blood at the meatus and retention, but might have more severe associated injuries.",
+          "model": "qwq-32b",
+          "caseIdx": 1424,
+          "sentIdx": 17,
+          "dataset": "medmcqa-filtered",
+          "dx": "Urethral injury"
+        },
+        {
+          "s": "That's a common injury, but there's more to it here.",
+          "model": "deepseek-r1-distill-qwen-1.5b",
+          "caseIdx": 94,
+          "sentIdx": 3,
+          "dataset": "medmcqa-filtered",
+          "dx": "Multiple myeloma"
+        },
+        {
+          "s": "The elevated ACE can be seen in both sarcoidosis and TB, but with the positive IGRA and clinical scenario, TB is more likely.",
+          "model": "qwq-32b",
+          "caseIdx": 1783,
+          "sentIdx": 28,
+          "dataset": "nejm-cpc",
+          "dx": "Sarcoidosis."
+        },
+        {
+          "s": "The facial erythema can be due to venous congestion from SVC obstruction, leading to increased pressure and visible redness.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1723,
+          "sentIdx": 55,
+          "dataset": "medqa",
+          "dx": "Small cell carcinoma"
+        },
+        {
+          "s": "The fact that the blood is in the pouch of Douglas and doesn't clot is a big clue.",
+          "model": "qwq-32b",
+          "caseIdx": 910,
+          "sentIdx": 18,
+          "dataset": "medmcqa-filtered",
+          "dx": "Ruptured ectopic pregnancy"
+        },
+        {
+          "s": "The fever is a bit more concerning, as it could suggest an infectious component, but given the strong evidence from the biopsy and karyotyping, it's more likely that the fever is a paraneoplastic phenomenon or due to tumor-related inflammation.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 79,
+          "sentIdx": 25,
+          "dataset": "medqa",
+          "dx": "Ewing sarcoma"
+        },
+        {
+          "s": "The lack of casts makes me think it's not a nephritic syndrome with significant glomerular damage, but more of a functional issue.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 86,
+          "sentIdx": 22,
+          "dataset": "medmcqa-filtered",
+          "dx": "Polyarteritis nodosa"
+        },
+        {
+          "s": "The negative antibody panel for anti-MAG, anti-Hu, etc.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 891,
+          "sentIdx": 297,
+          "dataset": "nejm-cpc",
+          "dx": "Genetic Creutzfeldt–Jakob disease."
+        },
+        {
+          "s": "The nystagmus on left gaze could be due to the brain trying to compensate for the left vestibular deficit.",
+          "model": "qwq-32b",
+          "caseIdx": 796,
+          "sentIdx": 312,
+          "dataset": "nejm-cpc",
+          "dx": "Dissection of the left vertebral artery and cerebellar infarction."
+        },
+        {
+          "s": "The palpitations might be part of the somatic symptoms of anxiety.",
+          "model": "qwq-32b",
+          "caseIdx": 1931,
+          "sentIdx": 78,
+          "dataset": "medmcqa-filtered",
+          "dx": "GAD"
+        },
+        {
+          "s": "The presentation fits, but it's a rare disease.",
+          "model": "qwq-32b",
+          "caseIdx": 381,
+          "sentIdx": 153,
+          "dataset": "medmcqa-filtered",
+          "dx": "Primary pulmonary hypeension"
+        },
+        {
+          "s": "The prompt says \"irregular nodularity,\" which rules out ASPS (it's usually smooth).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 506,
+          "sentIdx": 57,
+          "dataset": "medqa",
+          "dx": "Lobular carcinoma in situ"
+        },
+        {
+          "s": "The radiculopathy explains the foot drop, but the other symptoms (facial, scapular) are due to a more diffuse neuropathy.",
+          "model": "qwq-32b",
+          "caseIdx": 1289,
+          "sentIdx": 180,
+          "dataset": "nejm-cpc",
+          "dx": "Facioscapulohumeral muscular dystrophy."
+        },
+        {
+          "s": "The rash in pellagra is pretty classic.",
+          "model": "qwq-32b",
+          "caseIdx": 1974,
+          "sentIdx": 24,
+          "dataset": "medmcqa-filtered",
+          "dx": "niacin"
+        },
+        {
+          "s": "The reversed halo is more specific for something else.",
+          "model": "qwq-32b",
+          "caseIdx": 267,
+          "sentIdx": 69,
+          "dataset": "nejm-cpc",
+          "dx": "Pneumonia due to severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) infection."
+        },
+        {
+          "s": "The sudden loss of consciousness and staring spells could be atypical seizures.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1190,
+          "sentIdx": 66,
+          "dataset": "medqa",
+          "dx": "Oligoastrocytoma, WHO grade II of IV, associated with temporal-lobe seizures and ictal asystole (arrhythmogenic epilepsy)."
+        },
+        {
+          "s": "This often results in a very large caput on the occiput, extending over the parietal bones.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1236,
+          "sentIdx": 93,
+          "dataset": "medqa",
+          "dx": "Caput succedaneum"
+        },
+        {
+          "s": "This points towards some sort of behavioral issue.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 157,
+          "sentIdx": 7,
+          "dataset": "medmcqa-filtered",
+          "dx": "Conduct disorder"
+        },
+        {
+          "s": "Unless there was a secondary bacterial infection.",
+          "model": "qwq-32b",
+          "caseIdx": 102,
+          "sentIdx": 29,
+          "dataset": "medmcqa-filtered",
+          "dx": "Acute bacterial conjunctivitis"
+        },
+        {
+          "s": "Wait, a possible diagnosis is... maybe lymphogranuloma venereum?",
+          "model": "qwq-32b",
+          "caseIdx": 1459,
+          "sentIdx": 79,
+          "dataset": "medmcqa-filtered",
+          "dx": "histoplasmosis"
+        },
+        {
+          "s": "Wait, is there a chance it's \"Mycosis fungoides\" or \"Sézary syndrome\"?",
+          "model": "qwen3.6-27b",
+          "caseIdx": 716,
+          "sentIdx": 59,
+          "dataset": "medqa",
+          "dx": "erythroderma (exfoliative dermatitis)"
+        },
+        {
+          "s": "Wait, maybe it's a hemorheological disorder.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 924,
+          "sentIdx": 31,
+          "dataset": "medmcqa-filtered",
+          "dx": "Essential thrombocythemia"
+        },
+        {
+          "s": "Wait, maybe the first twin's AFI is 5 (oligo) and the second is 16 (normal).",
+          "model": "qwq-32b",
+          "caseIdx": 771,
+          "sentIdx": 52,
+          "dataset": "medmcqa-filtered",
+          "dx": "Twin to twin transfusion syndrome"
+        },
+        {
+          "s": "What about **Bacillary angiomatosis**?",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1418,
+          "sentIdx": 201,
+          "dataset": "medqa",
+          "dx": "Epithelioid hemangioma."
+        },
+        {
+          "s": "What about **Hyperglucagonemia**?",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1573,
+          "sentIdx": 133,
+          "dataset": "medqa",
+          "dx": "Beta cell tumor of the pancreas"
+        }
+      ]
+    },
+    {
+      "label": "Concluding Diagnosis",
+      "short_name": "Concluding Diagnosis",
+      "description": "Synthesizing all evidence to state the most likely diagnosis or final conclusion.",
+      "color": "#2ca02c",
+      "examples": [
+        {
+          "s": "\"Pubertal gynecomastia\" is the common term.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1912,
+          "sentIdx": 38,
+          "dataset": "medqa",
+          "dx": "Glandular tissue enlargement"
+        },
+        {
+          "s": "*   *Diagnosis:* Long QT Syndrome.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1900,
+          "sentIdx": 52,
+          "dataset": "medqa",
+          "dx": "Prolonged QT interval"
+        },
+        {
+          "s": "*   Conclusion: The positional nature of the vertigo and the absence of other symptoms strongly point to BPPV.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1439,
+          "sentIdx": 35,
+          "dataset": "medqa",
+          "dx": "Benign Paroxysmal Positional Vertigo (BPPV)"
+        },
+        {
+          "s": "*   Diagnosis: **Crigler-Najjar syndrome**. (Specifically Type II, but the broad category is usually sufficient for diagnosis questions unless specific type is required, and given the high levels, Type I or II are distinct).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 753,
+          "sentIdx": 104,
+          "dataset": "medqa",
+          "dx": "Breast milk jaundice"
+        },
+        {
+          "s": "*   However, usually, in these types of medical exam scenarios (like Step 2 CK), if the case asks \"What is the organism?\", the answer is often \"Unknown\" or \"Idiopathic\" for Kawasaki.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1483,
+          "sentIdx": 72,
+          "dataset": "medqa",
+          "dx": "Coxsackie A virus"
+        },
+        {
+          "s": "*   Identify the disease: Hereditary Angioedema (HAE).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 504,
+          "sentIdx": 38,
+          "dataset": "medqa",
+          "dx": "Hereditary angiodema"
+        },
+        {
+          "s": "*   If it were Lepto, why the Isoniazid mention?",
+          "model": "glm-4.7-flash",
+          "caseIdx": 222,
+          "sentIdx": 1009,
+          "dataset": "medqa",
+          "dx": "Absence of reduced glutathione"
+        },
+        {
+          "s": "*   Is it possible the exam accepts **Multiple Myeloma** as the answer for \"plasma cell dyscrasia with anemia\"?",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1261,
+          "sentIdx": 278,
+          "dataset": "medqa",
+          "dx": "Monoclonal gammopathy of undetermined significance"
+        },
+        {
+          "s": "*   Let's stick to the most direct clinical interpretation of the provided text.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1717,
+          "sentIdx": 252,
+          "dataset": "medqa",
+          "dx": "Kounis syndrome due to exposure to piperacillin–tazobactam."
+        },
+        {
+          "s": "*   Looking at various psychiatric case studies, Capgras can occur in schizophrenia, but if the focus of the presentation is the \"replaced by a double\" aspect, Capgras syndrome is often the target answer.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1807,
+          "sentIdx": 47,
+          "dataset": "medqa",
+          "dx": "Paranoid schizophrenia"
+        },
+        {
+          "s": "*   Most likely answer format in medical exams: **Ectopic ACTH Syndrome** (with Small Cell Lung Cancer as the likely cause).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1346,
+          "sentIdx": 46,
+          "dataset": "medqa",
+          "dx": "Ectopic| ACTH producing lung cancer"
+        },
+        {
+          "s": "*   The correct term is \"Mucinous borderline tumor\" or \"Mucinous borderline ovarian tumor\" (assuming it's ovarian, which is most likely given the description of a 25 cm mass in the pelvis/abdomen).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1970,
+          "sentIdx": 25,
+          "dataset": "medqa",
+          "dx": "Borderline mucinous tumor"
+        },
+        {
+          "s": "*   The most likely diagnosis is **Adjustment Disorder with Depressed Mood**.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1337,
+          "sentIdx": 103,
+          "dataset": "medqa",
+          "dx": "Normal behavior"
+        },
+        {
+          "s": "*   The prompt asks: \"What is the most likely causal **organism**?\" (at the end).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 642,
+          "sentIdx": 80,
+          "dataset": "medqa",
+          "dx": "Staphylococcus epidermidis"
+        },
+        {
+          "s": "*   This is the most specific piece of information in the entire case.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1567,
+          "sentIdx": 219,
+          "dataset": "medqa",
+          "dx": "Breast cancer–associated thrombotic microangiopathy."
+        },
+        {
+          "s": "- This triad in a cyanotic infant is pathognomonic for Transposition of the Great Arteries (TGA), classically described as the \"egg-on-a-string\" appearance on CXR.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1594,
+          "sentIdx": 60,
+          "dataset": "medqa",
+          "dx": "Transposition of great aeries"
+        },
+        {
+          "s": "5.  **Refine the Diagnosis Name:** While \"Lactase Deficiency\" is the root cause, the clinical presentation fits **Lactose Intolerance** perfectly.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1651,
+          "sentIdx": 15,
+          "dataset": "medqa",
+          "dx": "Lactose intolerance"
+        },
+        {
+          "s": "Actually, if the patient has \"truncal obesity\" and \"hypertension\" and \"elevated ACTH\", the diagnosis of the syndrome is Ectopic ACTH Syndrome.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 366,
+          "sentIdx": 75,
+          "dataset": "medqa",
+          "dx": "Ectopic ACTH producing lung cancer"
+        },
+        {
+          "s": "Alternatively, the most common answer here would be cholesteatoma.",
+          "model": "qwq-32b",
+          "caseIdx": 286,
+          "sentIdx": 110,
+          "dataset": "medmcqa-filtered",
+          "dx": "Nasopharyngeal malignancy"
+        },
+        {
+          "s": "But \"underlying cause\" usually asks for the mechanism.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1711,
+          "sentIdx": 253,
+          "dataset": "medqa",
+          "dx": "Sympathetic block"
+        },
+        {
+          "s": "But more broadly, the diagnosis is \"syndrome of inappropriate antidiuretic hormone secretion (SIADH)\"? But check features: in SIADH, urine specific gravity >1.010.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 873,
+          "sentIdx": 93,
+          "dataset": "medmcqa-filtered",
+          "dx": "Inappropriate secretion of antidiuretic hormone"
+        },
+        {
+          "s": "But often, the specific diagnosis is **\"Prostatic Adenocarcinoma with Urothelial Differentiation\"** OR **\"Urothelial Carcinoma with Prostatic Adenocarcinoma\"**.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 119,
+          "sentIdx": 207,
+          "dataset": "medqa",
+          "dx": "Ductal adenocarcinoma of the prostate."
+        },
+        {
+          "s": "But perhaps the diagnosis is simply \"molar pregnancy\" or \"hydatidiform mole\" without specifying complete or partial, since the details to differentiate aren't provided.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 567,
+          "sentIdx": 66,
+          "dataset": "medqa",
+          "dx": "Complete hydatidiform mole"
+        },
+        {
+          "s": "But the \"diagnostic procedure\" suggests a biopsy is needed to distinguish malignant vs infectious vs vascular.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 38,
+          "sentIdx": 97,
+          "dataset": "medqa",
+          "dx": "Diffuse large B-cell lymphoma (not otherwise specified)."
+        },
+        {
+          "s": "But the diagnosis of the *condition* causing this is **Osteolytic Metastases** or **Prostatic Carcinoma**.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1397,
+          "sentIdx": 66,
+          "dataset": "medqa",
+          "dx": "Multiple myeloma"
+        },
+        {
+          "s": "But the output is supposed to be the name of the disease/entity.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 734,
+          "sentIdx": 56,
+          "dataset": "medqa",
+          "dx": "Immune due to infection"
+        },
+        {
+          "s": "But the ulcers are the star of the show.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1617,
+          "sentIdx": 536,
+          "dataset": "medqa",
+          "dx": "Felty syndrome"
+        },
+        {
+          "s": "But to be precise, the chest pain is likely due to coronary artery involvement in EDS, so perhaps **\"Ehlers–Danlos syndrome-related coronary artery dysfunction\"** or simply **\"Ehlers–Danlos syndrome\"**.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1843,
+          "sentIdx": 163,
+          "dataset": "medqa",
+          "dx": "Spontaneous coronary-artery dissection."
+        },
+        {
+          "s": "But to be precise, the most specific diagnosis would be a testicular germ cell tumor, possibly a seminoma or embryonal carcinoma, given the history and the metastasis.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 676,
+          "sentIdx": 31,
+          "dataset": "medqa",
+          "dx": "Seminoma"
+        },
+        {
+          "s": "But we should definitely keep an eye on it and consider further testing to rule out anything more serious.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 91,
+          "sentIdx": 34,
+          "dataset": "medqa",
+          "dx": "Glandular tissue enlargement"
+        },
+        {
+          "s": "But, perhaps the most precise term is \"malignant uterine tumor,\" but the specific entity is likely leiomyosarcoma.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1888,
+          "sentIdx": 102,
+          "dataset": "medqa",
+          "dx": "Red degeneration of a myoma"
+        },
+        {
+          "s": "Conclusion: The case describes the classic presentation of Interstitial Cystitis (also known as Bladder Pain Syndrome or Frequency-Bladder Syndrome).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1342,
+          "sentIdx": 49,
+          "dataset": "medqa",
+          "dx": "Interstitial cystitis"
+        },
+        {
+          "s": "Considering all these points, the most likely diagnosis is a condition related to his mother's thyroid issues.",
+          "model": "deepseek-r1-distill-qwen-1.5b",
+          "caseIdx": 86,
+          "sentIdx": 14,
+          "dataset": "medqa",
+          "dx": "Transplacental passage of TSH receptor antibodies"
+        },
+        {
+          "s": "Diagnosis: Blunt Cardiac Injury.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 101,
+          "sentIdx": 141,
+          "dataset": "medqa",
+          "dx": "Cardiac contusion"
+        },
+        {
+          "s": "Diagnosis: May-Hegglin Anomaly.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1494,
+          "sentIdx": 588,
+          "dataset": "medqa",
+          "dx": "Paroxysmal nocturnal hemoglobinuria."
+        },
+        {
+          "s": "For exam question, emphasis on HBsAg positive, acute picture, dark urine, icterus: diagnosis: \"Acute Hepatitis B\" or \"Acute hepatic failure due to HBV infection\".",
+          "model": "gpt-oss-20b",
+          "caseIdx": 167,
+          "sentIdx": 61,
+          "dataset": "medmcqa-filtered",
+          "dx": "Wilson disease"
+        },
+        {
+          "s": "Given all this, the most likely diagnosis is a **Urinary tract infection (UTI)**, likely cystitis, caused by bacterial colonization (probably E.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 769,
+          "sentIdx": 64,
+          "dataset": "medqa",
+          "dx": "Ascending infection"
+        },
+        {
+          "s": "Given the \"black eschar,\" the lack of pain, the extensive edema, and the occupational risk, the most likely diagnosis is cutaneous anthrax.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 823,
+          "sentIdx": 69,
+          "dataset": "medqa",
+          "dx": "Cutaneous anthrax"
+        },
+        {
+          "s": "Given the abrupt onset of fever, chills, and rigor, along with the eye findings (proptosis, chemosis, diplopia, and congested optic disc), the most likely diagnosis is **orbital cellulitis** or **cavernous sinus thrombosis**.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 597,
+          "sentIdx": 49,
+          "dataset": "medqa",
+          "dx": "Cavernous sinus thrombosis"
+        },
+        {
+          "s": "Given the combination of persistent diarrhea, acidic stools, and reducing substances in a child on a milk diet, **lactase deficiency or lactose intolerance** is the most likely diagnosis.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1651,
+          "sentIdx": 33,
+          "dataset": "medqa",
+          "dx": "Lactose intolerance"
+        },
+        {
+          "s": "Given the high IgG synthesis and leptomeningeal enhancement, the most likely diagnosis is a **chronic meningeal disorder**.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1316,
+          "sentIdx": 174,
+          "dataset": "medqa",
+          "dx": "Cerebral amyloid angiopathy–related inflammation."
+        },
+        {
+          "s": "Given the specific presentation of ulcers in a stressed teenager, this is the standard interpretation.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1624,
+          "sentIdx": 44,
+          "dataset": "medqa",
+          "dx": "Minor aphthous ulcers"
+        },
+        {
+          "s": "However, in clinical practice, this is often referred to as **idiopathic hypogonadotropic hypogonadism (IHH) with growth hormone deficiency**, and the hypoglycemia would be due to secondary adrenal insufficiency (ACTH deficiency), which can occur in severe cases of hypopituitarism.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1149,
+          "sentIdx": 118,
+          "dataset": "medqa",
+          "dx": "Growth hormone deficiency"
+        },
+        {
+          "s": "However, in practice, the diagnosis is often abbreviated to \"cryoglobulinemia\" when the context is clear.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1829,
+          "sentIdx": 44,
+          "dataset": "medqa",
+          "dx": "Essential mixed cryoglobulinemia"
+        },
+        {
+          "s": "However, it's also possible that he's developing a more chronic depression.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 583,
+          "sentIdx": 18,
+          "dataset": "medmcqa-filtered",
+          "dx": "Adjustment disorder"
+        },
+        {
+          "s": "However, the output template expects a single term or name, so the most appropriate is **malignant pleural effusion**.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 86,
+          "sentIdx": 71,
+          "dataset": "medqa",
+          "dx": "Mesothelioma"
+        },
+        {
+          "s": "I think the answer is \"ovarian torsion.\"",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1413,
+          "sentIdx": 128,
+          "dataset": "medqa",
+          "dx": "Ovarian torsion"
+        },
+        {
+          "s": "I will go with **Chronic Tubulointerstitial Nephritis** or **Chronic Interstitial Nephritis**.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 2018,
+          "sentIdx": 107,
+          "dataset": "medqa",
+          "dx": "Nephronophthisis"
+        },
+        {
+          "s": "I'll stick with **Hypopituitarism** (or **Central Hypothyroidism**).",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1906,
+          "sentIdx": 1147,
+          "dataset": "medqa",
+          "dx": "Oligodendroglioma (World Health Organization grade II out of IV), with an elevated Ki-67 proliferation index, anIDH1R132H mutation, and codeletion of 1p and 19q."
+        },
+        {
+          "s": "If the prompt asks for \"most likely diagnosis,\" it might be \"Bipolar I Disorder\" (since she had a manic episode).",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 331,
+          "sentIdx": 71,
+          "dataset": "medqa",
+          "dx": "Sertraline"
+        },
+        {
+          "s": "If the prompt implies we need to guess the underlying etiology given the recurrences, ZE is a strong candidate, but RPUD is the direct answer to \"what is the diagnosis of the condition?\".",
+          "model": "glm-4.7-flash",
+          "caseIdx": 490,
+          "sentIdx": 84,
+          "dataset": "medqa",
+          "dx": "Duodenal ulcer"
+        },
+        {
+          "s": "If the x-ray was normal, then it's more likely a soft tissue issue.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 2022,
+          "sentIdx": 22,
+          "dataset": "medmcqa-filtered",
+          "dx": "ankylosing spondylitis (AS)"
+        },
+        {
+          "s": "It might exacerbate the epilepsy-like states or cognitive issues but isn't the primary diagnosis for the motor/neurodegenerative component.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 701,
+          "sentIdx": 26,
+          "dataset": "medqa",
+          "dx": "Anti-IgLON5 IgG–associated neurologic disorder."
+        },
+        {
+          "s": "It's delirium, likely due to the pneumonia.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 1063,
+          "sentIdx": 24,
+          "dataset": "medmcqa-filtered",
+          "dx": "Acute delirium"
+        },
+        {
+          "s": "Let's go with **Delirium Tremens (DTs)** or **Alcoholic Psychosis**.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1172,
+          "sentIdx": 36,
+          "dataset": "medqa",
+          "dx": "Schizophrenia"
+        },
+        {
+          "s": "Let's propose: \"Refeeding syndrome: acute hypophosphatemia leading to rhabdomyolysis.\"",
+          "model": "gpt-oss-20b",
+          "caseIdx": 362,
+          "sentIdx": 25,
+          "dataset": "medqa",
+          "dx": "Hypophosphatemia"
+        },
+        {
+          "s": "Most likely diagnosis: Small cell lung carcinoma.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 366,
+          "sentIdx": 33,
+          "dataset": "medqa",
+          "dx": "Ectopic ACTH producing lung cancer"
+        },
+        {
+          "s": "Or they could accept \"Abscess formation due to retained gallstones with secondary bacterial infection\" is the mechanism.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 1145,
+          "sentIdx": 132,
+          "dataset": "medqa",
+          "dx": "Bladder outlet obstruction"
+        },
+        {
+          "s": "Putting this together, her main issues are COVID-19 infection and a mental health crisis.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 1663,
+          "sentIdx": 26,
+          "dataset": "nejm-cpc",
+          "dx": "Fear associated with coronavirus disease 2019 (Covid-19), causing suicidal ideation."
+        },
+        {
+          "s": "Since dystrophin is the key here, and the age, the most likely is Duchenne Muscular Dystrophy.",
+          "model": "qwq-32b",
+          "caseIdx": 1175,
+          "sentIdx": 16,
+          "dataset": "medmcqa-filtered",
+          "dx": "Duchenne muscular dystrophy"
+        },
+        {
+          "s": "So I think the answer is cellulitis.",
+          "model": "qwq-32b",
+          "caseIdx": 1393,
+          "sentIdx": 124,
+          "dataset": "medqa",
+          "dx": "Hair tourniquet syndrome"
+        },
+        {
+          "s": "So answer likely \"Renal tubular acidosis\" or \"Chronic kidney disease\" specifically.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 2050,
+          "sentIdx": 24,
+          "dataset": "medmcqa-filtered",
+          "dx": "Chronic renal failure"
+        },
+        {
+          "s": "So likely allergic contact dermatitis due to neomycin (suspected).",
+          "model": "gpt-oss-20b",
+          "caseIdx": 360,
+          "sentIdx": 10,
+          "dataset": "medmcqa-filtered",
+          "dx": "Allergic contact dermatitis"
+        },
+        {
+          "s": "So maybe \"late-onset hypertrophic pyloric stenosis\" indeed.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 445,
+          "sentIdx": 154,
+          "dataset": "nejm-cpc",
+          "dx": "The diencephalic syndrome due to a pilomyxoid astrocytoma."
+        },
+        {
+          "s": "So maybe not type I.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 281,
+          "sentIdx": 329,
+          "dataset": "nejm-cpc",
+          "dx": "Glycogen storage disease type Ia."
+        },
+        {
+          "s": "So the diagnosis is acute kidney injury secondary to severe SARS-CoV-2 infection.",
+          "model": "qwq-32b",
+          "caseIdx": 1673,
+          "sentIdx": 89,
+          "dataset": "nejm-cpc",
+          "dx": "Acute kidney injury in the context of severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) infection."
+        },
+        {
+          "s": "So the most likely liver disease is \"Nodular regenerative hyperplasia.\"",
+          "model": "gpt-oss-20b",
+          "caseIdx": 525,
+          "sentIdx": 405,
+          "dataset": "nejm-cpc",
+          "dx": "Dyskeratosis congenita (a telomere syndrome), with nodular regenerative hyperplasia of the liver, portal hypertension, hypersplenism, and immunodeficiency."
+        },
+        {
+          "s": "So, I'm thinking this is probably a brief psychotic disorder.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 1894,
+          "sentIdx": 20,
+          "dataset": "medmcqa-filtered",
+          "dx": "Brief psychotic disorder"
+        },
+        {
+          "s": "So, considering all of this, I'm leaning towards tularemia.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 50,
+          "sentIdx": 58,
+          "dataset": "nejm-cpc",
+          "dx": "Acute anaphylaxis due to a hepatic hydatid cyst caused byEchinococcus granulosus."
+        },
+        {
+          "s": "So, portal vein thrombosis seems the most plausible.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 76,
+          "sentIdx": 23,
+          "dataset": "medqa",
+          "dx": "Non cirrhotic portal venous obstruction"
+        },
+        {
+          "s": "So, putting it all together, the patient's symptoms, history, and lack of focal findings point towards frontotemporal dementia as the most probable diagnosis.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 1136,
+          "sentIdx": 24,
+          "dataset": "medmcqa-filtered",
+          "dx": "frontotemporal dementia"
+        },
+        {
+          "s": "So, the final diagnosis is a skin rash.",
+          "model": "deepseek-r1-distill-qwen-1.5b",
+          "caseIdx": 1829,
+          "sentIdx": 13,
+          "dataset": "medmcqa-filtered",
+          "dx": "Henoch-Schonlein purpura"
+        },
+        {
+          "s": "So, the most likely diagnosis is nephrotic syndrome.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 755,
+          "sentIdx": 23,
+          "dataset": "medmcqa-filtered",
+          "dx": "PSGN"
+        },
+        {
+          "s": "So, what's the most likely explanation for all of this?",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 517,
+          "sentIdx": 18,
+          "dataset": "medmcqa-filtered",
+          "dx": "Hypochondriasis"
+        },
+        {
+          "s": "So, yeah, I'm pretty confident that RSV is the most likely cause of what's going on with this little one.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 568,
+          "sentIdx": 31,
+          "dataset": "medqa",
+          "dx": "Respiratory syncytial virus"
+        },
+        {
+          "s": "Specifically, Diffuse Large B-Cell Lymphoma (DLBCL) is the most common.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 339,
+          "sentIdx": 41,
+          "dataset": "medqa",
+          "dx": "High-grade B-cell lymphoma with features intermediate between diffuse large-B-cell lymphoma and Burkitt's lymphoma, as well as concurrentMYCandIGH-BCL2rearrangements involving lymph nodes, bone marrow, blood, and the urinary bladder."
+        },
+        {
+          "s": "The cause is chronic blood loss.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1360,
+          "sentIdx": 30,
+          "dataset": "medqa",
+          "dx": "Iron deficiency"
+        },
+        {
+          "s": "The clinical picture is the presentation of Distal RTA complications.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 996,
+          "sentIdx": 107,
+          "dataset": "medqa",
+          "dx": "Nephronophthisis"
+        },
+        {
+          "s": "The diagnosis given in some sources is **Primary ovarian insufficiency** (POI) / **Premature ovarian failure** (POF).",
+          "model": "qwen3.6-27b",
+          "caseIdx": 867,
+          "sentIdx": 127,
+          "dataset": "medqa",
+          "dx": "Dysfunctional uterine bleeding"
+        },
+        {
+          "s": "The diagnosis is **Intrauterine Fetal Death**.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1545,
+          "sentIdx": 56,
+          "dataset": "medqa",
+          "dx": "Obstructed labour"
+        },
+        {
+          "s": "The gas is a complicating factor.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 119,
+          "sentIdx": 454,
+          "dataset": "medqa",
+          "dx": "Ductal adenocarcinoma of the prostate."
+        },
+        {
+          "s": "The most likely diagnosis is thyroiditis, specifically subacute thyroiditis, which can present with these symptoms.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 522,
+          "sentIdx": 47,
+          "dataset": "medmcqa-filtered",
+          "dx": "Thyroid storm"
+        },
+        {
+          "s": "The most likely is sucrase-isomaltase deficiency.",
+          "model": "qwq-32b",
+          "caseIdx": 622,
+          "sentIdx": 24,
+          "dataset": "medmcqa-filtered",
+          "dx": "Lactose intolerance"
+        },
+        {
+          "s": "The most likely issue is a pulmonary embolism, possibly from a stroke-related cause.",
+          "model": "deepseek-r1-distill-llama-8b",
+          "caseIdx": 1347,
+          "sentIdx": 17,
+          "dataset": "medmcqa-filtered",
+          "dx": "Pulmonary thromboembolism"
+        },
+        {
+          "s": "The prompt asks for the diagnosis, but the text asks for the organism.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 919,
+          "sentIdx": 86,
+          "dataset": "medqa",
+          "dx": "Respiratory syncytial virus"
+        },
+        {
+          "s": "The underlying explanation is that the patient has developed bacterial meningitis, likely due to *E. coli* from an ascending urinary infection.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 184,
+          "sentIdx": 235,
+          "dataset": "medqa",
+          "dx": "Intentional contamination"
+        },
+        {
+          "s": "Therefore, SIADH remains the strongest fit.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 274,
+          "sentIdx": 192,
+          "dataset": "medqa",
+          "dx": "Syndrome of Inappropriate Antidiuretic Hormone (SIADH)"
+        },
+        {
+          "s": "Therefore, the most likely diagnosis is traumatic aortic rupture (or aortic transection).",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1715,
+          "sentIdx": 65,
+          "dataset": "medqa",
+          "dx": "Traumatic aortic dissection"
+        },
+        {
+          "s": "This is a classic description of **Accommodative Infacility** or **Accommodative Insufficiency**.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 1744,
+          "sentIdx": 53,
+          "dataset": "medqa",
+          "dx": "Accommodative ineia"
+        },
+        {
+          "s": "This is sounding more like it.",
+          "model": "huatuogpt-o1-8b",
+          "caseIdx": 1038,
+          "sentIdx": 15,
+          "dataset": "medmcqa-filtered",
+          "dx": "Keratoacanthoma"
+        },
+        {
+          "s": "Thus linear IgA bullous dermatosis seems plausible.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 795,
+          "sentIdx": 141,
+          "dataset": "medmcqa-filtered",
+          "dx": "Contact dermatitis"
+        },
+        {
+          "s": "Thus, metastatic carcinoma (likely breast origin) is the diagnosis.",
+          "model": "qwen3.6-27b",
+          "caseIdx": 235,
+          "sentIdx": 65,
+          "dataset": "medqa",
+          "dx": "Metastatic carcinoma"
+        },
+        {
+          "s": "Thus, the combination of flea exposure in a rat-infested environment, the clinical symptoms, and the antibody confirmation points strongly toward murine typhus.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1031,
+          "sentIdx": 12,
+          "dataset": "medqa",
+          "dx": "Endemic typhus"
+        },
+        {
+          "s": "Thus, the most likely diagnosis is polymorphic light eruption.",
+          "model": "ministral-3-14b-reasoning-2512",
+          "caseIdx": 1885,
+          "sentIdx": 128,
+          "dataset": "medqa",
+          "dx": "Insect bite hypersensitivity"
+        },
+        {
+          "s": "Usually, in these \"The New England Journal of Medicine\" case reports (which this style mimics), the \"SMILE\" test is used to identify the cause.",
+          "model": "glm-4.7-flash",
+          "caseIdx": 122,
+          "sentIdx": 186,
+          "dataset": "medqa",
+          "dx": "West Nile virus encephalitis."
+        },
+        {
+          "s": "Usually, in these cases, if the skin lesions are the primary complaint, the skin diagnosis is the one.",
+          "model": "gemma-4-31b-it",
+          "caseIdx": 1358,
+          "sentIdx": 120,
+          "dataset": "medqa",
+          "dx": "Molluscum contagiosum"
+        },
+        {
+          "s": "We need to choose diagnosis: \"Placental abruption\" or \"IUGR\"? There is no mention of a live fetus.",
+          "model": "gpt-oss-20b",
+          "caseIdx": 990,
+          "sentIdx": 7,
+          "dataset": "medmcqa-filtered",
+          "dx": "Abruptio placenta"
+        },
+        {
+          "s": "Which is \"Most Likely\"?",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1622,
+          "sentIdx": 65,
+          "dataset": "medqa",
+          "dx": "Paranoid schizophrenia"
+        },
+        {
+          "s": "Which is \"more likely\" in a medical exam setting?",
+          "model": "glm-4.7-flash",
+          "caseIdx": 1008,
+          "sentIdx": 378,
+          "dataset": "medqa",
+          "dx": "Cryptococcal meningoencephalitis and advanced human immunodeficiency virus infection."
+        },
+        {
+          "s": "Yes, that sounds familiar.",
+          "model": "deepseek-r1-distill-qwen-14b",
+          "caseIdx": 207,
+          "sentIdx": 62,
+          "dataset": "medqa",
+          "dx": "Wiskott-Aldrich syndrome"
+        }
+      ]
+    }
+  ],
+  "has_dataset": false,
+  "models": [
+    "deepseek-r1-distill-llama-8b",
+    "deepseek-r1-distill-qwen-1.5b",
+    "deepseek-r1-distill-qwen-14b",
+    "gpt-oss-20b",
+    "huatuogpt-o1-8b",
+    "qwq-32b",
+    "gemma-4-31b-it",
+    "glm-4.7-flash",
+    "ministral-3-14b-reasoning-2512",
+    "qwen3.6-27b"
+  ]
+}

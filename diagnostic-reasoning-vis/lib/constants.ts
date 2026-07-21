@@ -5,12 +5,14 @@ export const DEFAULT_DATASET = "medqa";
 export const DEFAULT_PIPELINE: Pipeline = "dedup";
 
 export const PIPELINES: { id: Pipeline; label: string; short: string }[] = [
-  { id: "dedup", label: "Latent embedding", short: "Latent embedding" },
+  { id: "dedup", label: "6 models", short: "6 models" },
+  { id: "tenmodel", label: "10 models", short: "10 models" },
 ];
 
 export const PIPELINE_HAS_DATASET: Record<Pipeline, boolean> = {
   dedup: false,
   pipeline: false,
+  tenmodel: false,
 };
 
 /**

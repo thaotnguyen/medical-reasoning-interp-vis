@@ -6,10 +6,9 @@ import { TAXONOMY_COLORS } from "@/lib/constants";
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 /** Fetches /data/pipelines/geometric/taxonomy.json. */
-export function usePipelineTaxonomy(_pipeline: Pipeline) {
-  void _pipeline;
+export function usePipelineTaxonomy(pipeline: Pipeline) {
   const { data, error, isLoading } = useSWR<PipelineTaxonomy>(
-    "/data/pipelines/geometric/taxonomy.json",
+    `/data/pipelines/${pipeline}/taxonomy.json`,
     fetcher,
     { revalidateOnFocus: false }
   );
