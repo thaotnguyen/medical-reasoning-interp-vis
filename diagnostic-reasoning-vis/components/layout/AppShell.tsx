@@ -19,22 +19,17 @@ function AppShellInner({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const currentTab = pathname.startsWith("/agreement")
-    ? "agreement"
-    : pathname.startsWith("/labeler")
-      ? "labeler"
-      : pathname === "/browser"
-        ? "browser"
-        : pathname === "/plots"
-          ? "plots"
-          : "explorer";
+  const currentTab =
+    pathname === "/browser"
+      ? "browser"
+      : pathname === "/plots"
+        ? "plots"
+        : "explorer";
 
   const tabRoutes: Record<string, string> = {
     explorer: "/",
     plots: "/plots",
     browser: "/browser",
-    labeler: "/labeler",
-    agreement: "/agreement",
   };
 
   return (
@@ -59,12 +54,6 @@ function AppShellInner({ children }: { children: React.ReactNode }) {
               </TabsTrigger>
               <TabsTrigger value="browser" className="text-xs px-3">
                 Cluster & Taxonomy Browser
-              </TabsTrigger>
-              <TabsTrigger value="labeler" className="text-xs px-3">
-                Labeler
-              </TabsTrigger>
-              <TabsTrigger value="agreement" className="text-xs px-3">
-                Agreement
               </TabsTrigger>
             </TabsList>
           </Tabs>

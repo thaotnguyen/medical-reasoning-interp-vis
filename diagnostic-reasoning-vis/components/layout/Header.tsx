@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -31,13 +30,8 @@ export function Header() {
   const { selectedModel, setModel, selectedPipeline, setPipeline } =
     useAppState();
   const { raw: taxonomy } = usePipelineTaxonomy(selectedPipeline);
-  const pathname = usePathname();
-  // The human-rating tools (labeler/agreement) are pinned to the shipped 6-model data,
-  // so the 6/10-model toggle only appears on the explorer/browser views.
-  const showPipelineToggle =
-    PIPELINES.length > 1 &&
-    !pathname.startsWith("/labeler") &&
-    !pathname.startsWith("/agreement");
+  // Every remaining view (explorer / plots / browser) has data for both taxonomies.
+  const showPipelineToggle = PIPELINES.length > 1;
 
   // The dropdown shows exactly the models that contribute to the selected pipeline.
   // Order = metadata.model_order first (keeps the 6-model view stable), then any extras.
@@ -56,14 +50,6 @@ export function Header() {
       setModel(models[0]);
     }
   }, [models, selectedModel, setModel]);
-
-  // The human-rating tools only have 6-model data; if we land there while the 10-model
-  // taxonomy is active, snap back so those pages never request missing pipeline data.
-  useEffect(() => {
-    if (!showPipelineToggle && selectedPipeline === "tenmodel") {
-      setPipeline("dedup");
-    }
-  }, [showPipelineToggle, selectedPipeline, setPipeline]);
 
   if (isLoading || !metadata) {
     return (

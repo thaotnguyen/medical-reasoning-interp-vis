@@ -6,9 +6,7 @@
     "dev": "next dev --experimental-https --experimental-https-cert ./combooter.tail4fafac.ts.net.crt --experimental-https-key ./combooter.tail4fafac.ts.net.key --hostname combooter.tail4fafac.ts.net",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "test:node": "node --test tests/*.mjs",
-    "generate:labeler-pool": "node scripts/generate-labeler-pool.mjs"
+    "lint": "eslint"
   },
   "dependencies": {
     "@types/d3": "^7.4.3",
@@ -19,6 +17,7 @@
     "lucide-react": "^0.563.0",
     "motion": "^12.34.0",
     "next": "^15.5.14",
+    "plotly.js-dist-min": "^3.7.0",
     "radix-ui": "^1.4.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
@@ -29,6 +28,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/plotly.js-dist-min": "^2.3.4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

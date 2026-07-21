@@ -1,0 +1,98 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
+export interface SankeyLink {
+  s: number;
+  t: number;
+  v: number;
+}
+
+/**
+ * Client-side Plotly Sankey. Rendered in the browser rather than pre-rendered to SVG so the
+ * links highlight on hover and show a tooltip naming the transition — Plotly's Sankey does
+ * both natively once the trace is live.
+ *
+ * plotly.js-dist-min is ~3.5 MB, so it is imported dynamically: only this route pays for it.
+ */
+export function SankeyPlot({
+  links,
+  states,
+  colors,
+  height = 420,
+  compact = false,
+}: {
+  links: SankeyLink[];
+  states: string[];
+  colors: string[];
+  height?: number;
+  compact?: boolean;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let disposed = false;
+    let el: HTMLDivElement | null = null;
+
+    (async () => {
+      const Plotly = (await import("plotly.js-dist-min")).default;
+      if (disposed || !ref.current) return;
+      el = ref.current;
+
+      const K = states.length;
+      const rgba = (hex: string, a: number) => {
+        const h = hex.replace("#", "");
+        const [r, g, b] = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16));
+        return `rgba(${r},${g},${b},${a})`;
+      };
+
+      const data = [
+        {
+          type: "sankey" as const,
+          arrangement: "snap" as const,
+          node: {
+            label: [...states, ...states],
+            color: [...colors, ...colors],
+            pad: compact ? 8 : 14,
+            thickness: compact ? 9 : 12,
+            line: { width: 0 },
+            hovertemplate: "%{label}<extra></extra>",
+          },
+          link: {
+            source: links.map((l) => l.s),
+            target: links.map((l) => l.t + K),
+            value: links.map((l) => l.v),
+            // Base opacity is low; Plotly darkens the hovered link automatically.
+            color: links.map((l) => rgba(colors[l.s], 0.4)),
+            hovertemplate:
+              "%{source.label} → %{target.label}<br>P = %{value:.2f}<extra></extra>",
+          },
+        },
+      ];
+
+      await Plotly.newPlot(
+        el,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        data as any,
+        {
+          font: { size: compact ? 8 : 11 },
+          margin: { l: 4, r: 4, t: 4, b: 4 },
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
+          height,
+          hoverlabel: { bgcolor: "#111827", font: { color: "#fff", size: 11 } },
+        },
+        { displayModeBar: false, responsive: true }
+      );
+    })();
+
+    return () => {
+      disposed = true;
+      if (el) {
+        import("plotly.js-dist-min").then(({ default: Plotly }) => Plotly.purge(el!));
+      }
+    };
+  }, [links, states, colors, height, compact]);
+
+  return <div ref={ref} style={{ height }} className="w-full" />;
+}
