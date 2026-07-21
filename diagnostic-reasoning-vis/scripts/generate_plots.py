@@ -36,6 +36,13 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "public" / "data" / "pipelines"
 OUT = ROOT / "public" / "data" / "plots"
 
+# The page renders in Tailwind's preflight stack, so the SVGs declare the same one and the
+# browser resolves it exactly as it does for the rest of the site. Matplotlib still lays the
+# text out in its default DejaVu Sans, which is a little wider than what the browser will
+# actually use — that errs on the side of a slightly roomy label plate rather than one the
+# text overflows.
+SITE_FONT = "ui-sans-serif, system-ui, sans-serif"
+
 PIPELINES = ["dedup", "tenmodel"]
 MIN_P = 0.1          # chord/Sankey legibility threshold; matrices are complete
 OVERALL = "__all__"
@@ -126,6 +133,9 @@ def chord_svg(P: np.ndarray, states, colors, dest: Path) -> None:
     fig.savefig(dest, format="svg", bbox_inches="tight", transparent=True)
     import matplotlib.pyplot as plt
     plt.close(fig)
+    dest.write_text(
+        dest.read_text().replace("font-family: 'DejaVu Sans'", f"font-family: {SITE_FONT}")
+    )
 
 
 def links(P: np.ndarray, K: int):

@@ -39,6 +39,10 @@ export function SankeyPlot({
       if (disposed || !ref.current) return;
       el = ref.current;
 
+      // Use whatever the page is actually rendering in (Geist, via next/font) so the
+      // figures match the rest of the site rather than Plotly's default.
+      const fontFamily = getComputedStyle(document.body).fontFamily;
+
       const K = states.length;
       const rgba = (hex: string, a: number) => {
         const h = hex.replace("#", "");
@@ -75,15 +79,51 @@ export function SankeyPlot({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data as any,
         {
-          font: { size: compact ? 8 : 11 },
+          font: { size: compact ? 8 : 11, family: fontFamily, color: "#334155" },
           margin: { l: 4, r: 4, t: 4, b: 4 },
           paper_bgcolor: "rgba(0,0,0,0)",
           plot_bgcolor: "rgba(0,0,0,0)",
           height,
-          hoverlabel: { bgcolor: "#111827", font: { color: "#fff", size: 11 } },
+          hoverlabel: {
+            bgcolor: "#111827",
+            font: { color: "#fff", size: 11, family: fontFamily },
+          },
         },
         { displayModeBar: false, responsive: true }
       );
+
+      // Plotly has no bbox option for Sankey node labels, so the plate is added afterwards:
+      // one rounded translucent rect per label, inserted just before its <text> so it
+      // paints underneath. Re-applied on relayout, since Plotly rebuilds the label nodes.
+      const plateLabels = () => {
+        if (!el) return;
+        el.querySelectorAll("g.sankey-node-plate").forEach((n) => n.remove());
+        el.querySelectorAll<SVGTextElement>("g.sankey .node-label, g.sankey text.node-label")
+          .forEach((text) => {
+            const bb = text.getBBox();
+            if (!bb.width) return;
+            const ns = "http://www.w3.org/2000/svg";
+            const g = document.createElementNS(ns, "g");
+            g.setAttribute("class", "sankey-node-plate");
+            const rect = document.createElementNS(ns, "rect");
+            const padX = 3, padY = 1.5;
+            rect.setAttribute("x", String(bb.x - padX));
+            rect.setAttribute("y", String(bb.y - padY));
+            rect.setAttribute("width", String(bb.width + padX * 2));
+            rect.setAttribute("height", String(bb.height + padY * 2));
+            rect.setAttribute("rx", "3");
+            rect.setAttribute("fill", "#ffffff");
+            rect.setAttribute("fill-opacity", "0.9");
+            g.appendChild(rect);
+            // Same transform as the label, so the plate tracks it exactly.
+            const tr = text.getAttribute("transform");
+            if (tr) g.setAttribute("transform", tr);
+            text.parentNode?.insertBefore(g, text);
+          });
+      };
+      plateLabels();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (el as any).on?.("plotly_afterplot", plateLabels);
     })();
 
     return () => {
