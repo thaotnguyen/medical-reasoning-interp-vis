@@ -44,6 +44,22 @@ export function SankeyPlot({
       const fontFamily = getComputedStyle(document.body).fontFamily;
 
       const K = states.length;
+
+      // Left column stays in taxonomy order. The right is ordered by the barycentre
+      // heuristic — each target sits at the weighted mean position of the sources feeding
+      // it — which is the standard first pass for minimising edge crossings and is optimal
+      // here because the left order is fixed. Targets with no inbound link keep their own
+      // index as the tiebreak so their (empty) slot stays put.
+      const bary = states.map((_, j) => {
+        let num = 0, den = 0;
+        for (const l of links) if (l.t === j) { num += l.v * l.s; den += l.v; }
+        return den ? num / den : j;
+      });
+      const rightSlot: number[] = [];
+      states
+        .map((_, j) => j)
+        .sort((a, b) => bary[a] - bary[b] || a - b)
+        .forEach((j, slot) => { rightSlot[j] = slot; });
       const rgba = (hex: string, a: number) => {
         const h = hex.replace("#", "");
         const [r, g, b] = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16));
@@ -53,10 +69,9 @@ export function SankeyPlot({
       const data = [
         {
           type: "sankey" as const,
-          // "fixed" (not "snap") so the explicit x/y below are honoured: Plotly would
-          // otherwise reorder nodes vertically to minimise crossings, leaving the two
-          // columns in different orders. Both columns stay in taxonomy order 1..K, which is
-          // the order the legend, matrices and everything else on the site uses.
+          // "fixed" so the explicit x/y are honoured. Plotly's own "snap" would reorder
+          // both columns; we want the left pinned to taxonomy order and only the right free
+          // to reduce crossings, which it cannot express — hence rightSlot below.
           arrangement: "fixed" as const,
           node: {
             label: [...states, ...states],
@@ -64,7 +79,7 @@ export function SankeyPlot({
             x: [...states.map(() => 0.001), ...states.map(() => 0.999)],
             y: [
               ...states.map((_, i) => (i + 0.5) / K),
-              ...states.map((_, i) => (i + 0.5) / K),
+              ...states.map((_, i) => (rightSlot[i] + 0.5) / K),
             ],
             pad: compact ? 8 : 14,
             thickness: compact ? 9 : 12,
