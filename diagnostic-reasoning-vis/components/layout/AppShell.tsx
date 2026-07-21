@@ -25,10 +25,13 @@ function AppShellInner({ children }: { children: React.ReactNode }) {
       ? "labeler"
       : pathname === "/browser"
         ? "browser"
-        : "explorer";
+        : pathname === "/plots"
+          ? "plots"
+          : "explorer";
 
   const tabRoutes: Record<string, string> = {
     explorer: "/",
+    plots: "/plots",
     browser: "/browser",
     labeler: "/labeler",
     agreement: "/agreement",
@@ -50,6 +53,9 @@ function AppShellInner({ children }: { children: React.ReactNode }) {
             <TabsList className="h-8 w-max">
               <TabsTrigger value="explorer" className="text-xs px-3">
                 Explorer
+              </TabsTrigger>
+              <TabsTrigger value="plots" className="text-xs px-3">
+                Plots
               </TabsTrigger>
               <TabsTrigger value="browser" className="text-xs px-3">
                 Cluster & Taxonomy Browser
