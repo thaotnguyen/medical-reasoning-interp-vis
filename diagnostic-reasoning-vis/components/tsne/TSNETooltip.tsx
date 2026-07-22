@@ -1,6 +1,10 @@
 "use client";
 
+import { useLayoutEffect, useRef, useState } from "react";
 import type { TSNEPoint, TaxonomyItem, ClusterInfo, Case } from "@/lib/types";
+
+const CURSOR_GAP = 12;
+const EDGE_PAD = 8;
 
 interface TSNETooltipProps {
   point: TSNEPoint;
@@ -27,12 +31,42 @@ export function TSNETooltip({
   const taxItem = taxIdx >= 0 && taxIdx < taxonomy.length ? taxonomy[taxIdx] : null;
   const clusterItem = clusters[String(clusterId)];
 
+  const ref = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState<{ left: number; top: number } | null>(null);
+
+  // Keep the tooltip inside the plot: flip it to the left of the cursor when it would run off
+  // the right edge, and clamp vertically. Measured after render (useLayoutEffect, so it is
+  // corrected before paint) because the width depends on the sentence length.
+  useLayoutEffect(() => {
+    const el = ref.current;
+    const parent = el?.offsetParent as HTMLElement | null;
+    if (!el || !parent) return;
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
+    const maxX = parent.clientWidth;
+    const maxY = parent.clientHeight;
+
+    let left = mouseX + CURSOR_GAP;
+    if (left + w > maxX - EDGE_PAD) left = mouseX - CURSOR_GAP - w;
+    left = Math.max(EDGE_PAD, Math.min(left, maxX - w - EDGE_PAD));
+
+    let top = mouseY - EDGE_PAD;
+    top = Math.max(EDGE_PAD, Math.min(top, maxY - h - EDGE_PAD));
+
+    setPos((prev) =>
+      prev && prev.left === left && prev.top === top ? prev : { left, top }
+    );
+  }, [mouseX, mouseY, sentence, taxItem, clusterItem]);
+
   return (
     <div
+      ref={ref}
       className="absolute z-50 pointer-events-none bg-popover border rounded-md shadow-lg px-3 py-2 max-w-xs text-xs"
       style={{
-        left: mouseX + 12,
-        top: mouseY - 8,
+        left: pos ? pos.left : mouseX + CURSOR_GAP,
+        top: pos ? pos.top : mouseY - EDGE_PAD,
+        // Hidden for the single frame before the first measurement lands.
+        visibility: pos ? "visible" : "hidden",
       }}
     >
       {colorMode === "taxonomy" && taxItem && (
