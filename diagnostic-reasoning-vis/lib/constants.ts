@@ -5,13 +5,10 @@ export const DEFAULT_DATASET = "medqa";
 export const DEFAULT_PIPELINE: Pipeline = "dedup";
 
 export const PIPELINES: { id: Pipeline; label: string; short: string }[] = [
-  { id: "dedup", label: "6 models", short: "6 models" },
-  { id: "tenmodel", label: "10 models", short: "10 models" },
-  // Matt's K=5 / K=7 taxonomies are built and shipped (public/data/pipelines/matt5, matt7,
-  // regenerate with scripts/import_matt_taxonomies.py) but hidden from the selector.
-  // Re-enable by uncommenting; everything downstream already handles them.
-  // { id: "matt5", label: "5 clusters (Matt)", short: "5 clusters (Matt)" },
-  // { id: "matt7", label: "7 clusters (Matt)", short: "7 clusters (Matt)" },
+  { id: "dedup", label: "6 models (Thao)", short: "6 models (Thao)" },
+  { id: "tenmodel", label: "10 models (Thao)", short: "10 models (Thao)" },
+  { id: "matt5", label: "5 clusters (Matt)", short: "5 clusters (Matt)" },
+  { id: "matt7", label: "7 clusters (Matt)", short: "7 clusters (Matt)" },
 ];
 
 export const PIPELINE_HAS_DATASET: Record<Pipeline, boolean> = {
