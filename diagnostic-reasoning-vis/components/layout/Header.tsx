@@ -14,7 +14,7 @@ import { useMetadata } from "@/hooks/useMetadata";
 import { useAppState } from "@/hooks/useAppState";
 import { usePipelineTaxonomy } from "@/hooks/usePipelineTaxonomy";
 import { Skeleton } from "@/components/ui/skeleton";
-import { DEFAULT_PIPELINE, PIPELINES } from "@/lib/constants";
+import { DEFAULT_PIPELINE, LABELER_PIPELINE, PIPELINES } from "@/lib/constants";
 import type { Pipeline } from "@/lib/types";
 
 /** Solid black (currentColor) home glyph shown instead of the title on phones. */
@@ -32,8 +32,8 @@ export function Header() {
     useAppState();
   const { raw: taxonomy } = usePipelineTaxonomy(selectedPipeline);
   const pathname = usePathname();
-  // The human-rating tools are pinned to the 6-model data (only dedup has a labeler pool),
-  // so the toggle is hidden there and the selection switches to dedup on arrival.
+  // The human-rating tools are pinned to the labeler's taxonomy, so the toggle is hidden there
+  // and the selection switches to it on arrival.
   const onRatingTool = pathname.startsWith("/labeler") || pathname.startsWith("/agreement");
   const showPipelineToggle = PIPELINES.length > 1 && !onRatingTool;
 
@@ -56,10 +56,10 @@ export function Header() {
   }, [models, selectedModel, setModel]);
 
   // Everywhere else the selection must be an offered pipeline, so leaving a rating tool
-  // returns to the default rather than staying on dedup with no toggle to change it.
+  // returns to the default rather than staying on one the toggle does not offer.
   useEffect(() => {
     const offered = PIPELINES.some((p) => p.id === selectedPipeline);
-    const wanted = onRatingTool ? "dedup" : offered ? selectedPipeline : DEFAULT_PIPELINE;
+    const wanted = onRatingTool ? LABELER_PIPELINE : offered ? selectedPipeline : DEFAULT_PIPELINE;
     if (selectedPipeline !== wanted) {
       setPipeline(wanted);
     }

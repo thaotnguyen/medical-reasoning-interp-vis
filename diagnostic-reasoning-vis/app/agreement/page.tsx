@@ -2,6 +2,8 @@
 
 import { useMemo, useEffect, useState, useCallback, useRef } from "react";
 import { useMetadata } from "@/hooks/useMetadata";
+import { usePipelineTaxonomy } from "@/hooks/usePipelineTaxonomy";
+import { LABELER_PIPELINE } from "@/lib/constants";
 import { useLabelingState } from "@/hooks/useLabelingState";
 import { fetchAllRatings, fetchRound } from "@/hooks/useRatingsSync";
 import { AgreementDashboard } from "@/components/agreement/AgreementDashboard";
@@ -17,6 +19,8 @@ import {
 
 export default function AgreementPage() {
   const { metadata, isLoading: metaLoading } = useMetadata();
+  // Agreement is measured on the categories raters choose from in the labeler.
+  const { taxonomy: labelerTaxonomy } = usePipelineTaxonomy(LABELER_PIPELINE);
   const { ratings: localRatings, importRatings: storeImport } = useLabelingState();
 
   const [serverData, setServerData] = useState<ServerRatingsResponse | null>(null);
@@ -29,7 +33,7 @@ export default function AgreementPage() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch("/data/pipelines/dedup/labeler-pool.json")
+    fetch(`/data/pipelines/${LABELER_PIPELINE}/labeler-pool.json`)
       .then((r) => (r.ok ? (r.json() as Promise<GeometricPoolEntry[]>) : []))
       .then((entries) => {
         if (cancelled) return;
@@ -118,7 +122,7 @@ export default function AgreementPage() {
         const model = idx >= 0 ? key.slice(0, idx) : key;
         try {
           const res = await fetch(
-            `/data/pipelines/dedup/cases/${model}.json`
+            `/data/pipelines/${LABELER_PIPELINE}/cases/${model}.json`
           );
           if (!res.ok) return { key, cases: null };
           const cases: Case[] = await res.json();
@@ -143,7 +147,7 @@ export default function AgreementPage() {
     storeImport(imported);
   }, [storeImport]);
 
-  if (metaLoading || !metadata || loading || casesLoading) {
+  if (metaLoading || !metadata || !labelerTaxonomy.length || loading || casesLoading) {
     return (
       <div className="p-6">
         <Skeleton className="h-96 rounded-lg" />
@@ -158,7 +162,7 @@ export default function AgreementPage() {
         raters={raters}
         casesMap={casesMap}
         labelerPool={labelerPool}
-        metadata={metadata}
+        metadata={{ ...metadata, taxonomy: labelerTaxonomy }}
         onImport={handleImport}
       />
     </div>

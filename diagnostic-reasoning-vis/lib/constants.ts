@@ -9,6 +9,12 @@ export const PIPELINES: { id: Pipeline; label: string; short: string }[] = [
 ];
 
 /**
+ * The taxonomy the labeler and agreement pages rate against: its categories are the labels
+ * raters choose from, and its labeler-pool.json and cases are what they rate.
+ */
+export const LABELER_PIPELINE: Pipeline = "gwot";
+
+/**
  * The labeling round in force until someone resets. Ratings are stored per round under
  * ratings/<round>/; "Reset for everyone" on the agreement page starts a new round, and earlier
  * rounds stay in blob storage but are never read.

@@ -7,6 +7,7 @@ import {
   type GeometricPoolEntry,
 } from "@/lib/labeler-active-pool";
 import type { Case, Pipeline } from "@/lib/types";
+import { LABELER_PIPELINE } from "@/lib/constants";
 
 interface UseSamplePoolResult {
   pool: ActivePoolItem[];
@@ -26,9 +27,9 @@ interface UseSamplePoolOptions {
   onCasesLoaded?: (model: string, dataset: string, cases: Case[]) => void;
 }
 
-const POOL_URL = "/data/pipelines/dedup/labeler-pool.json";
+const POOL_URL = `/data/pipelines/${LABELER_PIPELINE}/labeler-pool.json`;
 const casesUrl = (model: string) =>
-  `/data/pipelines/dedup/cases/${model}.json`;
+  `/data/pipelines/${LABELER_PIPELINE}/cases/${model}.json`;
 
 /**
  * Manages the geometric labeler pool (100 cases sampled across all models)

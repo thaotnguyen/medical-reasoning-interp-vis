@@ -1,0 +1,1002 @@
+[
+  {
+    "index": 0,
+    "model": "qwq-32b",
+    "caseIndex": 141,
+    "caseId": "qwq-32b::2bb3691dab311cacea745b5bddc6fd7f",
+    "sentenceCount": 22,
+    "isTraining": true
+  },
+  {
+    "index": 1,
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 120,
+    "caseId": "deepseek-r1-distill-llama-8b::e055010afacf30490439450fa2dde61a",
+    "sentenceCount": 21,
+    "isTraining": true
+  },
+  {
+    "index": 2,
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 114,
+    "caseId": "huatuogpt-o1-8b::63ca655e5c865c3dafec15742ed4b5ca",
+    "sentenceCount": 36,
+    "isTraining": true
+  },
+  {
+    "index": 3,
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 86,
+    "caseId": "deepseek-r1-distill-qwen-14b::b3b51147596762c07b3dc65593d1c408",
+    "sentenceCount": 28,
+    "isTraining": true
+  },
+  {
+    "index": 4,
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 72,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::2d9b84ef90c95e61b384fd74b0259c28",
+    "sentenceCount": 15,
+    "isTraining": true
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 160,
+    "caseId": "deepseek-r1-distill-llama-8b::0e3f80ea51ad5412c3855d832b3f704c",
+    "sentenceCount": 20,
+    "isTraining": false,
+    "index": 5
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 451,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::ab0f353071a53d906c27171b2121a611",
+    "sentenceCount": 18,
+    "isTraining": false,
+    "index": 6
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 123,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::3ada9f08f010060c54b406426ff2ad79",
+    "sentenceCount": 16,
+    "isTraining": false,
+    "index": 7
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 27,
+    "caseId": "deepseek-r1-distill-llama-8b::edc591b89d414e3067bc5fb56ee66e15",
+    "sentenceCount": 20,
+    "isTraining": false,
+    "index": 8
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 186,
+    "caseId": "deepseek-r1-distill-llama-8b::2ea001592a3a9229c3cf135ed3db06ca",
+    "sentenceCount": 16,
+    "isTraining": false,
+    "index": 9
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 291,
+    "caseId": "qwq-32b::d38accab6db52a2145a4ff4c42994e15",
+    "sentenceCount": 29,
+    "isTraining": false,
+    "index": 10
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 205,
+    "caseId": "gpt-oss-20b::f9e96c8e3ae316305cc99f419e4a2592",
+    "sentenceCount": 19,
+    "isTraining": false,
+    "index": 11
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 144,
+    "caseId": "qwq-32b::d9520eadbc83f9f98a8fb0442b0a7acc",
+    "sentenceCount": 87,
+    "isTraining": false,
+    "index": 12
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 460,
+    "caseId": "huatuogpt-o1-8b::85d8e9a9975b3b57c36fd37c8839f1fc",
+    "sentenceCount": 65,
+    "isTraining": false,
+    "index": 13
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 452,
+    "caseId": "deepseek-r1-distill-qwen-14b::7f5ff72071a340eac79e70d4a77a4f75",
+    "sentenceCount": 31,
+    "isTraining": false,
+    "index": 14
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 136,
+    "caseId": "gpt-oss-20b::8b4442538304c29e8c8d824e9eaf0044",
+    "sentenceCount": 27,
+    "isTraining": false,
+    "index": 15
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 199,
+    "caseId": "deepseek-r1-distill-qwen-14b::12c7c48972fd86d58645b979dd967cb9",
+    "sentenceCount": 29,
+    "isTraining": false,
+    "index": 16
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 484,
+    "caseId": "qwq-32b::c32728ede404b19528c92b555170906c",
+    "sentenceCount": 38,
+    "isTraining": false,
+    "index": 17
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 18,
+    "caseId": "deepseek-r1-distill-llama-8b::3c028515bfa5a061c0beb882f0465a0c",
+    "sentenceCount": 58,
+    "isTraining": false,
+    "index": 18
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 265,
+    "caseId": "deepseek-r1-distill-qwen-14b::07f8b87ded2d6c9e7b796e8f55e186b8",
+    "sentenceCount": 28,
+    "isTraining": false,
+    "index": 19
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 179,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::194714d2d986cd2d29b9a77166f15a93",
+    "sentenceCount": 11,
+    "isTraining": false,
+    "index": 20
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 182,
+    "caseId": "huatuogpt-o1-8b::051ccef8f25742b71d628f17359cd0ae",
+    "sentenceCount": 23,
+    "isTraining": false,
+    "index": 21
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 345,
+    "caseId": "gpt-oss-20b::ea21c15c45c3d1c6a5f123c97c5d0ce0",
+    "sentenceCount": 102,
+    "isTraining": false,
+    "index": 22
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 359,
+    "caseId": "gpt-oss-20b::23806aeadf84c1a47d89cd8781c7e183",
+    "sentenceCount": 60,
+    "isTraining": false,
+    "index": 23
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 200,
+    "caseId": "deepseek-r1-distill-qwen-14b::5add31aa4ef4daca958b23cc902ad041",
+    "sentenceCount": 16,
+    "isTraining": false,
+    "index": 24
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 342,
+    "caseId": "qwq-32b::bc682b16cbcab8400dadb168605ded8d",
+    "sentenceCount": 37,
+    "isTraining": false,
+    "index": 25
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 183,
+    "caseId": "qwq-32b::1dce054682892494729a12aa2262b2a3",
+    "sentenceCount": 41,
+    "isTraining": false,
+    "index": 26
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 325,
+    "caseId": "qwq-32b::e46f4cc8c122bfe192131e2e57c05dfc",
+    "sentenceCount": 66,
+    "isTraining": false,
+    "index": 27
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 350,
+    "caseId": "qwq-32b::0cf45ee1bf8b2676ddb94fad9db1ebe2",
+    "sentenceCount": 163,
+    "isTraining": false,
+    "index": 28
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 33,
+    "caseId": "deepseek-r1-distill-qwen-14b::14a0a8e87bb38d40dfb01ff57900be81",
+    "sentenceCount": 26,
+    "isTraining": false,
+    "index": 29
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 356,
+    "caseId": "deepseek-r1-distill-qwen-14b::30e4443e89fe5c2a0abfc8f5b86594a9",
+    "sentenceCount": 25,
+    "isTraining": false,
+    "index": 30
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 91,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::0ce6f331ab7c2d89c9a18ab1daa5e01f",
+    "sentenceCount": 13,
+    "isTraining": false,
+    "index": 31
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 53,
+    "caseId": "deepseek-r1-distill-qwen-14b::5d8ed6a7c3c5b31731fe579270e67bfa",
+    "sentenceCount": 19,
+    "isTraining": false,
+    "index": 32
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 6,
+    "caseId": "deepseek-r1-distill-llama-8b::3b530364c94ea33dbe45e3052526bdb6",
+    "sentenceCount": 25,
+    "isTraining": false,
+    "index": 33
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 407,
+    "caseId": "deepseek-r1-distill-llama-8b::69e678eb784186f4820bb4b3d48b33b9",
+    "sentenceCount": 29,
+    "isTraining": false,
+    "index": 34
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 438,
+    "caseId": "gpt-oss-20b::8beed59316d4568bd7933602e9c2f94a",
+    "sentenceCount": 33,
+    "isTraining": false,
+    "index": 35
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 367,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::4639bff6ea56afb6a05799e6e326726b",
+    "sentenceCount": 21,
+    "isTraining": false,
+    "index": 36
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 479,
+    "caseId": "huatuogpt-o1-8b::01e5330e11e945aac3220dd5e625b9c1",
+    "sentenceCount": 19,
+    "isTraining": false,
+    "index": 37
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 247,
+    "caseId": "gpt-oss-20b::3544e050c3ae29b6422ea56dc506cd8d",
+    "sentenceCount": 114,
+    "isTraining": false,
+    "index": 38
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 458,
+    "caseId": "deepseek-r1-distill-llama-8b::12c7c48972fd86d58645b979dd967cb9",
+    "sentenceCount": 33,
+    "isTraining": false,
+    "index": 39
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 197,
+    "caseId": "gpt-oss-20b::8a973240e164237977a99c5b9af45487",
+    "sentenceCount": 57,
+    "isTraining": false,
+    "index": 40
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 433,
+    "caseId": "gpt-oss-20b::8a932d97997ac8b159b9c0a5c484bd0b",
+    "sentenceCount": 25,
+    "isTraining": false,
+    "index": 41
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 31,
+    "caseId": "huatuogpt-o1-8b::23e49b36b1dcd41b959601dbdfa066d2",
+    "sentenceCount": 30,
+    "isTraining": false,
+    "index": 42
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 97,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::c6f07a9f91a3970cadd7b21d65317b71",
+    "sentenceCount": 15,
+    "isTraining": false,
+    "index": 43
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 154,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::5f7a45f8e5976cababc0d5afb3aae75b",
+    "sentenceCount": 14,
+    "isTraining": false,
+    "index": 44
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 397,
+    "caseId": "gpt-oss-20b::b25d3c4c3c602dffba5bbf0c2544a5c4",
+    "sentenceCount": 186,
+    "isTraining": false,
+    "index": 45
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 425,
+    "caseId": "gpt-oss-20b::76b71cdf1c8f2658120117f4306dae47",
+    "sentenceCount": 440,
+    "isTraining": false,
+    "index": 46
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 451,
+    "caseId": "deepseek-r1-distill-llama-8b::43b9be7206186b39b0c6367af8454255",
+    "sentenceCount": 23,
+    "isTraining": false,
+    "index": 47
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 94,
+    "caseId": "deepseek-r1-distill-qwen-14b::69e678eb784186f4820bb4b3d48b33b9",
+    "sentenceCount": 29,
+    "isTraining": false,
+    "index": 48
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 433,
+    "caseId": "huatuogpt-o1-8b::8a932d97997ac8b159b9c0a5c484bd0b",
+    "sentenceCount": 25,
+    "isTraining": false,
+    "index": 49
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 283,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::3c3cf75cc04353ca526eb79184bdaf95",
+    "sentenceCount": 12,
+    "isTraining": false,
+    "index": 50
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 443,
+    "caseId": "huatuogpt-o1-8b::a549c88122e08fb09e2406ded3f60af8",
+    "sentenceCount": 31,
+    "isTraining": false,
+    "index": 51
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 51,
+    "caseId": "huatuogpt-o1-8b::3105538cb4ab505ae401dee3e21555a8",
+    "sentenceCount": 26,
+    "isTraining": false,
+    "index": 52
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 271,
+    "caseId": "deepseek-r1-distill-llama-8b::efa87b735c34b03e59484271643010c3",
+    "sentenceCount": 16,
+    "isTraining": false,
+    "index": 53
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 109,
+    "caseId": "gpt-oss-20b::3c028515bfa5a061c0beb882f0465a0c",
+    "sentenceCount": 17,
+    "isTraining": false,
+    "index": 54
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 46,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::8f495397f29f332a97f5a9123135728c",
+    "sentenceCount": 20,
+    "isTraining": false,
+    "index": 55
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 106,
+    "caseId": "huatuogpt-o1-8b::0eb8bc1e4f604e73cec7b51161c4c7eb",
+    "sentenceCount": 35,
+    "isTraining": false,
+    "index": 56
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 316,
+    "caseId": "deepseek-r1-distill-qwen-14b::9eb3c82748539a01165b0690af589c50",
+    "sentenceCount": 66,
+    "isTraining": false,
+    "index": 57
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 55,
+    "caseId": "qwq-32b::546ddbcafc0fd70b87cedf98d2a5c74b",
+    "sentenceCount": 41,
+    "isTraining": false,
+    "index": 58
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 460,
+    "caseId": "qwq-32b::85d8e9a9975b3b57c36fd37c8839f1fc",
+    "sentenceCount": 47,
+    "isTraining": false,
+    "index": 59
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 430,
+    "caseId": "qwq-32b::f3dc3fc4203bcef291232ed1e3eaabb7",
+    "sentenceCount": 38,
+    "isTraining": false,
+    "index": 60
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 64,
+    "caseId": "huatuogpt-o1-8b::04e81892fe8bacc9295a4cf547b92aef",
+    "sentenceCount": 25,
+    "isTraining": false,
+    "index": 61
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 113,
+    "caseId": "qwq-32b::7833bad04f9e4bf9f55ea6b40b88b9bf",
+    "sentenceCount": 37,
+    "isTraining": false,
+    "index": 62
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 48,
+    "caseId": "deepseek-r1-distill-llama-8b::25ee9a9ff3640b6ab6f30e14fda4ffad",
+    "sentenceCount": 32,
+    "isTraining": false,
+    "index": 63
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 191,
+    "caseId": "deepseek-r1-distill-qwen-14b::eb08d1c4acd6eb49c1bb85d98d51d3d2",
+    "sentenceCount": 21,
+    "isTraining": false,
+    "index": 64
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 94,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::ae42ea97f31edc18e3b47482395ca3f0",
+    "sentenceCount": 13,
+    "isTraining": false,
+    "index": 65
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 132,
+    "caseId": "qwq-32b::3be157015cbfd5e19fbd2bec6cc37088",
+    "sentenceCount": 39,
+    "isTraining": false,
+    "index": 66
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 146,
+    "caseId": "deepseek-r1-distill-llama-8b::d27a38c5ea40264b6beb68a66ddc1dda",
+    "sentenceCount": 17,
+    "isTraining": false,
+    "index": 67
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 463,
+    "caseId": "deepseek-r1-distill-llama-8b::9455d3c73dce91983fccca16382ad224",
+    "sentenceCount": 13,
+    "isTraining": false,
+    "index": 68
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 126,
+    "caseId": "gpt-oss-20b::85684e0c092976faa0b788ef96b0a1ff",
+    "sentenceCount": 61,
+    "isTraining": false,
+    "index": 69
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 413,
+    "caseId": "deepseek-r1-distill-llama-8b::b1d77a19ce9030cb8a48abb472c8a3f3",
+    "sentenceCount": 20,
+    "isTraining": false,
+    "index": 70
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 323,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::60f46ad156618fd4aaf498d155e6a1e6",
+    "sentenceCount": 20,
+    "isTraining": false,
+    "index": 71
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 489,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::510be638a82d63f114ef259698972c19",
+    "sentenceCount": 14,
+    "isTraining": false,
+    "index": 72
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 351,
+    "caseId": "deepseek-r1-distill-qwen-14b::4150d31f61b080863d4924a6ce940458",
+    "sentenceCount": 32,
+    "isTraining": false,
+    "index": 73
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 363,
+    "caseId": "huatuogpt-o1-8b::30b1570a8d8f942e193a6910aa8e5b43",
+    "sentenceCount": 36,
+    "isTraining": false,
+    "index": 74
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 19,
+    "caseId": "deepseek-r1-distill-llama-8b::a9a132580cedf6c4bf21ad9aa407e3fd",
+    "sentenceCount": 45,
+    "isTraining": false,
+    "index": 75
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 196,
+    "caseId": "gpt-oss-20b::ae1035220380ae5262cf1ace525e739f",
+    "sentenceCount": 25,
+    "isTraining": false,
+    "index": 76
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 47,
+    "caseId": "deepseek-r1-distill-qwen-14b::f255995e3bccc15ec63156e7ea6d8305",
+    "sentenceCount": 22,
+    "isTraining": false,
+    "index": 77
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 181,
+    "caseId": "huatuogpt-o1-8b::60f46ad156618fd4aaf498d155e6a1e6",
+    "sentenceCount": 23,
+    "isTraining": false,
+    "index": 78
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 322,
+    "caseId": "qwq-32b::11154adb948afbcc09ae5aaded0c8e62",
+    "sentenceCount": 36,
+    "isTraining": false,
+    "index": 79
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 145,
+    "caseId": "gpt-oss-20b::bc7c2ba667b2de15130d0b44dc8cb1bd",
+    "sentenceCount": 9,
+    "isTraining": false,
+    "index": 80
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 160,
+    "caseId": "qwq-32b::25ee9a9ff3640b6ab6f30e14fda4ffad",
+    "sentenceCount": 45,
+    "isTraining": false,
+    "index": 81
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 291,
+    "caseId": "deepseek-r1-distill-qwen-14b::d38accab6db52a2145a4ff4c42994e15",
+    "sentenceCount": 21,
+    "isTraining": false,
+    "index": 82
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 446,
+    "caseId": "deepseek-r1-distill-llama-8b::3544e050c3ae29b6422ea56dc506cd8d",
+    "sentenceCount": 22,
+    "isTraining": false,
+    "index": 83
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 43,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::562cd7d93597086c0ad460a93f087bc2",
+    "sentenceCount": 16,
+    "isTraining": false,
+    "index": 84
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 311,
+    "caseId": "gpt-oss-20b::938e2eca891750d0ea0fa7305a4a3eeb",
+    "sentenceCount": 232,
+    "isTraining": false,
+    "index": 85
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 180,
+    "caseId": "huatuogpt-o1-8b::15812d761248bcd32a52747d062196a6",
+    "sentenceCount": 29,
+    "isTraining": false,
+    "index": 86
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 41,
+    "caseId": "huatuogpt-o1-8b::5014723cde3e11e5ae729578b37cc249",
+    "sentenceCount": 38,
+    "isTraining": false,
+    "index": 87
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 59,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::07f8b87ded2d6c9e7b796e8f55e186b8",
+    "sentenceCount": 17,
+    "isTraining": false,
+    "index": 88
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 406,
+    "caseId": "huatuogpt-o1-8b::5db6503f6bee6c563ed2c7cc9b6c8c80",
+    "sentenceCount": 35,
+    "isTraining": false,
+    "index": 89
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 422,
+    "caseId": "deepseek-r1-distill-llama-8b::76b71cdf1c8f2658120117f4306dae47",
+    "sentenceCount": 23,
+    "isTraining": false,
+    "index": 90
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 224,
+    "caseId": "huatuogpt-o1-8b::2d693e339f85669fcac0e5a32a73a8d5",
+    "sentenceCount": 21,
+    "isTraining": false,
+    "index": 91
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 217,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::d73922538d21d5d84352168785541693",
+    "sentenceCount": 16,
+    "isTraining": false,
+    "index": 92
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 204,
+    "caseId": "gpt-oss-20b::15e53f41e52745c792b597ad4341f654",
+    "sentenceCount": 9,
+    "isTraining": false,
+    "index": 93
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 359,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::57dabf78662b0a8765f9055ec5b0f387",
+    "sentenceCount": 16,
+    "isTraining": false,
+    "index": 94
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 343,
+    "caseId": "deepseek-r1-distill-llama-8b::0950fa6ddf34fcfa6fdd074a9b766082",
+    "sentenceCount": 19,
+    "isTraining": false,
+    "index": 95
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 116,
+    "caseId": "deepseek-r1-distill-qwen-14b::499189826bfd74fb2aa2367c1671b1d6",
+    "sentenceCount": 34,
+    "isTraining": false,
+    "index": 96
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 319,
+    "caseId": "qwq-32b::4974cca06266a069b0e0152f6bfbb478",
+    "sentenceCount": 66,
+    "isTraining": false,
+    "index": 97
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 223,
+    "caseId": "deepseek-r1-distill-qwen-14b::28891dd6ff7aaeaf92456def52f81530",
+    "sentenceCount": 26,
+    "isTraining": false,
+    "index": 98
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 263,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::85b550cc29346053dac514efde21eb5b",
+    "sentenceCount": 22,
+    "isTraining": false,
+    "index": 99
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 310,
+    "caseId": "qwq-32b::b26c8c6a27adc6fe7e2425109d60597e",
+    "sentenceCount": 21,
+    "isTraining": false,
+    "index": 100
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 170,
+    "caseId": "deepseek-r1-distill-qwen-14b::e60ce7335507caf6bce4300d3abd2c16",
+    "sentenceCount": 34,
+    "isTraining": false,
+    "index": 101
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 138,
+    "caseId": "huatuogpt-o1-8b::aff616214f97bf709d24db469e15e08a",
+    "sentenceCount": 23,
+    "isTraining": false,
+    "index": 102
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 247,
+    "caseId": "huatuogpt-o1-8b::3544e050c3ae29b6422ea56dc506cd8d",
+    "sentenceCount": 37,
+    "isTraining": false,
+    "index": 103
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 245,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::1c8d0c3f4fcf021bba154210c5957013",
+    "sentenceCount": 20,
+    "isTraining": false,
+    "index": 104
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 438,
+    "caseId": "huatuogpt-o1-8b::8beed59316d4568bd7933602e9c2f94a",
+    "sentenceCount": 32,
+    "isTraining": false,
+    "index": 105
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 54,
+    "caseId": "gpt-oss-20b::39e7f9e124e1edddb928ef7bbb14d32f",
+    "sentenceCount": 51,
+    "isTraining": false,
+    "index": 106
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 413,
+    "caseId": "qwq-32b::b07f596008edb1ab3670b6bcf9a0fd8a",
+    "sentenceCount": 32,
+    "isTraining": false,
+    "index": 107
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 195,
+    "caseId": "deepseek-r1-distill-llama-8b::546ddbcafc0fd70b87cedf98d2a5c74b",
+    "sentenceCount": 26,
+    "isTraining": false,
+    "index": 108
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 264,
+    "caseId": "huatuogpt-o1-8b::940c4a370afdee9639c96f49812f08c0",
+    "sentenceCount": 22,
+    "isTraining": false,
+    "index": 109
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 99,
+    "caseId": "qwq-32b::57dabf78662b0a8765f9055ec5b0f387",
+    "sentenceCount": 28,
+    "isTraining": false,
+    "index": 110
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 255,
+    "caseId": "deepseek-r1-distill-llama-8b::7f5ff72071a340eac79e70d4a77a4f75",
+    "sentenceCount": 23,
+    "isTraining": false,
+    "index": 111
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 448,
+    "caseId": "gpt-oss-20b::0ea5ab963074b1ada726713d324c3f0e",
+    "sentenceCount": 136,
+    "isTraining": false,
+    "index": 112
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 308,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::e951bd7995fec5236e47d8c50d01dc01",
+    "sentenceCount": 20,
+    "isTraining": false,
+    "index": 113
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 221,
+    "caseId": "gpt-oss-20b::eb799c131354510b12f194b6d2cb25ea",
+    "sentenceCount": 11,
+    "isTraining": false,
+    "index": 114
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 250,
+    "caseId": "deepseek-r1-distill-qwen-14b::efa87b735c34b03e59484271643010c3",
+    "sentenceCount": 73,
+    "isTraining": false,
+    "index": 115
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 78,
+    "caseId": "qwq-32b::2d9b84ef90c95e61b384fd74b0259c28",
+    "sentenceCount": 30,
+    "isTraining": false,
+    "index": 116
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 480,
+    "caseId": "deepseek-r1-distill-qwen-14b::03403d419419b91c7ea6835f06ba7461",
+    "sentenceCount": 20,
+    "isTraining": false,
+    "index": 117
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 157,
+    "caseId": "deepseek-r1-distill-qwen-14b::d5dafb9085ec9578903e98a46e1c7a28",
+    "sentenceCount": 45,
+    "isTraining": false,
+    "index": 118
+  },
+  {
+    "model": "deepseek-r1-distill-llama-8b",
+    "caseIndex": 498,
+    "caseId": "deepseek-r1-distill-llama-8b::d38accab6db52a2145a4ff4c42994e15",
+    "sentenceCount": 17,
+    "isTraining": false,
+    "index": 119
+  },
+  {
+    "model": "gpt-oss-20b",
+    "caseIndex": 207,
+    "caseId": "gpt-oss-20b::ef0241b32bedfd9f6e8af5fa39d18fc0",
+    "sentenceCount": 242,
+    "isTraining": false,
+    "index": 120
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-14b",
+    "caseIndex": 76,
+    "caseId": "deepseek-r1-distill-qwen-14b::9c22e95143200153a9b0c049452517e1",
+    "sentenceCount": 35,
+    "isTraining": false,
+    "index": 121
+  },
+  {
+    "model": "huatuogpt-o1-8b",
+    "caseIndex": 327,
+    "caseId": "huatuogpt-o1-8b::b84a6d4b46ad76d92019c5352768554f",
+    "sentenceCount": 31,
+    "isTraining": false,
+    "index": 122
+  },
+  {
+    "model": "qwq-32b",
+    "caseIndex": 403,
+    "caseId": "qwq-32b::60d48dbdf6efe3834c0e03594ccac525",
+    "sentenceCount": 37,
+    "isTraining": false,
+    "index": 123
+  },
+  {
+    "model": "deepseek-r1-distill-qwen-1.5b",
+    "caseIndex": 47,
+    "caseId": "deepseek-r1-distill-qwen-1.5b::b27b30f0c9058c5614c7d669d9fd6756",
+    "sentenceCount": 12,
+    "isTraining": false,
+    "index": 124
+  }
+]

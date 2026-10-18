@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Build the labeler pool for the dedup pipeline.
+"""Build the labeler pool for the labeler pipeline (LABELER_PIPELINE in lib/constants.ts).
 
-Writes public/data/pipelines/dedup/labeler-pool.json — a flat array of
+Writes public/data/pipelines/<PIPELINE>/labeler-pool.json — a flat array of
 {index, model, caseIndex, caseId, sentenceCount, isTraining}, consumed by
 hooks/useSamplePool.ts. `caseIndex` indexes into cases/{model}.json.
 
@@ -18,7 +18,8 @@ import random
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DEDUP = ROOT / "public" / "data" / "pipelines" / "dedup"
+PIPELINE = "gwot"
+SRC = ROOT / "public" / "data" / "pipelines" / PIPELINE
 MODELS = [
     "deepseek-r1-distill-llama-8b", "deepseek-r1-distill-qwen-1.5b",
     "deepseek-r1-distill-qwen-14b", "gpt-oss-20b", "huatuogpt-o1-8b", "qwq-32b",
@@ -31,7 +32,7 @@ def load_strata():
     """model -> dataset -> list of (caseIndex, caseId, sentenceCount)."""
     strata: dict[str, dict[str, list[tuple]]] = {}
     for m in MODELS:
-        cases = json.load(open(DEDUP / "cases" / f"{m}.json"))
+        cases = json.load(open(SRC / "cases" / f"{m}.json"))
         by_ds: dict[str, list[tuple]] = {d: [] for d in DATASETS}
         for i, c in enumerate(cases):
             ds = c.get("dataset")
@@ -78,7 +79,7 @@ def main() -> None:
         e["index"] = len(entries)
         entries.append(e)
 
-    out = DEDUP / "labeler-pool.json"
+    out = SRC / "labeler-pool.json"
     out.write_text(json.dumps(entries, ensure_ascii=False, indent=2))
 
     # report marginals
