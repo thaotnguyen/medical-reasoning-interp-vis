@@ -8,6 +8,13 @@ export const PIPELINES: { id: Pipeline; label: string; short: string }[] = [
   { id: "gwot", label: "GWOT, 6 groups", short: "GWOT, 6 groups" },
 ];
 
+/**
+ * The labeling round in force until someone resets. Ratings are stored per round under
+ * ratings/<round>/; "Reset for everyone" on the agreement page starts a new round, and earlier
+ * rounds stay in blob storage but are never read.
+ */
+export const FIRST_RATINGS_ROUND = "2026-10-18";
+
 export const PIPELINE_HAS_DATASET: Record<Pipeline, boolean> = {
   dedup: false,
   pipeline: false,

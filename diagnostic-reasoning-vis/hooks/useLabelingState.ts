@@ -33,6 +33,13 @@ interface LabelingState {
   ) => void;
 
   importRatings: (imported: RatingsStore) => void;
+
+  /** The labeling round the stored ratings belong to; null before the first sync. */
+  round: string | null;
+  /** Switch to `round`, discarding ratings stored for any other round. */
+  adoptRound: (round: string) => void;
+  /** Drop every rating stored for `rater`. */
+  clearRater: (rater: string) => void;
 }
 
 export const useLabelingState = create<LabelingState>()(
@@ -40,6 +47,17 @@ export const useLabelingState = create<LabelingState>()(
     (set, get) => ({
       ratings: {},
       focusedSentenceIndex: 0,
+      round: null,
+
+      adoptRound: (round) => {
+        if (get().round !== round) set({ ratings: {}, round });
+      },
+
+      clearRater: (rater) => {
+        const ratings = { ...get().ratings };
+        delete ratings[rater];
+        set({ ratings });
+      },
 
       setFocusedSentence: (index) => set({ focusedSentenceIndex: index }),
 
@@ -84,6 +102,7 @@ export const useLabelingState = create<LabelingState>()(
       name: "drv-ratings",
       partialize: (state) => ({
         ratings: state.ratings,
+        round: state.round,
       }),
     }
   )

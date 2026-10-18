@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useCallback } from "react";
 import type { RatingsStore, ServerRatingsResponse } from "@/lib/labeling-types";
+import { useLabelingState } from "@/hooks/useLabelingState";
 
 interface UseRatingsSyncOptions {
   raterId: string | null;
@@ -34,21 +35,29 @@ export function useRatingsSync({
     if (!enabled || !raterId || hasPulledRef.current) return;
     hasPulledRef.current = true;
 
-    fetchAllRatings().then((data) => {
-      if (!data || !onServerData) return;
-      const serverEntry = data[raterId];
-      if (serverEntry?.ratings) {
-        onServerData({ [raterId]: serverEntry.ratings });
-      }
-    });
+    // Adopt the live round first, so ratings kept from an earlier round are dropped here
+    // rather than merged with this round's server data.
+    fetchRound()
+      .then((round) => {
+        if (round) useLabelingState.getState().adoptRound(round);
+        return fetchAllRatings();
+      })
+      .then((data) => {
+        if (!data || !onServerData) return;
+        const serverEntry = data[raterId];
+        if (serverEntry?.ratings) {
+          onServerData({ [raterId]: serverEntry.ratings });
+        }
+      });
   }, [enabled, raterId, onServerData]);
 
   const sync = useCallback(async () => {
-    if (!raterId || !raterName || !enabled) return;
+    const round = useLabelingState.getState().round;
+    if (!raterId || !raterName || !enabled || !round) return;
     const raterRatings = ratings[raterId];
     if (!raterRatings) return;
 
-    const payload = JSON.stringify({ raterId, name: raterName, ratings: raterRatings });
+    const payload = JSON.stringify({ raterId, name: raterName, ratings: raterRatings, round });
     // Skip if nothing changed since last sync
     if (payload === lastSyncedRef.current) return;
 
@@ -60,6 +69,10 @@ export function useRatingsSync({
       });
       if (res.ok) {
         lastSyncedRef.current = payload;
+      } else if (res.status === 409) {
+        // Someone reset for everyone since this page loaded: these ratings belong to the old round.
+        const { round: live } = await res.json();
+        if (live) useLabelingState.getState().adoptRound(live);
       }
     } catch {
       // Server unavailable, will retry on next change
@@ -106,6 +119,17 @@ export async function fetchAllRatings(): Promise<ServerRatingsResponse | null> {
     const res = await fetch("/api/ratings");
     if (!res.ok) return null;
     return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+/** The live labeling round, or null if the server is unavailable. */
+export async function fetchRound(): Promise<string | null> {
+  try {
+    const res = await fetch("/api/ratings/round");
+    if (!res.ok) return null;
+    return (await res.json()).round ?? null;
   } catch {
     return null;
   }

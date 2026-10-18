@@ -3,7 +3,7 @@
 import { useMemo, useEffect, useState, useCallback, useRef } from "react";
 import { useMetadata } from "@/hooks/useMetadata";
 import { useLabelingState } from "@/hooks/useLabelingState";
-import { fetchAllRatings } from "@/hooks/useRatingsSync";
+import { fetchAllRatings, fetchRound } from "@/hooks/useRatingsSync";
 import { AgreementDashboard } from "@/components/agreement/AgreementDashboard";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { RatingsStore, ServerRatingsResponse } from "@/lib/labeling-types";
@@ -48,7 +48,11 @@ export default function AgreementPage() {
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    fetchAllRatings().then((data) => {
+    // Adopt the live round first, so this browser's ratings from an earlier round are not shown.
+    fetchRound().then((round) => {
+      if (round) useLabelingState.getState().adoptRound(round);
+      return fetchAllRatings();
+    }).then((data) => {
       if (!cancelled) {
         setServerData(data);
         setLoading(false);

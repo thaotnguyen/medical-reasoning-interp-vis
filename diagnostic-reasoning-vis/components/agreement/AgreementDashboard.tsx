@@ -19,6 +19,7 @@ import { KappaCard } from "./KappaCard";
 import { ConfusionMatrix } from "./ConfusionMatrix";
 import { CategoryAgreementTable } from "./CategoryAgreementTable";
 import { ImportExportButtons } from "./ImportExportButtons";
+import { ResetButtons } from "./ResetButtons";
 import { DisagreementReview } from "./DisagreementReview";
 
 interface RaterInfo {
@@ -131,6 +132,7 @@ export function AgreementDashboard({
           metadata={metadata}
           onImport={onImport}
         />
+        <ResetButtons />
       </div>
 
       {raters.length === 0 ? (

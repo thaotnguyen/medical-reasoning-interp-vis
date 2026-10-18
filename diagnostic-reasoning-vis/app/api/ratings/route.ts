@@ -1,10 +1,11 @@
 import { put, list, del } from "@vercel/blob";
 import { NextResponse } from "next/server";
+import { currentRound } from "@/lib/ratings-round";
 
 const token = process.env.BLOB_READ_WRITE_TOKEN;
 
 /**
- * GET /api/ratings - Fetch all raters' ratings from blob storage.
+ * GET /api/ratings - Fetch all raters' ratings for the live round.
  * Returns: { [raterId]: { name, ratings } }
  */
 export async function GET() {
@@ -16,7 +17,8 @@ export async function GET() {
   }
 
   try {
-    const { blobs } = await list({ prefix: "ratings/", token });
+    const prefix = `ratings/${await currentRound(token)}/`;
+    const { blobs } = await list({ prefix, token });
     const allRatings: Record<string, { name: string; ratings: unknown }> = {};
 
     await Promise.all(
@@ -24,7 +26,7 @@ export async function GET() {
         try {
           const response = await fetch(blob.url);
           const data = await response.json();
-          const raterId = blob.pathname.replace("ratings/", "").replace(".json", "");
+          const raterId = blob.pathname.replace(prefix, "").replace(".json", "");
           allRatings[raterId] = data;
         } catch {
           // Skip corrupted blobs
@@ -43,8 +45,8 @@ export async function GET() {
 }
 
 /**
- * POST /api/ratings - Upload a rater's ratings to blob storage.
- * Body: { raterId: string, name: string, ratings: object }
+ * POST /api/ratings - Upload a rater's ratings for the live round.
+ * Body: { raterId: string, name: string, ratings: object, round: string }
  */
 export async function POST(request: Request) {
   if (!token) {
@@ -56,14 +58,20 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { raterId, name, ratings } = body;
+    const { raterId, name, ratings, round } = body;
 
     if (!raterId || !name || !ratings) {
       return NextResponse.json({ error: "Missing raterId, name, or ratings" }, { status: 400 });
     }
 
+    // Ratings from an earlier round would undo a reset, so the client is told the live one.
+    const live = await currentRound(token);
+    if (round !== live) {
+      return NextResponse.json({ error: "Stale round", round: live }, { status: 409 });
+    }
+
     const payload = JSON.stringify({ name, ratings });
-    const blob = await put(`ratings/${raterId}.json`, payload, {
+    const blob = await put(`ratings/${live}/${raterId}.json`, payload, {
       access: "public",
       addRandomSuffix: false,
       allowOverwrite: true,
@@ -82,7 +90,7 @@ export async function POST(request: Request) {
 }
 
 /**
- * DELETE /api/ratings?raterId=xxx - Remove a rater's blob.
+ * DELETE /api/ratings?raterId=xxx - Remove a rater's ratings for the live round.
  */
 export async function DELETE(request: Request) {
   if (!token) {
@@ -99,7 +107,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Missing raterId param" }, { status: 400 });
     }
 
-    const { blobs } = await list({ prefix: `ratings/${raterId}.json`, token });
+    const { blobs } = await list({ prefix: `ratings/${await currentRound(token)}/${raterId}.json`, token });
     if (blobs.length === 0) {
       return NextResponse.json({ error: "Blob not found" }, { status: 404 });
     }
