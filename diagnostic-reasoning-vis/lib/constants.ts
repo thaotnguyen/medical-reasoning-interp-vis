@@ -2,11 +2,9 @@ import type { Pipeline } from "./types";
 
 export const DEFAULT_MODEL = "qwq-32b";
 export const DEFAULT_DATASET = "medqa";
-export const DEFAULT_PIPELINE: Pipeline = "dedup";
+export const DEFAULT_PIPELINE: Pipeline = "gwot";
 
 export const PIPELINES: { id: Pipeline; label: string; short: string }[] = [
-  { id: "dedup", label: "6 models (Thao)", short: "6 models (Thao)" },
-  { id: "tenmodel", label: "10 models (Thao)", short: "10 models (Thao)" },
   { id: "gwot", label: "GWOT, 6 groups", short: "GWOT, 6 groups" },
 ];
 

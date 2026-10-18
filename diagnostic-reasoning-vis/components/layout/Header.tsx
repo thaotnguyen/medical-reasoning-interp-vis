@@ -14,7 +14,7 @@ import { useMetadata } from "@/hooks/useMetadata";
 import { useAppState } from "@/hooks/useAppState";
 import { usePipelineTaxonomy } from "@/hooks/usePipelineTaxonomy";
 import { Skeleton } from "@/components/ui/skeleton";
-import { PIPELINES } from "@/lib/constants";
+import { DEFAULT_PIPELINE, PIPELINES } from "@/lib/constants";
 import type { Pipeline } from "@/lib/types";
 
 /** Solid black (currentColor) home glyph shown instead of the title on phones. */
@@ -32,13 +32,10 @@ export function Header() {
     useAppState();
   const { raw: taxonomy } = usePipelineTaxonomy(selectedPipeline);
   const pathname = usePathname();
-  // Explorer / Plots / Browser have data for both taxonomies. The human-rating tools are
-  // pinned to the 6-model data (only dedup has a labeler pool), so the toggle is hidden
-  // there and the selection snaps back if we arrive with the 10-model taxonomy active.
-  const showPipelineToggle =
-    PIPELINES.length > 1 &&
-    !pathname.startsWith("/labeler") &&
-    !pathname.startsWith("/agreement");
+  // The human-rating tools are pinned to the 6-model data (only dedup has a labeler pool),
+  // so the toggle is hidden there and the selection switches to dedup on arrival.
+  const onRatingTool = pathname.startsWith("/labeler") || pathname.startsWith("/agreement");
+  const showPipelineToggle = PIPELINES.length > 1 && !onRatingTool;
 
   // The dropdown shows exactly the models that contribute to the selected pipeline.
   // Order = metadata.model_order first (keeps the 6-model view stable), then any extras.
@@ -58,13 +55,15 @@ export function Header() {
     }
   }, [models, selectedModel, setModel]);
 
-  // Snap back to the 6-model taxonomy on the rating tools. Checking != "dedup" rather than
-  // naming one pipeline matters now that there are four: only dedup has a labeler pool.
+  // Everywhere else the selection must be an offered pipeline, so leaving a rating tool
+  // returns to the default rather than staying on dedup with no toggle to change it.
   useEffect(() => {
-    if (!showPipelineToggle && selectedPipeline !== "dedup") {
-      setPipeline("dedup");
+    const offered = PIPELINES.some((p) => p.id === selectedPipeline);
+    const wanted = onRatingTool ? "dedup" : offered ? selectedPipeline : DEFAULT_PIPELINE;
+    if (selectedPipeline !== wanted) {
+      setPipeline(wanted);
     }
-  }, [showPipelineToggle, selectedPipeline, setPipeline]);
+  }, [onRatingTool, selectedPipeline, setPipeline]);
 
   if (isLoading || !metadata) {
     return (
